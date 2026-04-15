@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shows",
+  "info": {
+    "singularName": "show",
+    "pluralName": "shows",
+    "displayName": "Show",
+    "description": "Theatre productions at Varscona"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "company": {
+      "type": "enumeration",
+      "enum": [
+        "Trunk Theatre",
+        "Shadow Theatre",
+        "Teatro Live!",
+        "Die-Nasty",
+        "House of Hush",
+        "Other"
+      ],
+      "required": true
+    },
+    "dateRange": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "externalLink": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Settings",
+    "description": "Global site settings — hero text, social links, donation URLs"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "heroTagline": {
+      "type": "string",
+      "default": "BIG STORIES / SMALL THEATRE"
+    },
+    "heroSubtext": {
+      "type": "text",
+      "default": "From sharp-witted comedies to heartfelt dramas, spontaneous improv to dazzling cabaret — Edmonton's most intimate stage."
+    },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "donateUrl": {
+      "type": "string",
+      "default": "https://www.canadahelps.org"
+    },
+    "membershipUrl": {
+      "type": "string",
+      "default": "https://www.canadahelps.org"
+    },
+    "cueTheFutureUrl": {
+      "type": "string",
+      "default": "https://www.canadahelps.org"
+    },
+    "instagramUrl": {
+      "type": "string"
+    },
+    "twitterUrl": {
+      "type": "string"
+    },
+    "facebookUrl": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "staff_members",
+  "info": {
+    "singularName": "staff-member",
+    "pluralName": "staff-members",
+    "displayName": "Staff Member",
+    "description": "Varscona Theatre team and board members"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 99
+    },
+    "isBoardMember": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
