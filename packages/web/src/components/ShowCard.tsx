@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import type { Show } from '../lib/api'
 import { mediaUrl } from '../lib/api'
 
-type Props = { show: Show; variant?: 'grid' | 'featured' }
+type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string }
 
-export default function ShowCard({ show, variant = 'grid' }: Props) {
-  const img = mediaUrl(show.image, 'medium')
+export default function ShowCard({ show, variant = 'grid', staticImage }: Props) {
+  const img = mediaUrl(show.image, 'medium') || staticImage || ''
 
   if (variant === 'featured') {
     return (

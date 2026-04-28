@@ -2,6 +2,21 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, type Show } from '../lib/api'
 import ShowCard from '../components/ShowCard'
+import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
+import imgDieNasty from '../assets/shows/die-nasty.svg'
+import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
+import imgAutumn from '../assets/shows/autumn.svg'
+import imgFullyCommitted from '../assets/shows/fully-committed.svg'
+import imgCocktailsAtPams from '../assets/shows/cocktails-at-pams.svg'
+
+const STATIC_IMAGES: Record<string, string> = {
+  'marjorie-prime': imgMarjoriePrime,
+  'die-nasty': imgDieNasty,
+  'house-of-hush': imgHouseOfHush,
+  'autumn': imgAutumn,
+  'fully-committed': imgFullyCommitted,
+  'cocktails-at-pams': imgCocktailsAtPams,
+}
 
 // Fallback static shows used before CMS is connected
 const STATIC_SHOWS: Show[] = [
@@ -84,7 +99,7 @@ export default function Home() {
             </div>
             <div className={`grid gap-6 ${featured.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
               {featured.map((show) => (
-                <ShowCard key={show.id} show={show} variant="featured" />
+                <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} />
               ))}
             </div>
           </div>
@@ -125,7 +140,7 @@ export default function Home() {
             <p className="text-white/50 mb-10">The full season at a glance</p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {upcoming.map((show) => (
-                <ShowCard key={show.id} show={show} variant="grid" />
+                <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} />
               ))}
             </div>
           </div>
