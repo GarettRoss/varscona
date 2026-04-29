@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { Show } from '../lib/api'
+import { mediaUrl, type Show } from '../lib/api'
 
 type Props = {
   show: Show
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default function ShowModal({ show, staticImage, onClose }: Props) {
-  const img = staticImage || ''
+  const img = mediaUrl(show.image, 'medium') || staticImage || ''
   const ticketUrl = show.externalLink || `/shows/${show.slug}`
   const isExternal = !!show.externalLink
 

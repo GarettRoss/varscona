@@ -9,11 +9,18 @@ import Rent from './pages/Rent'
 import Support from './pages/Support'
 import Community from './pages/Community'
 import Jobs from './pages/Jobs'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Admin routes — no site layout */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        {/* Public site */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shows" element={<Shows />} />
