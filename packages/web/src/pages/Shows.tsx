@@ -6,6 +6,16 @@ import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
 import imgAutumn from '../assets/shows/autumn.svg'
 import imgFullyCommitted from '../assets/shows/fully-committed.svg'
 import imgCocktailsAtPams from '../assets/shows/cocktails-at-pams.svg'
+import imgBetrayal from '../assets/shows/betrayal.svg'
+import imgGlassMenagerie from '../assets/shows/glass-menagerie.svg'
+import imgDieNastyFinale from '../assets/shows/die-nasty-finale.svg'
+import imgDieNastyHalloween from '../assets/shows/die-nasty-halloween.svg'
+import imgMidnightReverie from '../assets/shows/midnight-reverie.svg'
+import imgTheStillHours from '../assets/shows/the-still-hours.svg'
+import imgPenelopiad from '../assets/shows/penelopiad.svg'
+import imgCopenhagen from '../assets/shows/copenhagen.svg'
+import img39Steps from '../assets/shows/39-steps.svg'
+import imgNoisesOff from '../assets/shows/noises-off.svg'
 
 const STATIC_IMAGES: Record<string, string> = {
   'marjorie-prime': imgMarjoriePrime,
@@ -14,15 +24,35 @@ const STATIC_IMAGES: Record<string, string> = {
   'autumn': imgAutumn,
   'fully-committed': imgFullyCommitted,
   'cocktails-at-pams': imgCocktailsAtPams,
+  'betrayal': imgBetrayal,
+  'glass-menagerie': imgGlassMenagerie,
+  'die-nasty-finale': imgDieNastyFinale,
+  'die-nasty-halloween': imgDieNastyHalloween,
+  'midnight-reverie': imgMidnightReverie,
+  'the-still-hours': imgTheStillHours,
+  'penelopiad': imgPenelopiad,
+  'copenhagen': imgCopenhagen,
+  '39-steps': img39Steps,
+  'noises-off': imgNoisesOff,
 }
 
 const STATIC_SHOWS: Show[] = [
-  { id: '1', title: 'Marjorie Prime', slug: 'marjorie-prime', company: 'Trunk Theatre', dateRange: 'April 9 – April 19', description: 'A tender, witty and thought-provoking play about memory, loss and the people we become.', featured: true, externalLink: null, image: null },
-  { id: '2', title: 'Die-Nasty', slug: 'die-nasty', company: 'Die-Nasty', dateRange: 'Every Monday at 7:30', description: 'Edmonton\'s legendary live improvised soap opera. No two nights alike — ever.', featured: true, externalLink: null, image: null },
-  { id: '3', title: 'House of Hush', slug: 'house-of-hush', company: 'House of Hush', dateRange: 'Coming soon', description: 'An intimate evening of music and storytelling. Some silences speak loudest.', featured: false, externalLink: null, image: null },
-  { id: '4', title: 'Autumn', slug: 'autumn', company: 'Shadow Theatre', dateRange: 'Fall 2025', description: 'Shadow Theatre returns with a stirring new production exploring change, loss and renewal.', featured: false, externalLink: null, image: null },
-  { id: '5', title: 'Fully Committed', slug: 'fully-committed', company: 'Teatro Live!', dateRange: 'Summer 2025', description: 'A one-person comedic tour-de-force set in the reservation line of a high-end Manhattan restaurant.', featured: false, externalLink: null, image: null },
-  { id: '6', title: 'Cocktails at Pam\'s', slug: 'cocktails-at-pams', company: 'Teatro Live!', dateRange: 'Summer 2025', description: 'The party of the season — a riot of fun from the masters of comedy.', featured: false, externalLink: null, image: null },
+  { id: '1',  title: 'Marjorie Prime',              slug: 'marjorie-prime',     company: 'Trunk Theatre',  dateRange: 'April 15 – May 10, 2026',         description: 'A poignant and witty exploration of memory, loss, and what it means to be human.',                         featured: true,  externalLink: null, image: null },
+  { id: '2',  title: 'Die-Nasty',                   slug: 'die-nasty',           company: 'Die-Nasty',      dateRange: 'Every Monday at 7:30 PM',          description: "Edmonton's legendary live improvised soap opera. No script. No net. No two nights alike.",                 featured: false, externalLink: null, image: null },
+  { id: '3',  title: 'House of Hush',               slug: 'house-of-hush',       company: 'House of Hush',  dateRange: 'May 20 – June 7, 2026',            description: 'An immersive world premiere. Step inside the house. Something has been left unsaid for decades.',           featured: false, externalLink: null, image: null },
+  { id: '4',  title: 'Fully Committed',             slug: 'fully-committed',     company: 'Teatro Live!',   dateRange: 'July 14 – August 2, 2026',         description: 'One actor. Forty voices. A bravura one-person comedy set at a Manhattan restaurant.',                     featured: false, externalLink: null, image: null },
+  { id: '5',  title: "Cocktails at Pam's",          slug: 'cocktails-at-pams',   company: 'Teatro Live!',   dateRange: 'August 11 – 30, 2026',             description: 'A fizzy, fast-paced romp through a social gathering where every secret eventually surfaces.',              featured: false, externalLink: null, image: null },
+  { id: '6',  title: 'Autumn',                      slug: 'autumn',              company: 'Shadow Theatre', dateRange: 'September 8 – October 4, 2026',    description: 'A play about endings that feels like a beginning — bittersweet, funny, and achingly real.',               featured: false, externalLink: null, image: null },
+  { id: '7',  title: 'Betrayal',                    slug: 'betrayal',            company: 'Trunk Theatre',  dateRange: 'November 4 – 22, 2026',            description: "Harold Pinter's masterwork of reverse chronology — seven years of a marriage told backwards.",            featured: false, externalLink: null, image: null },
+  { id: '8',  title: 'The Glass Menagerie',         slug: 'glass-menagerie',     company: 'Trunk Theatre',  dateRange: 'February 3 – 21, 2027',            description: "Tennessee Williams's memory play. Tom Wingfield returns to the apartment he fled — tender and shattering.", featured: false, externalLink: null, image: null },
+  { id: '9',  title: 'Die-Nasty: Season Finale',   slug: 'die-nasty-finale',    company: 'Die-Nasty',      dateRange: 'June 8, 2026 – One Night Only',    description: 'Past and present cast members reunite for a no-holds-barred evening of improvised drama.',                 featured: false, externalLink: null, image: null },
+  { id: '10', title: 'Die-Nasty: Halloween Horror', slug: 'die-nasty-halloween', company: 'Die-Nasty',      dateRange: 'October 26, 2026 – One Night Only', description: "Die-Nasty's annual Halloween Horror Special. Costumes encouraged. Screaming permitted.",                  featured: false, externalLink: null, image: null },
+  { id: '11', title: 'Midnight Reverie',            slug: 'midnight-reverie',    company: 'House of Hush',  dateRange: 'September 15 – October 3, 2026',   description: 'Movement, live sound, and fragmentary text exploring the space between sleep and waking.',                 featured: false, externalLink: null, image: null },
+  { id: '12', title: 'The Still Hours',             slug: 'the-still-hours',     company: 'House of Hush',  dateRange: 'January 12 – 30, 2027',            description: 'In silence, everything is heard. A meditation on grief, presence, and the moments between moments.',      featured: false, externalLink: null, image: null },
+  { id: '13', title: 'The Penelopiad',              slug: 'penelopiad',          company: 'Shadow Theatre', dateRange: 'February 9 – 27, 2027',            description: "Margaret Atwood retells the Odyssey from Penelope's side. Who tells the story matters.",                  featured: false, externalLink: null, image: null },
+  { id: '14', title: 'Copenhagen',                  slug: 'copenhagen',          company: 'Shadow Theatre', dateRange: 'November 10 – 28, 2026',           description: "Michael Frayn's tour de force — science, friendship, and moral ambiguity in Nazi-occupied Copenhagen.",   featured: false, externalLink: null, image: null },
+  { id: '15', title: 'The 39 Steps',                slug: '39-steps',            company: 'Teatro Live!',   dateRange: 'October 13 – 31, 2026',            description: 'Four actors. 150 roles. A genre-bending spy comedy of thrills, spills, and theatrical invention.',        featured: false, externalLink: null, image: null },
+  { id: '16', title: 'Noises Off',                  slug: 'noises-off',          company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',               description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null },
 ]
 
 const COMPANIES = ['All', 'Trunk Theatre', 'Shadow Theatre', 'Teatro Live!', 'Die-Nasty', 'House of Hush']

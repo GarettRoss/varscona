@@ -9,6 +9,16 @@ import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
 import imgAutumn from '../assets/shows/autumn.svg'
 import imgFullyCommitted from '../assets/shows/fully-committed.svg'
 import imgCocktailsAtPams from '../assets/shows/cocktails-at-pams.svg'
+import imgBetrayal from '../assets/shows/betrayal.svg'
+import imgGlassMenagerie from '../assets/shows/glass-menagerie.svg'
+import imgDieNastyFinale from '../assets/shows/die-nasty-finale.svg'
+import imgDieNastyHalloween from '../assets/shows/die-nasty-halloween.svg'
+import imgMidnightReverie from '../assets/shows/midnight-reverie.svg'
+import imgTheStillHours from '../assets/shows/the-still-hours.svg'
+import imgPenelopiad from '../assets/shows/penelopiad.svg'
+import imgCopenhagen from '../assets/shows/copenhagen.svg'
+import img39Steps from '../assets/shows/39-steps.svg'
+import imgNoisesOff from '../assets/shows/noises-off.svg'
 
 const STATIC_IMAGES: Record<string, string> = {
   'marjorie-prime': imgMarjoriePrime,
@@ -17,16 +27,36 @@ const STATIC_IMAGES: Record<string, string> = {
   'autumn': imgAutumn,
   'fully-committed': imgFullyCommitted,
   'cocktails-at-pams': imgCocktailsAtPams,
+  'betrayal': imgBetrayal,
+  'glass-menagerie': imgGlassMenagerie,
+  'die-nasty-finale': imgDieNastyFinale,
+  'die-nasty-halloween': imgDieNastyHalloween,
+  'midnight-reverie': imgMidnightReverie,
+  'the-still-hours': imgTheStillHours,
+  'penelopiad': imgPenelopiad,
+  'copenhagen': imgCopenhagen,
+  '39-steps': img39Steps,
+  'noises-off': imgNoisesOff,
 }
 
 // Fallback static shows used before CMS is connected
 const STATIC_SHOWS: Show[] = [
-  { id: '1', title: 'Marjorie Prime', slug: 'marjorie-prime', company: 'Trunk Theatre', dateRange: 'April 15 – May 10', description: '', featured: true, externalLink: null, image: null, startDate: '2026-04-15', endDate: '2026-05-10' },
-  { id: '2', title: 'Die-Nasty', slug: 'die-nasty', company: 'Die-Nasty', dateRange: 'Every Monday at 7:30', description: '', featured: false, externalLink: null, image: null, startDate: '2020-01-01', endDate: '2099-12-31' },
-  { id: '3', title: 'House of Hush', slug: 'house-of-hush', company: 'House of Hush', dateRange: 'May 20 – June 7', description: '', featured: false, externalLink: null, image: null, startDate: '2026-05-20', endDate: '2026-06-07' },
-  { id: '4', title: 'Fully Committed', slug: 'fully-committed', company: 'Teatro Live!', dateRange: 'July 14 – August 2', description: '', featured: false, externalLink: null, image: null, startDate: '2026-07-14', endDate: '2026-08-02' },
-  { id: '5', title: 'Cocktails at Pam\'s', slug: 'cocktails-at-pams', company: 'Teatro Live!', dateRange: 'August 11 – August 30', description: '', featured: false, externalLink: null, image: null, startDate: '2026-08-11', endDate: '2026-08-30' },
-  { id: '6', title: 'Autumn', slug: 'autumn', company: 'Shadow Theatre', dateRange: 'September 8 – October 4', description: '', featured: false, externalLink: null, image: null, startDate: '2026-09-08', endDate: '2026-10-04' },
+  { id: '1',  title: 'Marjorie Prime',                    slug: 'marjorie-prime',       company: 'Trunk Theatre',  dateRange: 'April 15 – May 10, 2026',          description: '', featured: true,  externalLink: null, image: null, startDate: '2026-04-15', endDate: '2026-05-10' },
+  { id: '2',  title: 'Die-Nasty',                         slug: 'die-nasty',             company: 'Die-Nasty',      dateRange: 'Every Monday at 7:30 PM',           description: '', featured: false, externalLink: null, image: null, startDate: '2020-01-01', endDate: '2099-12-31' },
+  { id: '3',  title: 'House of Hush',                     slug: 'house-of-hush',         company: 'House of Hush',  dateRange: 'May 20 – June 7, 2026',             description: '', featured: false, externalLink: null, image: null, startDate: '2026-05-20', endDate: '2026-06-07' },
+  { id: '4',  title: 'Fully Committed',                   slug: 'fully-committed',       company: 'Teatro Live!',   dateRange: 'July 14 – August 2, 2026',          description: '', featured: false, externalLink: null, image: null, startDate: '2026-07-14', endDate: '2026-08-02' },
+  { id: '5',  title: "Cocktails at Pam's",                slug: 'cocktails-at-pams',     company: 'Teatro Live!',   dateRange: 'August 11 – 30, 2026',              description: '', featured: false, externalLink: null, image: null, startDate: '2026-08-11', endDate: '2026-08-30' },
+  { id: '6',  title: 'Autumn',                            slug: 'autumn',                company: 'Shadow Theatre', dateRange: 'September 8 – October 4, 2026',     description: '', featured: false, externalLink: null, image: null, startDate: '2026-09-08', endDate: '2026-10-04' },
+  { id: '7',  title: 'Betrayal',                          slug: 'betrayal',              company: 'Trunk Theatre',  dateRange: 'November 4 – 22, 2026',             description: '', featured: false, externalLink: null, image: null, startDate: '2026-11-04', endDate: '2026-11-22' },
+  { id: '8',  title: 'The Glass Menagerie',               slug: 'glass-menagerie',       company: 'Trunk Theatre',  dateRange: 'February 3 – 21, 2027',             description: '', featured: false, externalLink: null, image: null, startDate: '2027-02-03', endDate: '2027-02-21' },
+  { id: '9',  title: 'Die-Nasty: Season Finale',          slug: 'die-nasty-finale',      company: 'Die-Nasty',      dateRange: 'June 8, 2026 – One Night Only',     description: '', featured: false, externalLink: null, image: null, startDate: '2026-06-08', endDate: '2026-06-08' },
+  { id: '10', title: 'Die-Nasty: Halloween Horror',       slug: 'die-nasty-halloween',   company: 'Die-Nasty',      dateRange: 'October 26, 2026 – One Night Only',  description: '', featured: false, externalLink: null, image: null, startDate: '2026-10-26', endDate: '2026-10-26' },
+  { id: '11', title: 'Midnight Reverie',                  slug: 'midnight-reverie',      company: 'House of Hush',  dateRange: 'September 15 – October 3, 2026',    description: '', featured: false, externalLink: null, image: null, startDate: '2026-09-15', endDate: '2026-10-03' },
+  { id: '12', title: 'The Still Hours',                   slug: 'the-still-hours',       company: 'House of Hush',  dateRange: 'January 12 – 30, 2027',             description: '', featured: false, externalLink: null, image: null, startDate: '2027-01-12', endDate: '2027-01-30' },
+  { id: '13', title: 'The Penelopiad',                    slug: 'penelopiad',            company: 'Shadow Theatre', dateRange: 'February 9 – 27, 2027',             description: '', featured: false, externalLink: null, image: null, startDate: '2027-02-09', endDate: '2027-02-27' },
+  { id: '14', title: 'Copenhagen',                        slug: 'copenhagen',            company: 'Shadow Theatre', dateRange: 'November 10 – 28, 2026',            description: '', featured: false, externalLink: null, image: null, startDate: '2026-11-10', endDate: '2026-11-28' },
+  { id: '15', title: 'The 39 Steps',                      slug: '39-steps',              company: 'Teatro Live!',   dateRange: 'October 13 – 31, 2026',             description: '', featured: false, externalLink: null, image: null, startDate: '2026-10-13', endDate: '2026-10-31' },
+  { id: '16', title: 'Noises Off',                        slug: 'noises-off',            company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',                description: '', featured: false, externalLink: null, image: null, startDate: '2027-03-09', endDate: '2027-03-27' },
 ]
 
 function deriveShows(shows: Show[]) {
