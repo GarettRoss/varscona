@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, type Show } from '../lib/api'
 import ShowCard from '../components/ShowCard'
+import ShowModal from '../components/ShowModal'
 import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
 import imgDieNasty from '../assets/shows/die-nasty.svg'
 import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
@@ -20,17 +21,55 @@ const STATIC_IMAGES: Record<string, string> = {
 
 // Fallback static shows used before CMS is connected
 const STATIC_SHOWS: Show[] = [
-  { id: 1, documentId: '1', title: 'Marjorie Prime', slug: 'marjorie-prime', company: 'Trunk Theatre', dateRange: 'April 9 – April 19', description: '', featured: true, externalLink: null, image: null, createdAt: '' },
-  { id: 2, documentId: '2', title: 'Die-Nasty', slug: 'die-nasty', company: 'Die-Nasty', dateRange: 'Every Monday at 7:30', description: '', featured: true, externalLink: null, image: null, createdAt: '' },
-  { id: 3, documentId: '3', title: 'House of Hush', slug: 'house-of-hush', company: 'House of Hush', dateRange: 'Coming soon', description: '', featured: false, externalLink: null, image: null, createdAt: '' },
-  { id: 4, documentId: '4', title: 'Autumn', slug: 'autumn', company: 'Shadow Theatre', dateRange: 'Fall 2025', description: '', featured: false, externalLink: null, image: null, createdAt: '' },
-  { id: 5, documentId: '5', title: 'Fully Committed', slug: 'fully-committed', company: 'Teatro Live!', dateRange: 'Summer 2025', description: '', featured: false, externalLink: null, image: null, createdAt: '' },
-  { id: 6, documentId: '6', title: 'Cocktails at Pam\'s', slug: 'cocktails-at-pams', company: 'Teatro Live!', dateRange: 'Summer 2025', description: '', featured: false, externalLink: null, image: null, createdAt: '' },
+  { id: '1', title: 'Marjorie Prime', slug: 'marjorie-prime', company: 'Trunk Theatre', dateRange: 'April 15 – May 10', description: '', featured: true, externalLink: null, image: null, startDate: '2026-04-15', endDate: '2026-05-10' },
+  { id: '2', title: 'Die-Nasty', slug: 'die-nasty', company: 'Die-Nasty', dateRange: 'Every Monday at 7:30', description: '', featured: false, externalLink: null, image: null, startDate: '2020-01-01', endDate: '2099-12-31' },
+  { id: '3', title: 'House of Hush', slug: 'house-of-hush', company: 'House of Hush', dateRange: 'May 20 – June 7', description: '', featured: false, externalLink: null, image: null, startDate: '2026-05-20', endDate: '2026-06-07' },
+  { id: '4', title: 'Fully Committed', slug: 'fully-committed', company: 'Teatro Live!', dateRange: 'July 14 – August 2', description: '', featured: false, externalLink: null, image: null, startDate: '2026-07-14', endDate: '2026-08-02' },
+  { id: '5', title: 'Cocktails at Pam\'s', slug: 'cocktails-at-pams', company: 'Teatro Live!', dateRange: 'August 11 – August 30', description: '', featured: false, externalLink: null, image: null, startDate: '2026-08-11', endDate: '2026-08-30' },
+  { id: '6', title: 'Autumn', slug: 'autumn', company: 'Shadow Theatre', dateRange: 'September 8 – October 4', description: '', featured: false, externalLink: null, image: null, startDate: '2026-09-08', endDate: '2026-10-04' },
 ]
+
+function deriveShows(shows: Show[]) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const sorted = [...shows].sort((a, b) => {
+    const da = a.startDate ? new Date(a.startDate).getTime() : Infinity
+    const db = b.startDate ? new Date(b.startDate).getTime() : Infinity
+    return da - db
+  })
+
+  // Current: startDate <= today <= endDate
+  const current = sorted.filter(s => {
+    if (!s.startDate || !s.endDate) return false
+    return new Date(s.startDate) <= today && new Date(s.endDate) >= today
+  })
+
+  // If nothing is running, fall back to the next upcoming show
+  // Sort onstage descending by startDate so the current production is left, ongoing shows (Die-Nasty) are right
+  const onstage = (current.length > 0
+    ? current
+    : sorted.filter(s => s.startDate && new Date(s.startDate) > today).slice(0, 1)
+  ).sort((a, b) => {
+    const da = a.startDate ? new Date(a.startDate).getTime() : 0
+    const db = b.startDate ? new Date(b.startDate).getTime() : 0
+    return db - da
+  })
+
+  const onstageIds = new Set(onstage.map(s => s.id))
+
+  // Upcoming: next 4 shows by startDate that aren't onstage and haven't ended
+  const upcoming = sorted
+    .filter(s => !onstageIds.has(s.id) && s.startDate && new Date(s.startDate) > today)
+    .slice(0, 4)
+
+  return { onstage, upcoming }
+}
 
 export default function Home() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
+  const [selectedShow, setSelectedShow] = useState<Show | null>(null)
 
   useEffect(() => {
     api.shows.list()
@@ -39,11 +78,17 @@ export default function Home() {
       .finally(() => setLoading(false))
   }, [])
 
-  const featured = shows.filter((s) => s.featured)
-  const upcoming = shows.filter((s) => !s.featured)
+  const { onstage, upcoming } = deriveShows(shows)
 
   return (
     <div>
+      {selectedShow && (
+        <ShowModal
+          show={selectedShow}
+          staticImage={STATIC_IMAGES[selectedShow.slug]}
+          onClose={() => setSelectedShow(null)}
+        />
+      )}
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background */}
@@ -87,8 +132,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Featured Shows ── */}
-      {featured.length > 0 && (
+      {/* ── Now Onstage ── */}
+      {onstage.length > 0 && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-baseline justify-between mb-10">
@@ -97,9 +142,9 @@ export default function Home() {
                 All shows →
               </Link>
             </div>
-            <div className={`grid gap-6 ${featured.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
-              {featured.map((show) => (
-                <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} />
+            <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
+              {onstage.map((show) => (
+                <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} />
               ))}
             </div>
           </div>
@@ -136,11 +181,16 @@ export default function Home() {
       {upcoming.length > 0 && (
         <section className="py-20 px-6 bg-[#0d0d0d]">
           <div className="max-w-7xl mx-auto">
-            <h2 className="font-display text-3xl font-semibold text-white mb-2">Upcoming Shows</h2>
-            <p className="text-white/50 mb-10">The full season at a glance</p>
+            <div className="flex items-baseline justify-between mb-2">
+              <h2 className="font-display text-3xl font-semibold text-white">Upcoming Shows</h2>
+              <Link to="/shows" className="text-sm text-[#c9a84c] hover:text-[#e8c96a] tracking-wide">
+                Full season →
+              </Link>
+            </div>
+            <p className="text-white/50 mb-10">Next up this season</p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {upcoming.map((show) => (
-                <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} />
+                <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} />
               ))}
             </div>
           </div>

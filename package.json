@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "pnpm --parallel -r dev",
     "dev:web": "pnpm --filter web dev",
-    "dev:cms": "pnpm --filter cms dev"
+    "dev:studio": "pnpm --filter studio dev"
   },
   "engines": {
     "node": ">=18.0.0",

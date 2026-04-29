@@ -48,11 +48,11 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 shrink-0">
+        <Link to="/" className="flex items-end gap-3 shrink-0">
           <span className="text-white font-display text-xl font-semibold tracking-wide">
             VARSCONA
           </span>
-          <span className="hidden sm:inline text-[#c9a84c] text-xs tracking-[0.25em] uppercase font-light">
+          <span className="hidden sm:inline text-[#c9a84c] text-xs tracking-[0.25em] uppercase font-light mb-0.5">
             Theatre
           </span>
         </Link>

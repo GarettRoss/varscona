@@ -1,18 +1,17 @@
-import { Link } from 'react-router-dom'
 import type { Show } from '../lib/api'
 import { mediaUrl } from '../lib/api'
 
-type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string }
+type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void }
 
-export default function ShowCard({ show, variant = 'grid', staticImage }: Props) {
+export default function ShowCard({ show, variant = 'grid', staticImage, onClick }: Props) {
   const img = mediaUrl(show.image, 'medium') || staticImage || ''
 
   if (variant === 'featured') {
     return (
-      <div className="relative overflow-hidden rounded group">
+      <div className="show-card-featured relative overflow-hidden rounded group cursor-pointer" onClick={onClick}>
         <div className="aspect-[16/9] bg-white/5">
           {img ? (
-            <img src={img} alt={show.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src={img} alt={show.title} className="show-card-img w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
           )}
@@ -22,27 +21,19 @@ export default function ShowCard({ show, variant = 'grid', staticImage }: Props)
           <p className="text-[#c9a84c] text-xs font-medium tracking-widest uppercase mb-2">{show.company}</p>
           <h3 className="font-display text-2xl md:text-3xl text-white font-semibold mb-1">{show.title}</h3>
           <p className="text-white/60 text-sm mb-4">{show.dateRange}</p>
-          <Link
-            to={show.externalLink ? show.externalLink : `/shows/${show.slug}`}
-            {...(show.externalLink ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="inline-flex items-center gap-2 text-sm font-medium text-white border border-white/30 hover:border-[#c9a84c] hover:text-[#c9a84c] px-4 py-2 rounded transition-colors"
-          >
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-white border border-white/30 group-hover:border-[#c9a84c] group-hover:text-[#c9a84c] px-4 py-2 rounded transition-colors">
             Learn more
-          </Link>
+          </span>
         </div>
       </div>
     )
   }
 
   return (
-    <Link
-      to={show.externalLink ? show.externalLink : `/shows/${show.slug}`}
-      {...(show.externalLink ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="group block"
-    >
+    <div className="show-card-grid group block cursor-pointer" onClick={onClick}>
       <div className="aspect-[3/4] overflow-hidden rounded bg-white/5 mb-3">
         {img ? (
-          <img src={img} alt={show.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img src={img} alt={show.title} className="show-card-img w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-white/20 text-5xl">🎭</div>
         )}
@@ -50,6 +41,6 @@ export default function ShowCard({ show, variant = 'grid', staticImage }: Props)
       <p className="text-[#c9a84c] text-xs font-medium tracking-widest uppercase mb-1">{show.company}</p>
       <h3 className="font-display text-lg text-white font-medium group-hover:text-[#c9a84c] transition-colors leading-tight">{show.title}</h3>
       <p className="text-white/50 text-sm mt-0.5">{show.dateRange}</p>
-    </Link>
+    </div>
   )
 }
