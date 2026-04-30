@@ -41,3 +41,16 @@ body {
 .show-card-grid:hover .show-card-img {
   transform: rotate(1.5deg) scale(1.04);
 }
+
+/* Admin button lift */
+.admin-btn {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.admin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.admin-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
