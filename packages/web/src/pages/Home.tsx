@@ -229,7 +229,7 @@ export default function Home() {
 
       {/* ── About Blurb ── */}
       <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           <div>
             <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-4">Our Theatre</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
