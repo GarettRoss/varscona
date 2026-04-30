@@ -32,7 +32,7 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
 
       {/* Card */}
       <div
-        className="relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden max-w-lg w-full shadow-2xl"
+        className="relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden max-w-sm w-full shadow-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -44,8 +44,8 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
           ×
         </button>
 
-        {/* Image */}
-        <div className="aspect-[16/9] bg-white/5 overflow-hidden">
+        {/* Image — portrait ratio matching the 3:4 posters */}
+        <div className="aspect-[3/4] bg-white/5 overflow-hidden">
           {img ? (
             <img src={img} alt={show.title} className="w-full h-full object-cover" />
           ) : (
