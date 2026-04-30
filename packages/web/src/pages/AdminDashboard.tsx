@@ -153,6 +153,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate()
   const [shows, setShows] = useState<Show[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [filter, setFilter] = useState('All')
   const [editing, setEditing] = useState<EditState | null>(null)
   const [saving, setSaving] = useState(false)
@@ -167,8 +168,15 @@ export default function AdminDashboard() {
 
   async function load() {
     setLoading(true)
-    try { setShows(await api.shows.list()) }
-    finally { setLoading(false) }
+    setLoadError('')
+    try {
+      const data = await api.shows.list()
+      setShows(data)
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setLoading(false)
+    }
   }
 
   function showToast(msg: string) {
@@ -257,7 +265,10 @@ export default function AdminDashboard() {
           <span className="text-white/20">·</span>
           <span className="text-white/60 text-sm">Admin</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <button onClick={load} disabled={loading} className="text-white/40 hover:text-white text-xs tracking-wide transition-colors disabled:opacity-30">
+            ↺ Refresh
+          </button>
           <a href="/" className="text-white/40 hover:text-white text-xs tracking-wide transition-colors">← View Site</a>
           <button
             onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
@@ -311,6 +322,17 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))}
+          </div>
+        ) : loadError ? (
+          <div className="rounded-lg border border-red-900/50 bg-red-950/30 p-6 text-center">
+            <p className="text-red-400 font-medium mb-1">Could not load shows from Sanity</p>
+            <p className="text-white/40 text-xs font-mono mb-4 break-all">{loadError}</p>
+            <button
+              onClick={load}
+              className="px-4 py-2 rounded bg-white/10 hover:bg-white/20 text-white text-sm transition-colors"
+            >
+              Try Again
+            </button>
           </div>
         ) : (
           <div className="space-y-2">
