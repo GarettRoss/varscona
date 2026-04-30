@@ -121,17 +121,10 @@ export default function Home() {
       )}
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Building illustration background */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/hero-bg.svg"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
-        {/* Dark overlay so text stays readable */}
-        <div className="absolute inset-0 bg-black/55 z-0" />
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0d0d0d] to-[#111] z-0" />
+        {/* Curtain texture overlay */}
+        <div className="absolute inset-0 opacity-5 bg-[radial-gradient(ellipse_at_center,_#c9a84c_0%,_transparent_70%)] z-0" />
 
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <p className="text-[#c9a84c] text-xs font-medium tracking-[0.4em] uppercase mb-6">
