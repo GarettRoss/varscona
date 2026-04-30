@@ -351,10 +351,10 @@ export default function AdminDashboard() {
                     <p className="text-white/40 text-xs">{show.dateRange}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <button onClick={() => startEdit(show)} className="px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs tracking-wide transition-colors">
+                    <button onClick={() => startEdit(show)} className="px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs tracking-wide transition-all hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">
                       Edit
                     </button>
-                    <button onClick={() => setConfirmDelete(show)} className="px-3 py-1.5 rounded bg-white/5 hover:bg-red-900/40 text-white/40 hover:text-red-400 text-xs tracking-wide transition-colors">
+                    <button onClick={() => setConfirmDelete(show)} className="px-3 py-1.5 rounded bg-white/5 hover:bg-red-900/40 text-white/40 hover:text-red-400 text-xs tracking-wide transition-all hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">
                       Delete
                     </button>
                   </div>
