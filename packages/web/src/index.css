@@ -42,6 +42,26 @@ body {
   transform: rotate(1.5deg) scale(1.04);
 }
 
+/* Styled scrollbar for modal cards */
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #c9a84c40 transparent;
+}
+.modal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: #c9a84c;
+  opacity: 0.25;
+  border-radius: 2px;
+}
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #e8c96a;
+}
+
 /* Admin button lift */
 .admin-btn {
   transition: transform 0.15s ease, box-shadow 0.15s ease;

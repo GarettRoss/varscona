@@ -32,7 +32,7 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
 
       {/* Card */}
       <div
-        className="relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden max-w-sm w-full shadow-2xl max-h-[90vh] overflow-y-auto"
+        className="modal-scroll relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden max-w-sm w-full shadow-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
