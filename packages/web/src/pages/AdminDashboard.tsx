@@ -3,25 +3,30 @@ import { useNavigate } from 'react-router-dom'
 import { api, mediaUrl, type Show } from '../lib/api'
 import { createShow, deleteShow, saveShow, uploadImage } from '../lib/adminApi'
 
-const COMPANIES = ['Trunk Theatre', 'Die-Nasty', 'House of Hush', 'Shadow Theatre', 'Teatro Live!']
-
-type EditState = Omit<Show, 'id' | 'image'> & {
+type EditState = {
   id: string
+  title: string
+  slug: string
+  company: string
+  dateRange: string
+  startDate: string
+  endDate: string
+  description: string
+  externalLink: string
   imageFile: File | null
   imagePreview: string
 }
 
-function blankEdit(partial?: Partial<Show>): EditState {
+function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
   return {
     id: partial?.id ?? '',
     title: partial?.title ?? '',
     slug: partial?.slug ?? '',
-    company: partial?.company ?? COMPANIES[0],
+    company: partial?.company ?? fallbackCompany,
     dateRange: partial?.dateRange ?? '',
     startDate: partial?.startDate ?? '',
     endDate: partial?.endDate ?? '',
     description: partial?.description ?? '',
-    featured: partial?.featured ?? false,
     externalLink: partial?.externalLink ?? '',
     imageFile: null,
     imagePreview: partial?.image ? mediaUrl(partial.image, 'small') : '',
@@ -32,6 +37,20 @@ function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
 
+function deriveCompanies(shows: Show[]): string[] {
+  const seen = new Set<string>()
+  const list: string[] = []
+  for (const s of shows) {
+    if (s.company && !seen.has(s.company)) {
+      seen.add(s.company)
+      list.push(s.company)
+    }
+  }
+  return list.sort()
+}
+
+const NEW_COMPANY_SENTINEL = '__new__'
+
 export default function AdminDashboard() {
   const navigate = useNavigate()
   const [shows, setShows] = useState<Show[]>([])
@@ -41,7 +60,9 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
   const [confirmDelete, setConfirmDelete] = useState<Show | null>(null)
+  const [newCompanyInput, setNewCompanyInput] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+  const newCompanyRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_auth') !== '1') {
@@ -66,19 +87,22 @@ export default function AdminDashboard() {
     setTimeout(() => setToast(''), 3000)
   }
 
+  const companies = deriveCompanies(shows)
+
   function startEdit(show: Show) {
+    setNewCompanyInput('')
     setEditing(blankEdit(show))
   }
 
   function startNew() {
-    setEditing(blankEdit())
+    setNewCompanyInput('')
+    setEditing(blankEdit(undefined, companies[0] ?? ''))
   }
 
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file || !editing) return
-    const preview = URL.createObjectURL(file)
-    setEditing({ ...editing, imageFile: file, imagePreview: preview })
+    setEditing({ ...editing, imageFile: file, imagePreview: URL.createObjectURL(file) })
   }
 
   function handleField<K extends keyof EditState>(key: K, value: EditState[K]) {
@@ -90,9 +114,35 @@ export default function AdminDashboard() {
     setEditing(update)
   }
 
+  function handleCompanySelect(value: string) {
+    if (value === NEW_COMPANY_SENTINEL) {
+      handleField('company', NEW_COMPANY_SENTINEL)
+      setNewCompanyInput('')
+      setTimeout(() => newCompanyRef.current?.focus(), 50)
+    } else {
+      handleField('company', value)
+      setNewCompanyInput('')
+    }
+  }
+
+  function handleNewCompanyInput(value: string) {
+    setNewCompanyInput(value)
+    if (editing) setEditing({ ...editing, company: value })
+  }
+
   async function handleSave(e: FormEvent) {
     e.preventDefault()
     if (!editing) return
+
+    const finalCompany = editing.company === NEW_COMPANY_SENTINEL
+      ? newCompanyInput.trim()
+      : editing.company
+
+    if (!finalCompany) {
+      showToast('Please enter a company name.')
+      return
+    }
+
     setSaving(true)
     try {
       let imageAssetId: string | undefined
@@ -103,12 +153,11 @@ export default function AdminDashboard() {
       const payload = {
         title: editing.title,
         slug: editing.slug,
-        company: editing.company,
+        company: finalCompany,
         dateRange: editing.dateRange,
         startDate: editing.startDate,
         endDate: editing.endDate,
         description: editing.description,
-        featured: editing.featured,
         externalLink: editing.externalLink || null,
         imageAssetId,
       }
@@ -122,6 +171,7 @@ export default function AdminDashboard() {
       }
 
       setEditing(null)
+      setNewCompanyInput('')
       await load()
     } catch (err) {
       console.error(err)
@@ -146,6 +196,7 @@ export default function AdminDashboard() {
   }
 
   const filtered = filter === 'All' ? shows : shows.filter(s => s.company === filter)
+  const isNewCompany = editing?.company === NEW_COMPANY_SENTINEL
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -184,9 +235,9 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Filter tabs */}
+        {/* Filter tabs — derived from actual shows */}
         <div className="flex gap-2 flex-wrap mb-6">
-          {['All', ...COMPANIES].map(c => (
+          {['All', ...companies].map(c => (
             <button
               key={c}
               onClick={() => setFilter(c)}
@@ -220,7 +271,9 @@ export default function AdminDashboard() {
               return (
                 <div key={show.id} className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/8 border border-white/5 transition-colors">
                   <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0 bg-white/10">
-                    {img ? <img src={img} alt={show.title} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/20 text-xl">🎭</div>}
+                    {img
+                      ? <img src={img} alt={show.title} className="w-full h-full object-cover" />
+                      : <div className="w-full h-full flex items-center justify-center text-white/20 text-xl">🎭</div>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-0.5">{show.company}</p>
@@ -317,12 +370,24 @@ export default function AdminDashboard() {
               <div>
                 <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Company *</label>
                 <select
-                  value={editing.company}
-                  onChange={e => handleField('company', e.target.value)}
+                  value={isNewCompany ? NEW_COMPANY_SENTINEL : editing.company}
+                  onChange={e => handleCompanySelect(e.target.value)}
                   className="w-full bg-[#1a1a1a] border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
                 >
-                  {COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {companies.map(c => <option key={c} value={c}>{c}</option>)}
+                  <option value={NEW_COMPANY_SENTINEL}>＋ Add new company…</option>
                 </select>
+                {isNewCompany && (
+                  <input
+                    ref={newCompanyRef}
+                    type="text"
+                    required
+                    value={newCompanyInput}
+                    onChange={e => handleNewCompanyInput(e.target.value)}
+                    placeholder="New company name"
+                    className="mt-2 w-full bg-white/5 border border-[#c9a84c]/50 rounded px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                  />
+                )}
               </div>
 
               {/* Date range */}
@@ -342,7 +407,7 @@ export default function AdminDashboard() {
                   <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Start Date</label>
                   <input
                     type="date"
-                    value={editing.startDate ?? ''}
+                    value={editing.startDate}
                     onChange={e => handleField('startDate', e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
                   />
@@ -351,7 +416,7 @@ export default function AdminDashboard() {
                   <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">End Date</label>
                   <input
                     type="date"
-                    value={editing.endDate ?? ''}
+                    value={editing.endDate}
                     onChange={e => handleField('endDate', e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
                   />
@@ -374,23 +439,12 @@ export default function AdminDashboard() {
                 <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Ticket Link (URL)</label>
                 <input
                   type="url"
-                  value={editing.externalLink ?? ''}
+                  value={editing.externalLink}
                   onChange={e => handleField('externalLink', e.target.value)}
                   placeholder="https://..."
                   className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
                 />
               </div>
-
-              {/* Featured */}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={editing.featured}
-                  onChange={e => handleField('featured', e.target.checked)}
-                  className="w-4 h-4 accent-[#c9a84c]"
-                />
-                <span className="text-white/60 text-sm">Featured show</span>
-              </label>
 
               {/* Actions */}
               <div className="flex items-center justify-end gap-3 pt-2 border-t border-white/10">

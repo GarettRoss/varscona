@@ -17,7 +17,7 @@ export async function uploadImage(file: File): Promise<string> {
   return asset._id
 }
 
-export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'image'> & { imageAssetId?: string }>): Promise<void> {
+export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'image' | 'featured'> & { imageAssetId?: string }>): Promise<void> {
   const { imageAssetId, ...fields } = patch
 
   const patchObj: Record<string, unknown> = {
@@ -28,7 +28,6 @@ export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'ima
     endDate: fields.endDate,
     description: fields.description,
     externalLink: fields.externalLink || null,
-    featured: fields.featured,
     'slug.current': fields.slug,
   }
 
@@ -42,7 +41,7 @@ export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'ima
   await writeClient.patch(id).set(patchObj).commit()
 }
 
-export async function createShow(data: Omit<Show, 'id' | 'image'> & { imageAssetId?: string }): Promise<void> {
+export async function createShow(data: Omit<Show, 'id' | 'image' | 'featured'> & { imageAssetId?: string }): Promise<void> {
   const { imageAssetId, ...fields } = data
 
   const doc: Record<string, unknown> = {
@@ -55,7 +54,6 @@ export async function createShow(data: Omit<Show, 'id' | 'image'> & { imageAsset
     endDate: fields.endDate,
     description: fields.description,
     externalLink: fields.externalLink || null,
-    featured: fields.featured,
   }
 
   if (imageAssetId) {

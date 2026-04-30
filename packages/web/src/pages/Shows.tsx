@@ -55,7 +55,17 @@ const STATIC_SHOWS: Show[] = [
   { id: '16', title: 'Noises Off',                  slug: 'noises-off',          company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',               description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null },
 ]
 
-const COMPANIES = ['All', 'Trunk Theatre', 'Shadow Theatre', 'Teatro Live!', 'Die-Nasty', 'House of Hush']
+function deriveCompanies(shows: Show[]): string[] {
+  const seen = new Set<string>()
+  const list: string[] = []
+  for (const s of shows) {
+    if (s.company && !seen.has(s.company)) {
+      seen.add(s.company)
+      list.push(s.company)
+    }
+  }
+  return list.sort()
+}
 
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
@@ -69,6 +79,7 @@ export default function Shows() {
       .finally(() => setLoading(false))
   }, [])
 
+  const companies = deriveCompanies(shows)
   const filtered = filter === 'All' ? shows : shows.filter((s) => s.company === filter)
 
   return (
@@ -88,7 +99,7 @@ export default function Shows() {
       {/* Filter tabs */}
       <section className="px-6 pb-8 border-b border-white/10">
         <div className="max-w-5xl mx-auto flex gap-2 flex-wrap">
-          {COMPANIES.map((c) => (
+          {['All', ...companies].map((c) => (
             <button
               key={c}
               onClick={() => setFilter(c)}
