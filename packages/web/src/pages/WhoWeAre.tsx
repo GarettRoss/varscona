@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import { api, type StaffMember } from '../lib/api'
+import { useState } from 'react'
+import { type StaffMember } from '../lib/api'
 
 const STATIC_STAFF: StaffMember[] = [
-  { id: 1, name: 'Kendra Connor', role: 'Executive Director', email: 'executivedirector@varsconatheatre.com', photo: null, sortOrder: 1, isBoardMember: false },
-  { id: 2, name: 'Coralie Cairns', role: 'Accounts Manager', email: 'accounts@varsconatheatre.com', photo: null, sortOrder: 2, isBoardMember: false },
-  { id: 3, name: 'Garett Ross', role: 'Front of House Manager', email: 'frontofhouse@varsconatheatre.com', photo: null, sortOrder: 3, isBoardMember: false },
-  { id: 4, name: 'Davina Stewart', role: 'Director of Communications, Theatre Rentals', email: 'communications@varsconatheatre.com', photo: null, sortOrder: 4, isBoardMember: false },
+  { id: '1', name: 'Kendra Connor', role: 'Executive Director', email: 'executivedirector@varsconatheatre.com', photo: null, sortOrder: 1, isBoardMember: false },
+  { id: '2', name: 'Coralie Cairns', role: 'Accounts Manager', email: 'accounts@varsconatheatre.com', photo: null, sortOrder: 2, isBoardMember: false },
+  { id: '3', name: 'Garett Ross', role: 'Front of House Manager', email: 'frontofhouse@varsconatheatre.com', photo: null, sortOrder: 3, isBoardMember: false },
+  { id: '4', name: 'Davina Stewart', role: 'Director of Communications, Theatre Rentals', email: 'communications@varsconatheatre.com', photo: null, sortOrder: 4, isBoardMember: false },
 ]
 
 const STATIC_BOARD = [
@@ -26,13 +26,7 @@ const STATIC_BOARD = [
 ]
 
 export default function WhoWeAre() {
-  const [staff, setStaff] = useState<StaffMember[]>(STATIC_STAFF)
-
-  useEffect(() => {
-    api.staff.list()
-      .then((s) => { if (s.length > 0) setStaff(s) })
-      .catch(() => {/* use static */})
-  }, [])
+  const [staff] = useState<StaffMember[]>(STATIC_STAFF)
 
   const team = staff.filter((s) => !s.isBoardMember)
 
@@ -112,7 +106,7 @@ export default function WhoWeAre() {
               <div key={member.id} className="p-6 bg-white/5 rounded border border-white/10">
                 <div className="w-16 h-16 rounded-full bg-white/10 mb-4 overflow-hidden flex items-center justify-center text-white/30 text-2xl">
                   {member.photo ? (
-                    <img src={member.photo.url} alt={member.name} className="w-full h-full object-cover" />
+                    <img src={member.photo.asset._ref} alt={member.name} className="w-full h-full object-cover" />
                   ) : (
                     '👤'
                   )}

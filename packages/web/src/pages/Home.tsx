@@ -98,14 +98,12 @@ function deriveShows(shows: Show[]) {
 
 export default function Home() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
-  const [loading, setLoading] = useState(true)
   const [selectedShow, setSelectedShow] = useState<Show | null>(null)
 
   useEffect(() => {
     api.shows.list()
       .then(setShows)
       .catch(() => { /* CMS not connected yet — use static fallback */ })
-      .finally(() => setLoading(false))
   }, [])
 
   const { onstage, upcoming } = deriveShows(shows)

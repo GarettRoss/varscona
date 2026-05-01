@@ -44,7 +44,7 @@ export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'ima
 export async function createShow(data: Omit<Show, 'id' | 'image' | 'featured'> & { imageAssetId?: string }): Promise<void> {
   const { imageAssetId, ...fields } = data
 
-  const doc: Record<string, unknown> = {
+  const doc: { _type: string; [key: string]: unknown } = {
     _type: 'show',
     title: fields.title,
     slug: { _type: 'slug', current: fields.slug },
