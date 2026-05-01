@@ -57,19 +57,25 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* Click-outside overlay — closes any open dropdown */}
+        {openDropdown && (
+          <div className="fixed inset-0 z-40" onClick={() => setOpenDropdown(null)} />
+        )}
+
         {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((item) =>
             item.children ? (
-              <li
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => setOpenDropdown(item.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                <button className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white tracking-wide uppercase transition-colors flex items-center gap-1">
+              <li key={item.label} className="relative z-50">
+                <button
+                  onClick={() => setOpenDropdown((o) => (o === item.label ? null : item.label))}
+                  className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white tracking-wide uppercase transition-colors flex items-center gap-1"
+                >
                   {item.label}
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className={`w-3 h-3 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180' : ''}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
