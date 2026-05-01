@@ -32,7 +32,7 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
 
       {/* Card */}
       <div
-        className="relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden w-full max-w-3xl shadow-2xl flex flex-col sm:flex-row max-h-[90vh]"
+        className="modal-scroll relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden w-full max-w-md shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -44,8 +44,8 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
           ×
         </button>
 
-        {/* Poster — left column */}
-        <div className="sm:w-56 shrink-0 aspect-[3/4] sm:aspect-auto bg-white/5">
+        {/* Poster — top, portrait ratio */}
+        <div className="w-full aspect-[3/4] shrink-0 bg-white/5">
           {img ? (
             <img src={img} alt={show.title} className="w-full h-full object-cover" />
           ) : (
@@ -53,28 +53,20 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
           )}
         </div>
 
-        {/* Info — right column */}
-        <div className="modal-scroll flex-1 overflow-y-auto p-7 flex flex-col">
-          <p className="text-[#c9a84c] text-xs font-medium tracking-widest uppercase mb-3">{show.company}</p>
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">{show.title}</h2>
-          <p className="text-white/50 text-sm mb-1">{show.dateRange}</p>
-
-          {(show.startDate || show.endDate) && (
-            <p className="text-white/30 text-xs mb-4">
-              {show.startDate && new Date(show.startDate).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}
-              {show.startDate && show.endDate && ' – '}
-              {show.endDate && new Date(show.endDate).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </p>
-          )}
+        {/* Info — below poster */}
+        <div className="p-6 flex flex-col gap-3">
+          <p className="text-[#c9a84c] text-xs font-medium tracking-widest uppercase">{show.company}</p>
+          <h2 className="font-display text-2xl font-bold text-white leading-tight">{show.title}</h2>
+          <p className="text-white/50 text-sm">{show.dateRange}</p>
 
           {show.description && (
-            <p className="text-white/60 text-sm leading-relaxed mt-2 mb-6 flex-1">{show.description}</p>
+            <p className="text-white/60 text-sm leading-relaxed">{show.description}</p>
           )}
 
           <a
             href={ticketUrl}
             {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="inline-flex items-center justify-center bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-8 py-4 rounded transition-colors mt-auto"
+            className="inline-flex items-center justify-center bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-8 py-4 rounded transition-colors mt-2"
           >
             Buy Tickets
           </a>
