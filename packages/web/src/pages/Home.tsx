@@ -190,8 +190,9 @@ export default function Home() {
       {/* ── Cue the Future Banner ── */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="relative overflow-hidden rounded bg-gradient-to-r from-[#8b1a1a] to-[#5a0f0f] px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="cue-banner relative overflow-hidden rounded bg-gradient-to-r from-[#6b1010] to-[#420a0a] px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_right,_#c9a84c_0%,_transparent_60%)]" />
+            <div className="cue-banner-glow absolute inset-0 opacity-0 bg-[radial-gradient(ellipse_at_center,_#c9a84c15_0%,_transparent_70%)]" />
             <div className="relative">
               <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-2">Capital Campaign</p>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">Cue the Future</h2>
