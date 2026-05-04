@@ -190,17 +190,21 @@ export default function Home() {
       {/* ── Cue the Future Banner ── */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="cue-banner relative overflow-hidden rounded bg-gradient-to-r from-[#4a0a0a] to-[#2d0606] px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="cue-banner relative overflow-hidden rounded bg-gradient-to-r from-[#4a0a0a] to-[#2d0606] px-10 flex items-center justify-between gap-8">
             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_right,_#c9a84c_0%,_transparent_60%)]" />
             <div className="cue-banner-glow absolute inset-0 opacity-0 bg-[radial-gradient(ellipse_at_center,_#c9a84c15_0%,_transparent_70%)]" />
-            <div className="relative">
-              <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-2">Capital Campaign</p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">Cue the Future</h2>
-              <p className="text-white/70 max-w-md">
-                Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
-              </p>
+            <div className="relative py-5 flex-1">
+              <div className="cue-banner-hidden">
+                <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
+              </div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Cue the Future</h2>
+              <div className="cue-banner-hidden">
+                <p className="text-white/70 max-w-md mt-2">
+                  Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
+                </p>
+              </div>
             </div>
-            <div className="relative shrink-0">
+            <div className="cue-banner-hidden relative shrink-0">
               <a
                 href="https://www.canadahelps.org"
                 target="_blank"

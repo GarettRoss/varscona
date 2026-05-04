@@ -64,7 +64,8 @@ body {
 
 /* ── Cue the Future banner hover ── */
 .cue-banner {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: default;
 }
 .cue-banner:hover {
   transform: translateY(-3px);
@@ -75,6 +76,17 @@ body {
 }
 .cue-banner:hover .cue-banner-glow {
   opacity: 1;
+}
+.cue-banner-hidden {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.45s ease, opacity 0.3s ease;
+}
+.cue-banner:hover .cue-banner-hidden {
+  max-height: 160px;
+  opacity: 1;
+  transition: max-height 0.45s ease, opacity 0.35s ease 0.1s;
 }
 
 /* ── Splash screen ── */
