@@ -62,6 +62,89 @@ body {
   background: #e8c96a;
 }
 
+/* ── Splash screen ── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.9s ease;
+}
+
+.splash-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.splash-line {
+  width: 0;
+  height: 1px;
+  background-color: #c9a84c;
+  animation: splash-line-grow 0.7s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 700;
+  color: #fafafa;
+  letter-spacing: 0.6em;
+  opacity: 0;
+  animation: splash-title-in 1s ease forwards;
+  animation-delay: 0.2s;
+  margin: 0;
+}
+
+.splash-sub {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  opacity: 0;
+  animation: splash-fade-up 0.8s ease forwards;
+  animation-delay: 1s;
+  margin: 0;
+}
+
+.splash-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #fafafa;
+  opacity: 0;
+  animation: splash-fade-up 0.8s ease forwards;
+  animation-delay: 1.8s;
+  margin: 8px 0 0;
+}
+
+@keyframes splash-title-in {
+  from { opacity: 0; letter-spacing: 1em; }
+  to   { opacity: 1; letter-spacing: 0.6em; }
+}
+
+@keyframes splash-line-grow {
+  from { width: 0; }
+  to   { width: clamp(200px, 40vw, 500px); }
+}
+
+@keyframes splash-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Admin button lift */
 .admin-btn {
   transition: transform 0.15s ease, box-shadow 0.15s ease;

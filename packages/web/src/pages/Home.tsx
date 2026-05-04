@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api, type Show } from '../lib/api'
 import ShowCard from '../components/ShowCard'
 import ShowModal from '../components/ShowModal'
+import SplashScreen from '../components/SplashScreen'
 import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
 import imgDieNasty from '../assets/shows/die-nasty.svg'
 import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
@@ -99,6 +100,7 @@ function deriveShows(shows: Show[]) {
 export default function Home() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [selectedShow, setSelectedShow] = useState<Show | null>(null)
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashSeen'))
 
   useEffect(() => {
     api.shows.list()
@@ -108,8 +110,14 @@ export default function Home() {
 
   const { onstage, upcoming } = deriveShows(shows)
 
+  function handleSplashDone() {
+    sessionStorage.setItem('splashSeen', '1')
+    setShowSplash(false)
+  }
+
   return (
     <div>
+      {showSplash && <SplashScreen onComplete={handleSplashDone} />}
       {selectedShow && (
         <ShowModal
           show={selectedShow}
