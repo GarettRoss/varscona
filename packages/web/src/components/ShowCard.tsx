@@ -35,7 +35,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
     <div className="show-card-grid group block cursor-pointer" onClick={onClick}>
       <div className="aspect-[3/4] overflow-hidden rounded mb-3" style={{ backgroundColor: color }}>
         {img ? (
-          <img src={img} alt={show.title} className="show-card-img w-full h-full object-cover" />
+          <img src={img} alt={show.title} className="show-card-img w-full h-full object-contain" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-5xl">🎭</div>
         )}
