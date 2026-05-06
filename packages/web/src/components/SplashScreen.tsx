@@ -18,6 +18,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
           src={logo}
           alt="Varscona Theatre"
           className="splash-logo"
+          style={{ filter: 'invert(1)', mixBlendMode: 'screen' }}
         />
         <p className="splash-sub">Theatre</p>
         <div className="splash-line" />

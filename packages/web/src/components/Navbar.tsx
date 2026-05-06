@@ -50,7 +50,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="shrink-0 flex items-center gap-2">
-          <img src={logo} alt="Varscona Theatre" className="h-8 w-auto" />
+          <img src={logo} alt="Varscona Theatre" className="h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
           <span className="text-xs tracking-[0.3em] uppercase text-[#1D1D1B]/70 font-medium">Theatre</span>
         </Link>
 
