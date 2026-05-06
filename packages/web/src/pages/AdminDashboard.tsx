@@ -65,7 +65,7 @@ function CompanyCombobox({
         onFocus={() => setOpen(true)}
         onChange={e => { setInput(e.target.value); onChange(e.target.value); setOpen(true) }}
         onKeyDown={handleKey}
-        className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/25 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+        className="w-full bg-white/5 border border-white/15 rounded px-4 py-2.5 text-[#F2EDDF] placeholder-white/25 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
       />
       {open && (filtered.length > 0 || showCreate) && (
         <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-[#1c1c1c] border border-white/10 rounded shadow-xl overflow-hidden max-h-52 overflow-y-auto">
@@ -76,7 +76,7 @@ function CompanyCombobox({
                 onMouseDown={() => select(o)}
                 className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                   o === value
-                    ? 'bg-[#c9a84c]/20 text-[#c9a84c]'
+                    ? 'bg-[#FF5F38]/20 text-[#FF5F38]'
                     : 'text-white hover:bg-white/10'
                 }`}
               >
@@ -89,7 +89,7 @@ function CompanyCombobox({
               <button
                 type="button"
                 onMouseDown={() => select(input.trim())}
-                className="w-full text-left px-4 py-2.5 text-sm text-[#c9a84c] hover:bg-white/10 transition-colors border-t border-white/10"
+                className="w-full text-left px-4 py-2.5 text-sm text-[#FF5F38] hover:bg-white/10 transition-colors border-t border-white/10"
               >
                 <span className="opacity-60">Create new: </span>
                 {input.trim()}
@@ -262,22 +262,22 @@ export default function AdminDashboard() {
   const filtered = filter === 'All' ? shows : shows.filter(s => s.company === filter)
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#E5E1D8] text-[#1D1D1B]">
       {/* Header */}
-      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
+      <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-6 py-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-4">
-          <span className="text-[#c9a84c] text-xs tracking-[0.4em] uppercase font-medium">Varscona Theatre</span>
-          <span className="text-white/20">·</span>
-          <span className="text-white/60 text-sm">Admin</span>
+          <span className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase font-medium">Varscona Theatre</span>
+          <span className="text-[#1D1D1B]/20">·</span>
+          <span className="text-[#1D1D1B]/50 text-sm">Admin</span>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={load} disabled={loading} className="text-white/40 hover:text-white text-xs tracking-wide transition-colors disabled:opacity-30">
+          <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">
             ↺ Refresh
           </button>
-          <a href="/" className="text-white/40 hover:text-white text-xs tracking-wide transition-colors">← View Site</a>
+          <a href="/" className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← View Site</a>
           <button
             onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
-            className="text-white/40 hover:text-white text-xs tracking-wide transition-colors"
+            className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors"
           >
             Sign Out
           </button>
@@ -286,14 +286,14 @@ export default function AdminDashboard() {
 
       <div className="max-w-5xl mx-auto px-6 py-10">
         {/* Title row */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="font-display text-3xl font-bold text-white">Shows</h1>
-            <p className="text-white/40 text-sm mt-1">{shows.length} shows in Sanity</p>
+            <h1 className="font-display text-3xl font-bold text-[#1D1D1B]">Shows</h1>
+            <p className="text-[#1D1D1B]/40 text-sm mt-1">{shows.length} shows in Sanity</p>
           </div>
           <button
             onClick={startNew}
-            className="bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-xs tracking-widest uppercase px-5 py-2.5 rounded transition-colors"
+            className="bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-5 py-2.5 rounded transition-colors"
           >
             + Add Show
           </button>
@@ -306,7 +306,7 @@ export default function AdminDashboard() {
               key={c}
               onClick={() => setFilter(c)}
               className={`px-3 py-1 rounded text-xs font-medium tracking-wide transition-colors ${
-                filter === c ? 'bg-[#c9a84c] text-black' : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white'
+                filter === c ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/50 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
               }`}
             >
               {c}
@@ -318,23 +318,23 @@ export default function AdminDashboard() {
         {loading ? (
           <div className="space-y-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="animate-pulse flex gap-4 p-4 rounded-lg bg-white/5">
-                <div className="w-16 aspect-[3/4] bg-white/10 rounded shrink-0" />
+              <div key={i} className="animate-pulse flex gap-4 p-4 rounded-lg bg-[#F2EDDF]">
+                <div className="w-16 aspect-[3/4] bg-[#1D1D1B]/10 rounded shrink-0" />
                 <div className="flex-1 space-y-2 py-1">
-                  <div className="h-3 bg-white/10 rounded w-1/4" />
-                  <div className="h-4 bg-white/10 rounded w-1/2" />
-                  <div className="h-3 bg-white/10 rounded w-1/3" />
+                  <div className="h-3 bg-[#1D1D1B]/10 rounded w-1/4" />
+                  <div className="h-4 bg-[#1D1D1B]/10 rounded w-1/2" />
+                  <div className="h-3 bg-[#1D1D1B]/10 rounded w-1/3" />
                 </div>
               </div>
             ))}
           </div>
         ) : loadError ? (
-          <div className="rounded-lg border border-red-900/50 bg-red-950/30 p-6 text-center">
-            <p className="text-red-400 font-medium mb-1">Could not load shows from Sanity</p>
-            <p className="text-white/40 text-xs font-mono mb-4 break-all">{loadError}</p>
+          <div className="rounded-lg border border-red-300 bg-red-50 p-6 text-center">
+            <p className="text-red-600 font-medium mb-1">Could not load shows from Sanity</p>
+            <p className="text-[#1D1D1B]/40 text-xs font-mono mb-4 break-all">{loadError}</p>
             <button
               onClick={load}
-              className="px-4 py-2 rounded bg-white/10 hover:bg-white/20 text-white text-sm transition-colors"
+              className="px-4 py-2 rounded bg-[#1D1D1B]/10 hover:bg-[#1D1D1B]/15 text-[#1D1D1B] text-sm transition-colors"
             >
               Try Again
             </button>
@@ -344,22 +344,22 @@ export default function AdminDashboard() {
             {filtered.map(show => {
               const img = mediaUrl(show.image, 'small')
               return (
-                <div key={show.id} className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/8 border border-white/5 transition-colors">
-                  <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0 bg-white/10">
+                <div key={show.id} className="flex items-center gap-4 p-4 rounded-lg bg-[#F2EDDF] hover:bg-[#ede9da] border border-[#1D1D1B]/8 transition-colors shadow-sm">
+                  <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0 bg-[#1D1D1B]/8">
                     {img
                       ? <img src={img} alt={show.title} className="w-full h-full object-cover" />
-                      : <div className="w-full h-full flex items-center justify-center text-white/20 text-xl">🎭</div>}
+                      : <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-xl">🎭</div>}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-0.5">{show.company}</p>
-                    <p className="text-white font-medium truncate">{show.title}</p>
-                    <p className="text-white/40 text-xs">{show.dateRange}</p>
+                    <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-0.5">{show.company}</p>
+                    <p className="text-[#1D1D1B] font-medium truncate">{show.title}</p>
+                    <p className="text-[#1D1D1B]/40 text-xs">{show.dateRange}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <button onClick={() => startEdit(show)} className="admin-btn px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs tracking-wide transition-colors">
+                    <button onClick={() => startEdit(show)} className="admin-btn px-3 py-1.5 rounded bg-[#1D1D1B]/10 hover:bg-[#1D1D1B]/18 text-[#1D1D1B] text-xs tracking-wide transition-colors">
                       Edit
                     </button>
-                    <button onClick={() => setConfirmDelete(show)} className="admin-btn px-3 py-1.5 rounded bg-white/5 hover:bg-red-900/40 text-white/40 hover:text-red-400 text-xs tracking-wide transition-colors">
+                    <button onClick={() => setConfirmDelete(show)} className="admin-btn px-3 py-1.5 rounded bg-[#1D1D1B]/5 hover:bg-red-100 text-[#1D1D1B]/40 hover:text-red-600 text-xs tracking-wide transition-colors">
                       Delete
                     </button>
                   </div>
@@ -414,7 +414,7 @@ export default function AdminDashboard() {
                   required
                   value={editing.title}
                   onChange={e => handleField('title', e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
                 />
               </div>
 
@@ -425,7 +425,7 @@ export default function AdminDashboard() {
                   required
                   value={editing.slug}
                   onChange={e => handleField('slug', slugify(e.target.value))}
-                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white/70 font-mono text-sm placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white/70 font-mono text-sm placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors"
                 />
               </div>
 
@@ -449,7 +449,7 @@ export default function AdminDashboard() {
                   value={editing.dateRange}
                   onChange={e => handleField('dateRange', e.target.value)}
                   placeholder="e.g. April 15 – May 10, 2026"
-                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
                 />
               </div>
 
@@ -461,7 +461,7 @@ export default function AdminDashboard() {
                     type="date"
                     value={editing.startDate}
                     onChange={e => handleField('startDate', e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
                   />
                 </div>
                 <div>
@@ -470,7 +470,7 @@ export default function AdminDashboard() {
                     type="date"
                     value={editing.endDate}
                     onChange={e => handleField('endDate', e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
                   />
                 </div>
               </div>
@@ -482,7 +482,7 @@ export default function AdminDashboard() {
                   rows={5}
                   value={editing.description}
                   onChange={e => handleField('description', e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm resize-none"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm resize-none"
                 />
               </div>
 
@@ -494,7 +494,7 @@ export default function AdminDashboard() {
                   value={editing.externalLink}
                   onChange={e => handleField('externalLink', e.target.value)}
                   placeholder="https://..."
-                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#c9a84c] transition-colors text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
                 />
               </div>
 
@@ -506,7 +506,7 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 rounded bg-[#c9a84c] hover:bg-[#e8c96a] disabled:opacity-50 text-black font-bold text-sm tracking-wide transition-colors"
+                  className="px-6 py-2.5 rounded bg-[#FF5F38] hover:bg-[#ff7a57] disabled:opacity-50 text-white font-bold text-sm tracking-wide transition-colors"
                 >
                   {saving ? 'Saving…' : (editing.id ? 'Save Changes' : 'Create Show')}
                 </button>
@@ -546,7 +546,7 @@ export default function AdminDashboard() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#c9a84c] text-black text-sm font-bold px-6 py-3 rounded shadow-lg">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#FF5F38] text-white text-sm font-bold px-6 py-3 rounded shadow-lg">
           {toast}
         </div>
       )}
