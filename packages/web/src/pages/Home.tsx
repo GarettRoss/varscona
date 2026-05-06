@@ -122,11 +122,11 @@ export default function Home() {
         />
       )}
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1D1D1B] via-[#1D1D1B] to-[#2a2a28] z-0" />
-        {/* Curtain texture overlay */}
-        <div className="absolute inset-0 opacity-5 bg-[radial-gradient(ellipse_at_center,_#FF5F38_0%,_transparent_70%)] z-0" />
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0e0303]">
+        {/* Lifted inner panel */}
+        <div className="absolute inset-8 md:inset-16 bg-[#C03333] rounded-2xl z-0" />
+        {/* Soft vignette over the panel */}
+        <div className="absolute inset-8 md:inset-16 rounded-2xl bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
 
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <p className="text-[#FF5F38] text-xs font-medium tracking-[0.4em] uppercase mb-6">
