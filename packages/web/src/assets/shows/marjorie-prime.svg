@@ -1,26 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4361EE"/>
-      <stop offset="100%" stop-color="#2a45cc"/>
-    </linearGradient>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#5c1212"/>
+      <stop offset="55%" stop-color="#2a0606"/>
+      <stop offset="100%" stop-color="#0a0101"/>
+    </radialGradient>
   </defs>
   <rect width="600" height="800" fill="url(#bg)"/>
-  <rect width="600" height="800" fill="none" stroke="#ffffff" stroke-width="0.4" stroke-dasharray="1,60" stroke-opacity="0.07"/>
+  <rect width="600" height="800" fill="none" stroke="#ffffff" stroke-width="0.4" stroke-dasharray="1,60" stroke-opacity="0.05"/>
 
-  <!-- Icon: seated figure with memory waves -->
-  <g transform="translate(300, 300)">
+  <!-- Icon: stick figure with memory arcs -->
+  <g transform="translate(300, 310)" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
     <!-- Head -->
-    <circle cx="0" cy="-90" r="38" fill="none" stroke="#ffffff" stroke-width="3" stroke-opacity="0.6"/>
-    <!-- Body -->
-    <rect x="-28" y="-48" width="56" height="72" rx="12" fill="none" stroke="#ffffff" stroke-width="3" stroke-opacity="0.6"/>
+    <circle cx="0" cy="-110" r="32" stroke-width="3" stroke-opacity="0.6"/>
+    <!-- Spine -->
+    <line x1="0" y1="-78" x2="0" y2="20" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Arms -->
-    <line x1="-28" y1="-28" x2="-65" y2="10" stroke="#ffffff" stroke-width="3" stroke-opacity="0.6" stroke-linecap="round"/>
-    <line x1="28" y1="-28" x2="65" y2="10" stroke="#ffffff" stroke-width="3" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="0" y1="-50" x2="-70" y2="0" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="0" y1="-50" x2="70" y2="0" stroke-width="3" stroke-opacity="0.6"/>
+    <!-- Legs -->
+    <line x1="0" y1="20" x2="-50" y2="110" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="0" y1="20" x2="50" y2="110" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Memory arcs emanating from head -->
-    <path d="M 50,-95 Q 90,-60 70,-20" fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="5,5"/>
-    <path d="M 65,-100 Q 115,-55 90,-10" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4,6"/>
-    <path d="M 75,-108 Q 135,-50 105,0" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3,7"/>
+    <path d="M 38,-120 Q 80,-80 65,-40" stroke-width="2" stroke-opacity="0.35" stroke-dasharray="5,6"/>
+    <path d="M 52,-128 Q 110,-78 90,-30" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4,7"/>
+    <path d="M 62,-138 Q 135,-75 108,-18" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3,8"/>
   </g>
 
   <!-- Company -->
