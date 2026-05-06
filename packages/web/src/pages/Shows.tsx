@@ -142,18 +142,19 @@ export default function Shows() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filtered.map((show) => {
+              {filtered.map((show, i) => {
                 const img = mediaUrl(show.image, 'medium') || STATIC_IMAGES[show.slug] || ''
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
+                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
                 return (
                   <div
                     key={show.id}
                     className="flex items-center gap-6 p-5 rounded-lg bg-[#1D1D1B]/4 hover:bg-[#1D1D1B]/7 border border-[#1D1D1B]/8 hover:border-[#1D1D1B]/15 transition-colors"
                   >
                     {/* Image */}
-                    <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0 bg-[#1D1D1B]/5">
+                    <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ backgroundColor: slotBg }}>
                       {img ? (
                         <img src={img} alt={show.title} className="w-full h-full object-cover" />
                       ) : (

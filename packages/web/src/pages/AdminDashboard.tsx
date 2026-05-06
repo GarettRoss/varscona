@@ -341,11 +341,12 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="space-y-2">
-            {filtered.map(show => {
+            {filtered.map((show, i) => {
               const img = mediaUrl(show.image, 'small')
+              const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
               return (
                 <div key={show.id} className="flex items-center gap-4 p-4 rounded-lg bg-[#F2EDDF] hover:bg-[#ede9da] border border-[#1D1D1B]/8 transition-colors shadow-sm">
-                  <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0 bg-[#1D1D1B]/8">
+                  <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ backgroundColor: slotBg }}>
                     {img
                       ? <img src={img} alt={show.title} className="w-full h-full object-cover" />
                       : <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-xl">🎭</div>}
