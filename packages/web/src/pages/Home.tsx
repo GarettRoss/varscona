@@ -121,51 +121,45 @@ export default function Home() {
           onClose={() => setSelectedShow(null)}
         />
       )}
-      {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0e0303]">
-        {/* Lifted inner panel */}
-        <div className="absolute inset-8 md:inset-16 bg-[#C03333] rounded-2xl z-0" />
-        {/* Soft vignette over the panel */}
-        <div className="absolute inset-8 md:inset-16 rounded-2xl bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
+      {/* ── All sections wrapper ── */}
+      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-20 pb-8 flex flex-col gap-6">
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <p className="text-[#FF5F38] text-xs font-medium tracking-[0.4em] uppercase mb-6">
-            Centre stage in the heart of old Strathcona
-          </p>
-          <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-[#F2EDDF] leading-none mb-4">
-            BIG STORIES
-          </h1>
-          <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-[#FF5F38] leading-none mb-8">
-            SMALL THEATRE
-          </h1>
-          <p className="text-[#F2EDDF]/60 text-lg md:text-xl max-w-xl mx-auto mb-12 leading-relaxed">
-            From sharp-witted comedies to heartfelt dramas, spontaneous improv to dazzling cabaret — Edmonton's most intimate stage.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/shows"
-              className="inline-flex items-center justify-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
-            >
-              See What's On
-            </Link>
-            <Link
-              to="/support/donate"
-              className="inline-flex items-center justify-center gap-2 border border-[#F2EDDF]/30 hover:border-[#F2EDDF] text-[#F2EDDF] text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
-            >
-              Support the Theatre
-            </Link>
+        {/* ── Hero ── */}
+        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#0e0303]">
+          {/* Lifted inner panel */}
+          <div className="absolute inset-6 md:inset-12 bg-[#8B1A1A] rounded-2xl z-0" />
+          {/* Soft vignette over the panel */}
+          <div className="absolute inset-6 md:inset-12 rounded-2xl bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
+
+          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <p className="text-[#FF5F38] text-xs font-medium tracking-[0.4em] uppercase mb-6">
+              Centre stage in the heart of old Strathcona
+            </p>
+            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-[#F2EDDF] leading-none mb-4">
+              BIG STORIES
+            </h1>
+            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-[#FF5F38] leading-none mb-8">
+              SMALL THEATRE
+            </h1>
+            <p className="text-[#F2EDDF]/60 text-lg md:text-xl max-w-xl mx-auto mb-12 leading-relaxed">
+              From sharp-witted comedies to heartfelt dramas, spontaneous improv to dazzling cabaret — Edmonton's most intimate stage.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/shows"
+                className="inline-flex items-center justify-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
+              >
+                See What's On
+              </Link>
+              <Link
+                to="/support/donate"
+                className="inline-flex items-center justify-center gap-2 border border-[#F2EDDF]/30 hover:border-[#F2EDDF] text-[#F2EDDF] text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
+              >
+                Support the Theatre
+              </Link>
+            </div>
           </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#F2EDDF]/30">
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-[#F2EDDF]/30 to-transparent" />
-        </div>
-      </section>
-
-      {/* ── Raised sections wrapper ── */}
-      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        </section>
 
         {/* ── Now Onstage ── */}
         {onstage.length > 0 && (
@@ -189,30 +183,29 @@ export default function Home() {
         {/* ── Cue the Future Banner ── */}
         <section className="py-10 px-8 bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
           <div className="max-w-7xl mx-auto">
-            <div className="cue-banner relative overflow-hidden rounded bg-[#0e0303] p-3">
-              <div className="cue-banner-glow absolute inset-0 opacity-0 bg-[radial-gradient(ellipse_at_center,_#C0333320_0%,_transparent_70%)]" />
-              <div className="relative rounded bg-[#C03333] px-10 flex items-center justify-between gap-8">
-                <div className="relative py-5 flex-1">
-                  <div className="cue-banner-hidden">
-                    <p className="text-white/60 text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
-                  </div>
-                  <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Cue the Future</h2>
-                  <div className="cue-banner-hidden">
-                    <p className="text-white/70 max-w-md mt-2">
-                      Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
-                    </p>
-                  </div>
+            <div className="cue-banner relative overflow-hidden rounded bg-gradient-to-r from-[#4a0a0a] to-[#2d0606] px-10 flex items-center justify-between gap-8">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_right,_#FF5F38_0%,_transparent_60%)]" />
+              <div className="cue-banner-glow absolute inset-0 opacity-0 bg-[radial-gradient(ellipse_at_center,_#FF5F3815_0%,_transparent_70%)]" />
+              <div className="relative py-5 flex-1">
+                <div className="cue-banner-hidden">
+                  <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
                 </div>
-                <div className="cue-banner-hidden relative shrink-0">
-                  <a
-                    href="https://www.canadahelps.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-[#0e0303] hover:bg-[#1f0505] text-white font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
-                  >
-                    Donate Now
-                  </a>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Cue the Future</h2>
+                <div className="cue-banner-hidden">
+                  <p className="text-white/70 max-w-md mt-2">
+                    Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
+                  </p>
                 </div>
+              </div>
+              <div className="cue-banner-hidden relative shrink-0">
+                <a
+                  href="https://www.canadahelps.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
+                >
+                  Donate Now
+                </a>
               </div>
             </div>
           </div>
