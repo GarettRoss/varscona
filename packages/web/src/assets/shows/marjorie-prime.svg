@@ -10,21 +10,21 @@
   <rect width="600" height="800" fill="none" stroke="#ffffff" stroke-width="0.4" stroke-dasharray="1,60" stroke-opacity="0.05"/>
 
   <!-- Icon: stick figure with memory arcs -->
-  <g transform="translate(300, 310)" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
     <!-- Head -->
-    <circle cx="0" cy="-110" r="32" stroke-width="3" stroke-opacity="0.6"/>
+    <circle cx="300" cy="192" r="26" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Spine -->
-    <line x1="0" y1="-78" x2="0" y2="20" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="300" y1="218" x2="300" y2="320" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Arms -->
-    <line x1="0" y1="-50" x2="-70" y2="0" stroke-width="3" stroke-opacity="0.6"/>
-    <line x1="0" y1="-50" x2="70" y2="0" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="300" y1="255" x2="242" y2="298" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="300" y1="255" x2="358" y2="298" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Legs -->
-    <line x1="0" y1="20" x2="-50" y2="110" stroke-width="3" stroke-opacity="0.6"/>
-    <line x1="0" y1="20" x2="50" y2="110" stroke-width="3" stroke-opacity="0.6"/>
-    <!-- Memory arcs emanating from head -->
-    <path d="M 38,-120 Q 80,-80 65,-40" stroke-width="2" stroke-opacity="0.35" stroke-dasharray="5,6"/>
-    <path d="M 52,-128 Q 110,-78 90,-30" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4,7"/>
-    <path d="M 62,-138 Q 135,-75 108,-18" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3,8"/>
+    <line x1="300" y1="320" x2="262" y2="400" stroke-width="3" stroke-opacity="0.6"/>
+    <line x1="300" y1="320" x2="338" y2="400" stroke-width="3" stroke-opacity="0.6"/>
+    <!-- Memory arcs -->
+    <path d="M 326,182 Q 368,162 362,210" stroke-width="2" stroke-opacity="0.35" stroke-dasharray="5,6"/>
+    <path d="M 334,175 Q 394,148 385,208" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4,7"/>
+    <path d="M 340,168 Q 418,136 406,206" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3,8"/>
   </g>
 
   <!-- Company -->
