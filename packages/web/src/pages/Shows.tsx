@@ -156,7 +156,7 @@ export default function Shows() {
                     {/* Image */}
                     <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ backgroundColor: slotBg }}>
                       {img ? (
-                        <img src={img} alt={show.title} className="w-full h-full object-cover" />
+                        <img src={img} alt={show.title} className="w-full h-full object-contain" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-3xl">🎭</div>
                       )}

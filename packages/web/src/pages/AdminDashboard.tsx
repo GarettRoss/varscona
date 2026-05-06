@@ -348,7 +348,7 @@ export default function AdminDashboard() {
                 <div key={show.id} className="flex items-center gap-4 p-4 rounded-lg bg-[#F2EDDF] hover:bg-[#ede9da] border border-[#1D1D1B]/8 transition-colors shadow-sm">
                   <div className="w-12 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ backgroundColor: slotBg }}>
                     {img
-                      ? <img src={img} alt={show.title} className="w-full h-full object-cover" />
+                      ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
                       : <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-xl">🎭</div>}
                   </div>
                   <div className="flex-1 min-w-0">
