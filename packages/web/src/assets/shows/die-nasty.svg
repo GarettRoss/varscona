@@ -10,7 +10,7 @@
   <rect width="600" height="800" fill="none" stroke="#ffffff" stroke-width="0.4" stroke-dasharray="1,60" stroke-opacity="0.05"/>
 
   <!-- Icon: knife -->
-  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" transform="translate(300,290) scale(0.1) translate(-300,-290)">
     <!-- Blade -->
     <path d="M300,165 L286,355 L314,355 Z" stroke-width="3" stroke-opacity="0.6"/>
     <!-- Bolster -->
