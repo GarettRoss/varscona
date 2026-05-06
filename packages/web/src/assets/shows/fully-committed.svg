@@ -1,47 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" stop-color="#0a0f0a"/>
-      <stop offset="100%" stop-color="#050805"/>
-    </radialGradient>
-    <radialGradient id="glow" cx="50%" cy="45%" r="50%">
-      <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
-    </radialGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00C09A"/>
+      <stop offset="100%" stop-color="#009e7e"/>
+    </linearGradient>
   </defs>
-
   <rect width="600" height="800" fill="url(#bg)"/>
-  <rect width="600" height="800" fill="url(#glow)"/>
+  <rect width="600" height="800" fill="none" stroke="#ffffff" stroke-width="0.4" stroke-dasharray="1,60" stroke-opacity="0.07"/>
 
-  <!-- Phone receiver icon (abstract) -->
-  <g transform="translate(300, 220)" fill="none" stroke="#c9a84c" stroke-opacity="0.15" stroke-width="2">
+  <!-- Icon: phone receiver -->
+  <g transform="translate(300, 310)" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
     <path d="M-60,-80 Q-80,-60 -70,-30 L-50,10 Q-45,25 -30,20 L-10,12 Q0,8 5,18 L20,55 Q25,65 15,72 L-5,82 Q-20,90 -10,105 Q30,160 80,140 Q95,133 90,118 L78,98 Q68,83 78,75 L98,60 Q108,52 100,38 L85,5 Q78,-10 62,-8 L42,0 Q28,5 20,-8 L5,-50 Q-2,-65 18,-78 L38,-88 Q55,-95 48,-112 Q20,-170 -30,-155 Q-50,-148 -60,-130 Z"/>
   </g>
 
-  <!-- Exclamation marks -->
-  <text x="120" y="320" font-family="Georgia, serif" font-size="80" fill="#c9a84c" fill-opacity="0.08" text-anchor="middle">!</text>
-  <text x="480" y="280" font-family="Georgia, serif" font-size="60" fill="#c9a84c" fill-opacity="0.06" text-anchor="middle">!</text>
-
   <!-- Company -->
-  <text x="300" y="95" font-family="Georgia, serif" font-size="13" fill="#c9a84c" fill-opacity="0.55" text-anchor="middle" letter-spacing="5">TEATRO LIVE!</text>
-
-  <!-- Top rule -->
-  <line x1="100" y1="112" x2="500" y2="112" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.2"/>
+  <text x="300" y="96" font-family="Georgia, serif" font-size="13" fill="#ffffff" fill-opacity="0.65" text-anchor="middle" letter-spacing="5">TEATRO LIVE!</text>
+  <line x1="120" y1="112" x2="480" y2="112" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.2"/>
 
   <!-- Title -->
-  <text x="300" y="430" font-family="Georgia, serif" font-size="62" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="-1">FULLY</text>
-  <text x="300" y="530" font-family="Georgia, serif" font-size="62" font-weight="bold" fill="#c9a84c" text-anchor="middle" letter-spacing="-1">COMMITTED</text>
-
-  <!-- Divider with diamond -->
-  <line x1="130" y1="562" x2="260" y2="562" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.35"/>
-  <rect x="296" y="556" width="8" height="8" fill="#c9a84c" fill-opacity="0.5" transform="rotate(45 300 560)"/>
-  <line x1="340" y1="562" x2="470" y2="562" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.35"/>
-
-  <!-- Tagline -->
-  <text x="300" y="605" font-family="Georgia, serif" font-size="14" fill="#ffffff" fill-opacity="0.35" text-anchor="middle" font-style="italic">A comedy about one very busy restaurant</text>
+  <text x="300" y="520" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="-1">FULLY</text>
+  <text x="300" y="600" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#ffffff" fill-opacity="0.8" text-anchor="middle" letter-spacing="-1">COMMITTED</text>
 
   <!-- Date -->
-  <text x="300" y="665" font-family="Georgia, serif" font-size="13" fill="#c9a84c" fill-opacity="0.5" text-anchor="middle" letter-spacing="3">SUMMER 2025</text>
+  <line x1="160" y1="628" x2="440" y2="628" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.25"/>
+  <text x="300" y="666" font-family="Georgia, serif" font-size="16" fill="#ffffff" fill-opacity="0.6" text-anchor="middle" letter-spacing="3">JULY 14 – AUG 2</text>
 
-  <text x="300" y="768" font-family="Georgia, serif" font-size="11" fill="#c9a84c" fill-opacity="0.25" text-anchor="middle" letter-spacing="4">VARSCONA THEATRE</text>
+  <text x="300" y="762" font-family="Georgia, serif" font-size="11" fill="#ffffff" fill-opacity="0.25" text-anchor="middle" letter-spacing="4">VARSCONA THEATRE · EDMONTON</text>
 </svg>

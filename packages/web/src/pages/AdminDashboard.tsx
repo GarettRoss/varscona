@@ -166,6 +166,11 @@ export default function AdminDashboard() {
     load()
   }, [navigate])
 
+  useEffect(() => {
+    document.body.style.overflow = editing ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [editing])
+
   async function load() {
     setLoading(true)
     setLoadError('')
@@ -367,10 +372,11 @@ export default function AdminDashboard() {
 
       {/* Edit / Create modal */}
       {editing && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto" onClick={() => setEditing(null)}>
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+        <>
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm" onClick={() => setEditing(null)} />
+          <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto pointer-events-none">
           <div
-            className="relative z-10 w-full max-w-2xl bg-[#111] border border-white/10 rounded-lg shadow-2xl my-8"
+            className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-lg shadow-2xl my-8 pointer-events-auto"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
@@ -507,14 +513,16 @@ export default function AdminDashboard() {
               </div>
             </form>
           </div>
-        </div>
+          </div>
+        </>
       )}
 
       {/* Confirm delete */}
       {confirmDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setConfirmDelete(null)}>
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-          <div className="relative z-10 bg-[#111] border border-white/10 rounded-lg p-8 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+        <>
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm" onClick={() => setConfirmDelete(null)} />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+          <div className="bg-[#111] border border-white/10 rounded-lg p-8 max-w-sm w-full shadow-2xl pointer-events-auto" onClick={e => e.stopPropagation()}>
             <h2 className="font-display text-xl font-bold text-white mb-2">Delete Show?</h2>
             <p className="text-white/50 text-sm mb-6">
               "{confirmDelete.title}" will be permanently removed from Sanity. This cannot be undone.
@@ -532,7 +540,8 @@ export default function AdminDashboard() {
               </button>
             </div>
           </div>
-        </div>
+          </div>
+        </>
       )}
 
       {/* Toast */}

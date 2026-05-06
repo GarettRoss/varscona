@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { mediaUrl, type Show } from '../lib/api'
+import { companyColor } from '../lib/companyColor'
 
 type Props = {
   show: Show
@@ -11,6 +12,7 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
   const img = mediaUrl(show.image, 'medium') || staticImage || ''
   const ticketUrl = show.externalLink || `/shows/${show.slug}`
   const isExternal = !!show.externalLink
+  const color = companyColor(show.company)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -32,13 +34,13 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
 
       {/* Card */}
       <div
-        className="modal-scroll relative z-10 bg-[#111] border border-white/10 rounded-lg overflow-hidden w-full max-w-md shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto"
+        className="modal-scroll relative z-10 bg-[#1D1D1B] border border-[#F2EDDF]/10 rounded-lg overflow-hidden w-full max-w-md shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 text-white/60 hover:text-white hover:bg-black/80 transition-colors text-lg leading-none"
+          className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 text-[#F2EDDF]/60 hover:text-[#F2EDDF] hover:bg-black/80 transition-colors text-lg leading-none"
           aria-label="Close"
         >
           ×
@@ -55,18 +57,19 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
 
         {/* Info — below poster */}
         <div className="p-6 flex flex-col gap-3">
-          <p className="text-[#c9a84c] text-xs font-medium tracking-widest uppercase">{show.company}</p>
-          <h2 className="font-display text-2xl font-bold text-white leading-tight">{show.title}</h2>
-          <p className="text-white/50 text-sm">{show.dateRange}</p>
+          <p className="text-xs font-medium tracking-widest uppercase" style={{ color }}>{show.company}</p>
+          <h2 className="font-display text-2xl font-bold text-[#F2EDDF] leading-tight">{show.title}</h2>
+          <p className="text-[#F2EDDF]/50 text-sm">{show.dateRange}</p>
 
           {show.description && (
-            <p className="text-white/60 text-sm leading-relaxed">{show.description}</p>
+            <p className="text-[#F2EDDF]/60 text-sm leading-relaxed">{show.description}</p>
           )}
 
           <a
             href={ticketUrl}
             {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="inline-flex items-center justify-center bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-8 py-4 rounded transition-colors mt-2"
+            className="inline-flex items-center justify-center text-white font-bold text-sm tracking-widest uppercase px-8 py-4 rounded transition-colors mt-2 hover:opacity-90"
+            style={{ backgroundColor: color }}
           >
             Buy Tickets
           </a>

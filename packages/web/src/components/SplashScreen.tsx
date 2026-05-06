@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import logo from '../assets/varscona-logo.png'
 
 export default function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [fading, setFading] = useState(false)
@@ -13,7 +14,11 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
     <div className={`splash${fading ? ' splash-out' : ''}`}>
       <div className="splash-inner">
         <div className="splash-line" />
-        <h1 className="splash-title">VARSCONA</h1>
+        <img
+          src={logo}
+          alt="Varscona Theatre"
+          className="splash-logo"
+        />
         <p className="splash-sub">Theatre</p>
         <div className="splash-line" />
         <p className="splash-tagline">Big Stories &middot; Small Theatre</p>
