@@ -149,14 +149,16 @@ export default function Shows() {
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
-                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
+                const slotBg = ['marjorie-prime', 'die-nasty'].includes(show.slug)
+                  ? 'radial-gradient(ellipse at 50% 45%, #5c1212 0%, #2a0606 55%, #0a0101 100%)'
+                  : ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
                 return (
                   <div
                     key={show.id}
                     className="flex items-center gap-6 p-5 rounded-lg bg-[#1D1D1B]/4 hover:bg-[#1D1D1B]/7 border border-[#1D1D1B]/8 hover:border-[#1D1D1B]/15 transition-colors"
                   >
                     {/* Image */}
-                    <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ backgroundColor: slotBg }}>
+                    <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ background: slotBg }}>
                       {img ? (
                         <img src={img} alt={show.title} className="w-full h-full object-contain" />
                       ) : (

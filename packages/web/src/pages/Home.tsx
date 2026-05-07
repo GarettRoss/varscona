@@ -173,7 +173,7 @@ export default function Home() {
               </div>
               <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} />
+                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['marjorie-prime','die-nasty'].includes(show.slug) ? 'radial-gradient(ellipse at 50% 45%, #5c1212 0%, #2a0606 55%, #0a0101 100%)' : undefined} />
                 ))}
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function Home() {
               <p className="text-[#1D1D1B]/50 mb-10">Next up this season</p>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {upcoming.map((show, i) => (
-                  <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['#FF5F38','#00C09A','#CDAAFF','#4361EE'][i]} />
+                  <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['marjorie-prime','die-nasty'].includes(show.slug) ? 'radial-gradient(ellipse at 50% 45%, #5c1212 0%, #2a0606 55%, #0a0101 100%)' : ['#FF5F38','#00C09A','#CDAAFF','#4361EE'][i]} />
                 ))}
               </div>
             </div>
