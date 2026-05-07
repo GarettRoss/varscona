@@ -173,7 +173,7 @@ export default function Home() {
               </div>
               <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="radial-gradient(ellipse at 50% 45%, #5c1212 0%, #2a0606 55%, #0a0101 100%)" />
+                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#8B1A1A" />
                 ))}
               </div>
             </div>
