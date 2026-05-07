@@ -125,9 +125,9 @@ export default function Home() {
       <div className="bg-[#E5E1D8] px-4 md:px-8 pt-20 pb-8 flex flex-col gap-6">
 
         {/* ── Hero ── */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#0e0303]">
+        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#3a0a0a]">
           {/* Lifted inner panel */}
-          <div className="absolute inset-6 md:inset-12 bg-[#8B1A1A] rounded-2xl z-0" />
+          <div className="absolute inset-6 md:inset-12 bg-[#8B1A1A] rounded-2xl z-0 shadow-[0_0_40px_rgba(0,0,0,0.6)]" />
           {/* Soft vignette over the panel */}
           <div className="absolute inset-6 md:inset-12 rounded-2xl bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
 
