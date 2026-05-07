@@ -149,9 +149,7 @@ export default function Shows() {
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
-                const slotBg = ['marjorie-prime', 'die-nasty'].includes(show.slug)
-                  ? 'radial-gradient(ellipse at 50% 45%, #5c1212 0%, #2a0606 55%, #0a0101 100%)'
-                  : ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
+                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
                 return (
                   <div
                     key={show.id}
