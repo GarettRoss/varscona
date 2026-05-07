@@ -20,10 +20,8 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <p className="text-xs font-medium tracking-widest uppercase mb-2" style={{ color }}>{show.company}</p>
-          <h3 className="font-display text-2xl md:text-3xl text-[#F2EDDF] font-semibold mb-1">{show.title}</h3>
           <p className="text-[#F2EDDF]/60 text-sm mb-4">{show.dateRange}</p>
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-current px-4 py-2 rounded transition-colors" style={{ '--hover-color': color } as React.CSSProperties}>
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors">
             Learn more
           </span>
         </div>
