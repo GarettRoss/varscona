@@ -37,6 +37,27 @@ const STATIC_IMAGES: Record<string, string> = {
   'noises-off': imgNoisesOff,
 }
 
+// Fixed color per slug — cycles orange → green → violet → blue regardless of
+// API sort order or active filter.
+const SHOW_COLORS: Record<string, string> = {
+  'marjorie-prime':      '#FF5F38',
+  'die-nasty':           '#00C09A',
+  'house-of-hush':       '#CDAAFF',
+  'fully-committed':     '#4361EE',
+  'cocktails-at-pams':   '#FF5F38',
+  'autumn':              '#00C09A',
+  'betrayal':            '#CDAAFF',
+  'glass-menagerie':     '#4361EE',
+  'die-nasty-finale':    '#FF5F38',
+  'die-nasty-halloween': '#00C09A',
+  'midnight-reverie':    '#CDAAFF',
+  'the-still-hours':     '#4361EE',
+  'penelopiad':          '#FF5F38',
+  'copenhagen':          '#00C09A',
+  '39-steps':            '#CDAAFF',
+  'noises-off':          '#4361EE',
+}
+
 const STATIC_SHOWS: Show[] = [
   { id: '1',  title: 'Marjorie Prime',              slug: 'marjorie-prime',     company: 'Trunk Theatre',  dateRange: 'April 15 – May 10, 2026',         description: 'A poignant and witty exploration of memory, loss, and what it means to be human.',                         featured: true,  externalLink: null, image: null },
   { id: '2',  title: 'Die-Nasty',                   slug: 'die-nasty',           company: 'Die-Nasty',      dateRange: 'Every Monday at 7:30 PM',          description: "Edmonton's legendary live improvised soap opera. No script. No net. No two nights alike.",                 featured: false, externalLink: null, image: null },
@@ -68,9 +89,6 @@ function deriveCompanies(shows: Show[]): string[] {
   return list.sort()
 }
 
-const SLUG_COLOR_INDEX: Record<string, number> = {}
-STATIC_SHOWS.forEach((s, i) => { SLUG_COLOR_INDEX[s.slug] = i })
-
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
@@ -78,11 +96,7 @@ export default function Shows() {
 
   useEffect(() => {
     api.shows.list()
-      .then(data => {
-        setShows(data.sort((a, b) =>
-          (SLUG_COLOR_INDEX[a.slug] ?? 999) - (SLUG_COLOR_INDEX[b.slug] ?? 999)
-        ))
-      })
+      .then(setShows)
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -156,8 +170,7 @@ export default function Shows() {
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
-                const colorIndex = SLUG_COLOR_INDEX[show.slug] ?? shows.findIndex(s => s.id === show.id)
-                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][colorIndex % 4]
+                const slotBg = SHOW_COLORS[show.slug] ?? '#FF5F38'
                 return (
                   <div
                     key={show.id}
