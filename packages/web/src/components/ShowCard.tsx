@@ -38,7 +38,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
           <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-5xl">🎭</div>
         )}
       </div>
-      <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
+      <p className="text-xs font-bold tracking-widest uppercase mb-1 text-[#1D1D1B]">{show.company}</p>
       <h3 className="font-display text-xl font-bold leading-tight mb-1" style={{ color }}>{show.title}</h3>
       <p className="text-[#1D1D1B]/55 text-base">{show.dateRange}</p>
     </div>
