@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1D1D1B] border-t border-[#F2EDDF]/10 mt-auto">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+    <footer className="bg-[#E5E1D8] px-4 md:px-8 pb-8 mt-auto">
+      <div className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#3a0a0a]">
+        {/* Inner lifted panel */}
+        <div className="absolute inset-6 bg-[#8B1A1A] rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)]" />
+        <div className="relative max-w-7xl mx-auto px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
@@ -80,6 +83,7 @@ export default function Footer() {
           <p className="text-[#F2EDDF]/20 text-xs">
             Big Stories / Small Theatre — Centre stage in the heart of old Strathcona
           </p>
+        </div>
         </div>
       </div>
     </footer>
