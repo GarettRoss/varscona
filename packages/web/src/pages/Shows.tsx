@@ -68,6 +68,9 @@ function deriveCompanies(shows: Show[]): string[] {
   return list.sort()
 }
 
+const SLUG_COLOR_INDEX: Record<string, number> = {}
+STATIC_SHOWS.forEach((s, i) => { SLUG_COLOR_INDEX[s.slug] = i })
+
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
@@ -75,7 +78,11 @@ export default function Shows() {
 
   useEffect(() => {
     api.shows.list()
-      .then(setShows)
+      .then(data => {
+        setShows(data.sort((a, b) =>
+          (SLUG_COLOR_INDEX[a.slug] ?? 999) - (SLUG_COLOR_INDEX[b.slug] ?? 999)
+        ))
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -144,12 +151,13 @@ export default function Shows() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filtered.map((show, i) => {
+              {filtered.map((show) => {
                 const img = mediaUrl(show.image, 'medium') || STATIC_IMAGES[show.slug] || ''
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
-                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][i % 4]
+                const colorIndex = SLUG_COLOR_INDEX[show.slug] ?? shows.findIndex(s => s.id === show.id)
+                const slotBg = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE'][colorIndex % 4]
                 return (
                   <div
                     key={show.id}
