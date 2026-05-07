@@ -75,13 +75,18 @@ function deriveShows(shows: Show[]) {
     return new Date(s.startDate) <= today && new Date(s.endDate) >= today
   })
 
+  const nextUpcoming = sorted.filter(s => s.startDate && new Date(s.startDate) > today).slice(0, 1)
   const onstage = (current.length > 0
-    ? current
-    : sorted.filter(s => s.startDate && new Date(s.startDate) > today).slice(0, 1)
+    ? [...current, ...nextUpcoming.filter(s => !current.find(c => c.id === s.id))]
+    : nextUpcoming
   ).sort((a, b) => {
+    // Die-Nasty (permanent run) always sorts to the right slot
+    const aPerma = a.slug === 'die-nasty' ? 1 : 0
+    const bPerma = b.slug === 'die-nasty' ? 1 : 0
+    if (aPerma !== bPerma) return aPerma - bPerma
     const da = a.startDate ? new Date(a.startDate).getTime() : 0
     const db = b.startDate ? new Date(b.startDate).getTime() : 0
-    return db - da
+    return da - db
   })
 
   const onstageIds = new Set(onstage.map(s => s.id))

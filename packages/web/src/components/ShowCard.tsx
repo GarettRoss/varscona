@@ -5,7 +5,7 @@ import { companyColor } from '../lib/companyColor'
 type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string }
 
 export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor }: Props) {
-  const img = mediaUrl(show.image, 'medium') || staticImage || ''
+  const img = staticImage || mediaUrl(show.image, 'medium') || ''
   const color = slotColor ?? companyColor(show.company)
 
   if (variant === 'featured') {

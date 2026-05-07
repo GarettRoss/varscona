@@ -181,6 +181,22 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Subtle press animation — covers <button> elements and <a> tags styled as buttons */
+button:not([disabled]),
+a[class*="inline-flex"] {
+  transition-property: transform, color, background-color, border-color;
+  transition-duration: 0.12s;
+  transition-timing-function: ease;
+}
+button:not([disabled]):hover,
+a[class*="inline-flex"]:hover {
+  transform: scale(0.96);
+}
+button:not([disabled]):active,
+a[class*="inline-flex"]:active {
+  transform: scale(0.92);
+}
+
 /* Admin button lift */
 .admin-btn {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
