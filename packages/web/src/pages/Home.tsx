@@ -181,32 +181,25 @@ export default function Home() {
         )}
 
         {/* ── Cue the Future Banner ── */}
-        <section className="py-10 px-8 bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
-          <div className="max-w-7xl mx-auto">
-            <div className="cue-banner relative overflow-hidden rounded bg-gradient-to-r from-[#4a0a0a] to-[#2d0606] px-10 flex items-center justify-between gap-8">
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_right,_#FF5F38_0%,_transparent_60%)]" />
-              <div className="cue-banner-glow absolute inset-0 opacity-0 bg-[radial-gradient(ellipse_at_center,_#FF5F3815_0%,_transparent_70%)]" />
-              <div className="relative py-5 flex-1">
-                <div className="cue-banner-hidden">
-                  <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
-                </div>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Cue the Future</h2>
-                <div className="cue-banner-hidden">
-                  <p className="text-white/70 max-w-md mt-2">
-                    Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
-                  </p>
-                </div>
-              </div>
-              <div className="cue-banner-hidden relative shrink-0">
-                <a
-                  href="https://www.canadahelps.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
-                >
-                  Donate Now
-                </a>
-              </div>
+        <section className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#3a0a0a]">
+          <div className="absolute inset-6 bg-[#8B1A1A] rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)]" />
+          <div className="relative max-w-7xl mx-auto px-12 py-14 flex flex-col sm:flex-row items-center justify-between gap-8">
+            <div>
+              <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-[#F2EDDF]">Cue the Future</h2>
+              <p className="text-[#F2EDDF]/60 max-w-md mt-2">
+                Help us secure the next chapter for Edmonton's most beloved intimate stage. Every gift makes a difference.
+              </p>
+            </div>
+            <div className="shrink-0">
+              <a
+                href="https://www.canadahelps.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
+              >
+                Donate Now
+              </a>
             </div>
           </div>
         </section>
