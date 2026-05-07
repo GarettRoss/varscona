@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { api, type Show, mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
 import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
@@ -37,26 +37,6 @@ const STATIC_IMAGES: Record<string, string> = {
   'noises-off': imgNoisesOff,
 }
 
-// Fixed color per slug — cycles orange → green → violet → blue regardless of
-// API sort order or active filter.
-const SHOW_COLORS: Record<string, string> = {
-  'marjorie-prime':      '#FF5F38',
-  'die-nasty':           '#00C09A',
-  'house-of-hush':       '#CDAAFF',
-  'fully-committed':     '#4361EE',
-  'cocktails-at-pams':   '#FF5F38',
-  'autumn':              '#00C09A',
-  'betrayal':            '#CDAAFF',
-  'glass-menagerie':     '#4361EE',
-  'die-nasty-finale':    '#FF5F38',
-  'die-nasty-halloween': '#00C09A',
-  'midnight-reverie':    '#CDAAFF',
-  'the-still-hours':     '#4361EE',
-  'penelopiad':          '#FF5F38',
-  'copenhagen':          '#00C09A',
-  '39-steps':            '#CDAAFF',
-  'noises-off':          '#4361EE',
-}
 
 const STATIC_SHOWS: Show[] = [
   { id: '1',  title: 'Marjorie Prime',              slug: 'marjorie-prime',     company: 'Trunk Theatre',  dateRange: 'April 15 – May 10, 2026',         description: 'A poignant and witty exploration of memory, loss, and what it means to be human.',                         featured: true,  externalLink: null, image: null },
@@ -76,6 +56,8 @@ const STATIC_SHOWS: Show[] = [
   { id: '15', title: 'The 39 Steps',                slug: '39-steps',            company: 'Teatro Live!',   dateRange: 'October 13 – 31, 2026',            description: 'Four actors. 150 roles. A genre-bending spy comedy of thrills, spills, and theatrical invention.',        featured: false, externalLink: null, image: null },
   { id: '16', title: 'Noises Off',                  slug: 'noises-off',          company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',               description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null },
 ]
+
+const SLOT_COLORS = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE']
 
 function deriveCompanies(shows: Show[]): string[] {
   const seen = new Set<string>()
@@ -100,6 +82,12 @@ export default function Shows() {
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
+
+  const colorById = useMemo(() => {
+    const map: Record<string, string> = {}
+    shows.forEach((show, i) => { map[show.id] = SLOT_COLORS[i % 4] })
+    return map
+  }, [shows])
 
   const companies = deriveCompanies(shows)
   const filtered = filter === 'All' ? shows : shows.filter((s) => s.company === filter)
@@ -166,11 +154,11 @@ export default function Shows() {
           ) : (
             <div className="space-y-4">
               {filtered.map((show) => {
-                const img = mediaUrl(show.image, 'medium') || STATIC_IMAGES[show.slug] || ''
+                const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
                 const ticketUrl = show.externalLink || `/shows/${show.slug}`
                 const isExternal = !!show.externalLink
                 const color = companyColor(show.company)
-                const slotBg = SHOW_COLORS[show.slug] ?? '#FF5F38'
+                const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
                 return (
                   <div
                     key={show.id}
