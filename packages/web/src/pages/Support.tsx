@@ -30,46 +30,54 @@ function Donate() {
           </div>
         </section>
       </div>
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            {TIERS.map((tier) => (
-              <div key={tier.name} className="p-6 bg-white/5 rounded border border-white/10 hover:border-[#c9a84c]/30 transition-colors flex flex-col">
-                <p className="text-[#c9a84c] font-display text-2xl font-bold mb-1">{tier.amount}</p>
-                <p className="text-white font-semibold mb-4">{tier.name}</p>
-                <ul className="space-y-1 flex-1">
-                  {tier.perks.map((p) => (
-                    <li key={p} className="text-white/50 text-xs flex items-start gap-1.5">
-                      <span className="text-[#c9a84c] mt-0.5">✓</span>{p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        {/* Tiers */}
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+              {TIERS.map((tier) => (
+                <div key={tier.name} className="p-6 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8 hover:border-[#FF5F38]/30 transition-colors flex flex-col">
+                  <p className="text-[#FF5F38] font-display text-2xl font-bold mb-1">{tier.amount}</p>
+                  <p className="text-[#1D1D1B] font-semibold mb-4">{tier.name}</p>
+                  <ul className="space-y-1 flex-1">
+                    {tier.perks.map((p) => (
+                      <li key={p} className="text-[#1D1D1B]/50 text-xs flex items-start gap-1.5">
+                        <span className="text-[#FF5F38] mt-0.5">✓</span>{p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="text-center">
+              <a
+                href="https://www.canadahelps.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-12 py-5 rounded transition-colors text-lg"
+              >
+                Donate via CanadaHelps
+              </a>
+              <p className="text-[#1D1D1B]/40 text-sm mt-4">Official tax receipts issued by CanadaHelps</p>
+            </div>
           </div>
-          <div className="text-center">
-            <a
-              href="https://www.canadahelps.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-12 py-5 rounded transition-colors text-lg"
-            >
-              Donate via CanadaHelps
-            </a>
-            <p className="text-white/30 text-sm mt-4">Official tax receipts issued by CanadaHelps</p>
-          </div>
-          <div className="mt-12 pt-12 border-t border-white/10 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/support/membership" className="text-center p-6 bg-white/5 rounded border border-white/10 hover:border-white/20 transition-colors flex-1">
-              <p className="text-white font-semibold mb-1">Become a Member</p>
-              <p className="text-white/50 text-sm">Ongoing support with exclusive benefits</p>
+        </section>
+
+        {/* Other ways to give */}
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
+          <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link to="/support/membership" className="text-center p-6 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8 hover:border-[#FF5F38]/30 transition-colors">
+              <p className="text-[#1D1D1B] font-semibold mb-1">Become a Member</p>
+              <p className="text-[#1D1D1B]/50 text-sm">Ongoing support with exclusive benefits</p>
             </Link>
-            <Link to="/support/cue-the-future" className="text-center p-6 bg-white/5 rounded border border-white/10 hover:border-white/20 transition-colors flex-1">
-              <p className="text-white font-semibold mb-1">Cue the Future</p>
-              <p className="text-white/50 text-sm">Capital campaign for our next chapter</p>
+            <Link to="/support/cue-the-future" className="text-center p-6 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8 hover:border-[#FF5F38]/30 transition-colors">
+              <p className="text-[#1D1D1B] font-semibold mb-1">Cue the Future</p>
+              <p className="text-[#1D1D1B]/50 text-sm">Capital campaign for our next chapter</p>
             </Link>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
@@ -87,24 +95,27 @@ function Membership() {
           </div>
         </section>
       </div>
-      <section className="py-20 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-white/60 mb-8 leading-relaxed">
-            Membership details and sign-up are managed through CanadaHelps. Click below to learn about current membership tiers and join.
-          </p>
-          <a
-            href="https://www.canadahelps.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
-          >
-            Become a Member
-          </a>
-          <div className="mt-8">
-            <Link to="/support/donate" className="text-white/40 hover:text-white text-sm transition-colors">← Back to Donate</Link>
+
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-[#1D1D1B]/60 mb-8 leading-relaxed">
+              Membership details and sign-up are managed through CanadaHelps. Click below to learn about current membership tiers and join.
+            </p>
+            <a
+              href="https://www.canadahelps.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-10 py-4 rounded transition-colors"
+            >
+              Become a Member
+            </a>
+            <div className="mt-8">
+              <Link to="/support/donate" className="text-[#1D1D1B]/40 hover:text-[#FF5F38] text-sm transition-colors">← Back to Donate</Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
@@ -124,29 +135,32 @@ function CueTheFuture() {
           </div>
         </section>
       </div>
-      <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-white/60 leading-relaxed text-lg mb-8">
-            Cue the Future is our capital campaign to ensure Varscona Theatre remains a home for bold, independent, artist-driven work for generations to come.
-          </p>
-          <p className="text-white/60 leading-relaxed mb-12">
-            Every gift to this campaign directly supports the infrastructure and operations that make our work possible. From technical upgrades to accessibility improvements, your contribution shapes the future of the stage.
-          </p>
-          <div className="text-center">
-            <a
-              href="https://www.canadahelps.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#e8c96a] text-black font-bold text-sm tracking-widest uppercase px-12 py-5 rounded transition-colors text-lg"
-            >
-              Donate to Cue the Future
-            </a>
+
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-3xl mx-auto">
+            <p className="text-[#1D1D1B]/60 leading-relaxed text-lg mb-8">
+              Cue the Future is our capital campaign to ensure Varscona Theatre remains a home for bold, independent, artist-driven work for generations to come.
+            </p>
+            <p className="text-[#1D1D1B]/60 leading-relaxed mb-12">
+              Every gift to this campaign directly supports the infrastructure and operations that make our work possible. From technical upgrades to accessibility improvements, your contribution shapes the future of the stage.
+            </p>
+            <div className="text-center">
+              <a
+                href="https://www.canadahelps.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-sm tracking-widest uppercase px-12 py-5 rounded transition-colors text-lg"
+              >
+                Donate to Cue the Future
+              </a>
+            </div>
+            <div className="mt-8 text-center">
+              <Link to="/support/donate" className="text-[#1D1D1B]/40 hover:text-[#FF5F38] text-sm transition-colors">← All giving options</Link>
+            </div>
           </div>
-          <div className="mt-8 text-center">
-            <Link to="/support/donate" className="text-white/40 hover:text-white text-sm transition-colors">← All giving options</Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }

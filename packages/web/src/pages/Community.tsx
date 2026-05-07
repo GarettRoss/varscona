@@ -11,19 +11,22 @@ export default function Community() {
           </div>
         </section>
       </div>
-      <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto prose prose-invert prose-lg">
-          <p className="text-white/70 leading-relaxed">
-            Varscona Theatre is committed to providing a safe, respectful, and inclusive environment for all artists, staff, audiences, and community members. Our respectful workplace policy reflects our values as an artist-run organization.
-          </p>
-          <p className="text-white/70 leading-relaxed mt-6">
-            For questions about our policies or to report a concern, please contact our Executive Director at{' '}
-            <a href="mailto:executivedirector@varsconatheatre.com" className="text-[#c9a84c] hover:text-[#e8c96a]">
-              executivedirector@varsconatheatre.com
-            </a>.
-          </p>
-        </div>
-      </section>
+
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-3xl mx-auto">
+            <p className="text-[#1D1D1B]/70 leading-relaxed text-lg">
+              Varscona Theatre is committed to providing a safe, respectful, and inclusive environment for all artists, staff, audiences, and community members. Our respectful workplace policy reflects our values as an artist-run organization.
+            </p>
+            <p className="text-[#1D1D1B]/70 leading-relaxed mt-6 text-lg">
+              For questions about our policies or to report a concern, please contact our Executive Director at{' '}
+              <a href="mailto:executivedirector@varsconatheatre.com" className="text-[#FF5F38] hover:text-[#ff7a57]">
+                executivedirector@varsconatheatre.com
+              </a>.
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }

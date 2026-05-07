@@ -11,21 +11,24 @@ export default function Jobs() {
           </div>
         </section>
       </div>
-      <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="p-12 bg-white/5 rounded border border-white/10">
-            <p className="text-4xl mb-4">🎭</p>
-            <p className="text-white font-semibold text-lg mb-2">No current openings</p>
-            <p className="text-white/50 mb-6">Check back often, or get in touch to express your interest.</p>
-            <a
-              href="mailto:executivedirector@varsconatheatre.com"
-              className="inline-flex items-center gap-2 border border-[#c9a84c]/50 hover:border-[#c9a84c] text-[#c9a84c] text-sm px-6 py-3 rounded transition-colors"
-            >
-              Send us your CV
-            </a>
+
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="p-12 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8">
+              <p className="text-4xl mb-4">🎭</p>
+              <p className="text-[#1D1D1B] font-semibold text-lg mb-2">No current openings</p>
+              <p className="text-[#1D1D1B]/50 mb-6">Check back often, or get in touch to express your interest.</p>
+              <a
+                href="mailto:executivedirector@varsconatheatre.com"
+                className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm px-6 py-3 rounded transition-colors"
+              >
+                Send us your CV
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }

@@ -47,99 +47,103 @@ export default function WhoWeAre() {
         </section>
       </div>
 
-      {/* Resident Companies */}
-      <section className="py-20 px-6 bg-[#0d0d0d]">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-2">Our Companies</p>
-          <h2 className="font-display text-4xl font-bold text-white mb-12">Resident Theatre Companies</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Shadow Theatre',
-                tagline: 'Thrilling productions opening hearts and minds',
-                href: 'https://www.shadowtheatre.org',
-                email: 'info@shadowtheatre.org',
-                phone: '(780) 434-5564',
-              },
-              {
-                name: 'Teatro Live!',
-                tagline: 'A riot of fun',
-                href: 'https://www.teatrolive.com',
-                email: 'teatro@teatrolive.com',
-                phone: '(780) 554-2974',
-              },
-              {
-                name: 'Die-Nasty',
-                tagline: 'An Edmonton institution — Monday nights at 7:30',
-                href: 'https://www.die-nasty.com',
-                email: 'dienasty.soaps@gmail.com',
-                phone: null,
-              },
-            ].map((c) => (
-              <div key={c.name} className="p-8 bg-white/5 rounded border border-white/10 hover:border-[#c9a84c]/30 transition-colors">
-                <h3 className="font-display text-2xl font-semibold text-white mb-2">{c.name}</h3>
-                <p className="text-white/60 mb-6">{c.tagline}</p>
-                <div className="space-y-2 text-sm text-white/40">
-                  <p>{c.email}</p>
-                  {c.phone && <p>{c.phone}</p>}
-                </div>
-                <a
-                  href={c.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-6 text-sm text-[#c9a84c] hover:text-[#e8c96a] transition-colors"
-                >
-                  Visit website →
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
 
-      {/* Team */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-2">The Team</p>
-          <h2 className="font-display text-4xl font-bold text-white mb-12">Staff</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member) => (
-              <div key={member.id} className="p-6 bg-white/5 rounded border border-white/10">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-4 overflow-hidden flex items-center justify-center text-white/30 text-2xl">
-                  {member.photo ? (
-                    <img src={member.photo.asset._ref} alt={member.name} className="w-full h-full object-cover" />
-                  ) : (
-                    '👤'
+        {/* Resident Companies */}
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-2">Our Companies</p>
+            <h2 className="font-display text-4xl font-bold text-[#1D1D1B] mb-12">Resident Theatre Companies</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  name: 'Shadow Theatre',
+                  tagline: 'Thrilling productions opening hearts and minds',
+                  href: 'https://www.shadowtheatre.org',
+                  email: 'info@shadowtheatre.org',
+                  phone: '(780) 434-5564',
+                },
+                {
+                  name: 'Teatro Live!',
+                  tagline: 'A riot of fun',
+                  href: 'https://www.teatrolive.com',
+                  email: 'teatro@teatrolive.com',
+                  phone: '(780) 554-2974',
+                },
+                {
+                  name: 'Die-Nasty',
+                  tagline: 'An Edmonton institution — Monday nights at 7:30',
+                  href: 'https://www.die-nasty.com',
+                  email: 'dienasty.soaps@gmail.com',
+                  phone: null,
+                },
+              ].map((c) => (
+                <div key={c.name} className="p-8 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8 hover:border-[#FF5F38]/30 transition-colors">
+                  <h3 className="font-display text-2xl font-semibold text-[#1D1D1B] mb-2">{c.name}</h3>
+                  <p className="text-[#1D1D1B]/60 mb-6">{c.tagline}</p>
+                  <div className="space-y-2 text-sm text-[#1D1D1B]/40">
+                    <p>{c.email}</p>
+                    {c.phone && <p>{c.phone}</p>}
+                  </div>
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 mt-6 text-sm text-[#FF5F38] hover:text-[#ff7a57] transition-colors"
+                  >
+                    Visit website →
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-2">The Team</p>
+            <h2 className="font-display text-4xl font-bold text-[#1D1D1B] mb-12">Staff</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {team.map((member) => (
+                <div key={member.id} className="p-6 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8">
+                  <div className="w-16 h-16 rounded-full bg-[#1D1D1B]/10 mb-4 overflow-hidden flex items-center justify-center text-[#1D1D1B]/30 text-2xl">
+                    {member.photo ? (
+                      <img src={member.photo.asset._ref} alt={member.name} className="w-full h-full object-cover" />
+                    ) : (
+                      '👤'
+                    )}
+                  </div>
+                  <h3 className="text-[#1D1D1B] font-medium">{member.name}</h3>
+                  <p className="text-[#1D1D1B]/50 text-sm mt-0.5 mb-3">{member.role}</p>
+                  {member.email && (
+                    <a href={`mailto:${member.email}`} className="text-[#FF5F38] text-xs hover:text-[#ff7a57] break-all">
+                      {member.email}
+                    </a>
                   )}
                 </div>
-                <h3 className="text-white font-medium">{member.name}</h3>
-                <p className="text-white/50 text-sm mt-0.5 mb-3">{member.role}</p>
-                {member.email && (
-                  <a href={`mailto:${member.email}`} className="text-[#c9a84c] text-xs hover:text-[#e8c96a] break-all">
-                    {member.email}
-                  </a>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Board */}
-      <section className="py-20 px-6 bg-[#0d0d0d]">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-[#c9a84c] text-xs tracking-widest uppercase mb-2">Governance</p>
-          <h2 className="font-display text-4xl font-bold text-white mb-12">Board of Directors</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {STATIC_BOARD.map((member) => (
-              <div key={member.name} className="p-4 bg-white/5 rounded">
-                <p className="text-white font-medium text-sm">{member.name}</p>
-                <p className="text-white/40 text-xs mt-0.5">{member.role}</p>
-              </div>
-            ))}
+        {/* Board */}
+        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-2">Governance</p>
+            <h2 className="font-display text-4xl font-bold text-[#1D1D1B] mb-12">Board of Directors</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {STATIC_BOARD.map((member) => (
+                <div key={member.name} className="p-4 bg-[#1D1D1B]/5 rounded border border-[#1D1D1B]/8">
+                  <p className="text-[#1D1D1B] font-medium text-sm">{member.name}</p>
+                  <p className="text-[#1D1D1B]/40 text-xs mt-0.5">{member.role}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div>
     </div>
   )
 }
