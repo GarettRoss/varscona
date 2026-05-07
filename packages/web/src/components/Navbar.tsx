@@ -68,7 +68,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="shrink-0 flex items-center gap-2 group"
+          className="shrink-0 flex items-center gap-2"
           onMouseEnter={() => setLogoHover(true)}
           onMouseLeave={() => setLogoHover(false)}
         >
@@ -77,14 +77,12 @@ export default function Navbar() {
             alt="Varscona Theatre"
             className="h-8 w-auto"
             style={{
-              filter: logoHover
-                ? 'url(#logo-orange) drop-shadow(0 0 10px rgba(255,95,56,0.7))'
-                : 'url(#logo-orange)',
-              transform: logoHover ? 'scale(1.08)' : 'scale(1)',
-              transition: 'transform 0.25s ease, filter 0.25s ease',
+              filter: 'url(#logo-orange)',
+              transform: logoHover ? 'scale(0.88)' : 'scale(1)',
+              transition: 'transform 0.15s ease',
             }}
           />
-          <span className="text-xs tracking-[0.3em] uppercase font-medium transition-colors duration-300 text-[#1D1D1B]/70 group-hover:text-[#FF5F38]">
+          <span className="text-xs tracking-[0.3em] uppercase font-medium text-[#1D1D1B]/70">
             Theatre
           </span>
         </Link>
