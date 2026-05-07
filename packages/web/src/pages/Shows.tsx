@@ -57,7 +57,7 @@ const STATIC_SHOWS: Show[] = [
   { id: '16', title: 'Noises Off',                  slug: 'noises-off',          company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',               description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null },
 ]
 
-const SLOT_COLORS = ['#FF5F38', '#00C09A', '#CDAAFF', '#4361EE']
+const SLOT_COLORS = ['#FF5F38', '#00C09A', '#7B3FE4', '#BF1650']
 
 function deriveCompanies(shows: Show[]): string[] {
   const seen = new Set<string>()

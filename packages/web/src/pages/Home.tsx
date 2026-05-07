@@ -222,7 +222,7 @@ export default function Home() {
               <p className="text-[#1D1D1B]/50 mb-10">Next up this season</p>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {upcoming.map((show, i) => (
-                  <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['#FF5F38','#00C09A','#CDAAFF','#4361EE'][i]} />
+                  <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['#FF5F38','#00C09A','#7B3FE4','#BF1650'][i]} />
                 ))}
               </div>
             </div>
