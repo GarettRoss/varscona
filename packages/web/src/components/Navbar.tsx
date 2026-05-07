@@ -51,7 +51,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="shrink-0 flex items-center gap-2">
           <img src={logo} alt="Varscona Theatre" className="h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-xs tracking-[0.3em] uppercase text-[#1D1D1B]/70 font-medium">Theatre</span>
+          <span className="text-xs tracking-[0.3em] uppercase text-[#FF5F38] font-medium">Theatre</span>
         </Link>
 
         {/* Click-outside overlay — closes any open dropdown */}
