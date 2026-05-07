@@ -28,6 +28,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [logoHover, setLogoHover] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -47,11 +48,45 @@ export default function Navbar() {
         scrolled ? 'bg-[#F2EDDF]/98 backdrop-blur-sm shadow-md' : 'bg-[#F2EDDF]'
       }`}
     >
+      {/* SVG filter: inverts luminance to alpha, then floods orange — turns dark logo pixels orange, white pixels transparent */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="logo-orange" colorInterpolationFilters="sRGB">
+            <feComponentTransfer result="inverted">
+              <feFuncR type="linear" slope="-1" intercept="1"/>
+              <feFuncG type="linear" slope="-1" intercept="1"/>
+              <feFuncB type="linear" slope="-1" intercept="1"/>
+            </feComponentTransfer>
+            <feColorMatrix in="inverted" type="luminanceToAlpha" result="mask"/>
+            <feFlood floodColor="#FF5F38" floodOpacity="1" result="orange"/>
+            <feComposite in="orange" in2="mask" operator="in"/>
+          </filter>
+        </defs>
+      </svg>
+
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="shrink-0 flex items-center gap-2">
-          <img src={logo} alt="Varscona Theatre" className="h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-xs tracking-[0.3em] uppercase text-[#FF5F38] font-medium">Theatre</span>
+        <Link
+          to="/"
+          className="shrink-0 flex items-center gap-2 group"
+          onMouseEnter={() => setLogoHover(true)}
+          onMouseLeave={() => setLogoHover(false)}
+        >
+          <img
+            src={logo}
+            alt="Varscona Theatre"
+            className="h-8 w-auto"
+            style={{
+              filter: logoHover
+                ? 'url(#logo-orange) drop-shadow(0 0 10px rgba(255,95,56,0.7))'
+                : 'url(#logo-orange)',
+              transform: logoHover ? 'scale(1.08)' : 'scale(1)',
+              transition: 'transform 0.25s ease, filter 0.25s ease',
+            }}
+          />
+          <span className="text-xs tracking-[0.3em] uppercase font-medium transition-colors duration-300 text-[#1D1D1B]/70 group-hover:text-[#FF5F38]">
+            Theatre
+          </span>
         </Link>
 
         {/* Click-outside overlay — closes any open dropdown */}
