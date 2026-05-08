@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function ShowModal({ show, staticImage, onClose }: Props) {
-  const img = mediaUrl(show.image, 'medium') || staticImage || ''
+  const img = staticImage || mediaUrl(show.image, 'medium') || ''
   const ticketUrl = show.externalLink || `/shows/${show.slug}`
   const isExternal = !!show.externalLink
   const color = companyColor(show.company)
@@ -30,11 +30,11 @@ export default function ShowModal({ show, staticImage, onClose }: Props) {
       onClick={onClose}
     >
       {/* Dim overlay */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-[fadeIn_0.25s_ease]" />
 
       {/* Card */}
       <div
-        className="modal-scroll relative z-10 bg-[#1D1D1B] border border-[#F2EDDF]/10 rounded-lg overflow-hidden w-full max-w-md shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto"
+        className="modal-scroll relative z-10 bg-[#1D1D1B] border border-[#F2EDDF]/10 rounded-lg overflow-hidden w-full max-w-md shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto animate-[modalIn_0.55s_cubic-bezier(0.16,1,0.3,1)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
