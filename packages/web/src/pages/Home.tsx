@@ -130,11 +130,9 @@ export default function Home() {
       <div className="bg-[#E5E1D8] px-4 md:px-8 pt-20 pb-8 flex flex-col gap-6">
 
         {/* ── Hero ── */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#3a0a0a]">
-          {/* Lifted inner panel */}
-          <div className="absolute inset-6 md:inset-12 bg-[#8B1A1A] rounded-2xl z-0 shadow-[0_0_40px_rgba(0,0,0,0.6)]" />
-          {/* Soft vignette over the panel */}
-          <div className="absolute inset-6 md:inset-12 rounded-2xl bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
+        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
+          {/* Soft vignette */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0e030360_100%)] z-0" />
 
           <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
             <p className="text-[#FF5F38] text-xs font-medium tracking-[0.4em] uppercase mb-6">
@@ -186,8 +184,7 @@ export default function Home() {
         )}
 
         {/* ── Cue the Future Banner ── */}
-        <section className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#3a0a0a]">
-          <div className="absolute inset-6 bg-[#8B1A1A] rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)]" />
+        <section className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
           <div className="relative max-w-7xl mx-auto px-12 py-14 flex flex-col sm:flex-row items-center justify-between gap-8">
             <div>
               <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-3">Capital Campaign</p>
