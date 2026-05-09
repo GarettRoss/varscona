@@ -165,6 +165,16 @@ export default function Navbar() {
       {menuOpen && (
         <div className="lg:hidden bg-[#F2EDDF] border-t border-[#1D1D1B]/10">
           <ul className="max-w-7xl mx-auto px-6 py-4 space-y-1">
+            <li>
+              <NavLink
+                to="/shadow-artists"
+                className={({ isActive }) =>
+                  `block px-2 py-2 text-sm font-medium uppercase tracking-wide ${isActive ? 'text-[#FF5F38]' : 'text-[#1D1D1B]/80'}`
+                }
+              >
+                Shadow Artists
+              </NavLink>
+            </li>
             {NAV_LINKS.map((item) =>
               item.children ? (
                 <li key={item.label}>

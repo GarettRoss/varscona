@@ -127,7 +127,7 @@ export default function Home() {
         />
       )}
       {/* ── All sections wrapper ── */}
-      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-20 pb-8 flex flex-col gap-6">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 pt-20 pb-8 flex flex-col gap-6">
 
         {/* ── Hero ── */}
         <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">

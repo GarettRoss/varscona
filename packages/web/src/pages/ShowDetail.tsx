@@ -21,13 +21,13 @@ export default function ShowDetail() {
   }, [slug])
 
   if (loading) return (
-    <div className="pt-16 min-h-screen bg-[#E5E1D8] flex items-center justify-center">
+    <div className="pt-16 min-h-screen bg-[#1D1D1B] flex items-center justify-center">
       <div className="text-[#1D1D1B]/40 animate-pulse">Loading…</div>
     </div>
   )
 
   if (notFound || !show) return (
-    <div className="pt-16 min-h-screen bg-[#E5E1D8] flex flex-col items-center justify-center gap-6 px-6">
+    <div className="pt-16 min-h-screen bg-[#1D1D1B] flex flex-col items-center justify-center gap-6 px-6">
       <p className="text-6xl">🎭</p>
       <h1 className="font-display text-3xl text-[#1D1D1B]">Show not found</h1>
       <Link to="/shows" className="text-[#FF5F38] hover:text-[#ff7a57]">← Back to shows</Link>
@@ -39,7 +39,7 @@ export default function ShowDetail() {
 
   return (
     <div className="pt-16">
-      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-4 pb-8 flex flex-col gap-6">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 pt-4 pb-8 flex flex-col gap-6">
 
         {/* Hero banner */}
         <section className="py-20 flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">

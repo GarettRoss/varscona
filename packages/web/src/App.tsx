@@ -11,6 +11,7 @@ import Community from './pages/Community'
 import Jobs from './pages/Jobs'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import ShadowArtists from './pages/ShadowArtists'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/rent" element={<Rent />} />
           <Route path="/support" element={<Navigate to="/support/donate" replace />} />
           <Route path="/support/:page" element={<Support />} />
+          <Route path="/shadow-artists" element={<ShadowArtists />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

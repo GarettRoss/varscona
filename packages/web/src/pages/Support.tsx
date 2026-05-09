@@ -18,7 +18,7 @@ export default function Support() {
 function Donate() {
   return (
     <div className="pt-16">
-      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-4 pb-0">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 pt-4 pb-0">
         <section className="py-28 flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
           <div className="text-center px-6 max-w-4xl mx-auto">
             <p className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase mb-4">Support the Arts</p>
@@ -30,7 +30,7 @@ function Donate() {
         </section>
       </div>
 
-      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 py-8 flex flex-col gap-6">
         {/* Tiers */}
         <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
           <div className="max-w-4xl mx-auto">
@@ -84,7 +84,7 @@ function Donate() {
 function Membership() {
   return (
     <div className="pt-16">
-      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-4 pb-0">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 pt-4 pb-0">
         <section className="py-28 flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
           <div className="text-center px-6 max-w-4xl mx-auto">
             <p className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase mb-4">Join Us</p>
@@ -94,7 +94,7 @@ function Membership() {
         </section>
       </div>
 
-      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 py-8 flex flex-col gap-6">
         <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-[#1D1D1B]/60 mb-8 leading-relaxed">
@@ -121,7 +121,7 @@ function Membership() {
 function CueTheFuture() {
   return (
     <div className="pt-16">
-      <div className="bg-[#E5E1D8] px-4 md:px-8 pt-4 pb-0">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 pt-4 pb-0">
         <section className="py-28 flex items-center justify-center overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
           <div className="text-center px-6 max-w-4xl mx-auto">
             <p className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase mb-4">Capital Campaign</p>
@@ -133,7 +133,7 @@ function CueTheFuture() {
         </section>
       </div>
 
-      <div className="bg-[#E5E1D8] px-4 md:px-8 py-8 flex flex-col gap-6">
+      <div className="bg-[#1D1D1B] px-4 md:px-8 py-8 flex flex-col gap-6">
         <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-12">
           <div className="max-w-3xl mx-auto">
             <p className="text-[#1D1D1B]/60 leading-relaxed text-lg mb-8">

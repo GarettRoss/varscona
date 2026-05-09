@@ -262,7 +262,7 @@ export default function AdminDashboard() {
   const filtered = filter === 'All' ? shows : shows.filter(s => s.company === filter)
 
   return (
-    <div className="min-h-screen bg-[#E5E1D8] text-[#1D1D1B]">
+    <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
       {/* Header */}
       <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-6 py-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-4">
@@ -288,8 +288,8 @@ export default function AdminDashboard() {
         {/* Title row */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="font-display text-3xl font-bold text-[#1D1D1B]">Shows</h1>
-            <p className="text-[#1D1D1B]/40 text-sm mt-1">{shows.length} shows in Sanity</p>
+            <h1 className="font-display text-3xl font-bold text-[#F2EDDF]">Shows</h1>
+            <p className="text-[#F2EDDF]/40 text-sm mt-1">{shows.length} shows in Sanity</p>
           </div>
           <button
             onClick={startNew}
@@ -306,7 +306,7 @@ export default function AdminDashboard() {
               key={c}
               onClick={() => setFilter(c)}
               className={`px-3 py-1 rounded text-xs font-medium tracking-wide transition-colors ${
-                filter === c ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/50 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
+                filter === c ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#F2EDDF]/50 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
               }`}
             >
               {c}
@@ -331,7 +331,7 @@ export default function AdminDashboard() {
         ) : loadError ? (
           <div className="rounded-lg border border-red-300 bg-red-50 p-6 text-center">
             <p className="text-red-600 font-medium mb-1">Could not load shows from Sanity</p>
-            <p className="text-[#1D1D1B]/40 text-xs font-mono mb-4 break-all">{loadError}</p>
+            <p className="text-[#F2EDDF]/40 text-xs font-mono mb-4 break-all">{loadError}</p>
             <button
               onClick={load}
               className="px-4 py-2 rounded bg-[#1D1D1B]/10 hover:bg-[#1D1D1B]/15 text-[#1D1D1B] text-sm transition-colors"
@@ -353,7 +353,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[#FF5F38] text-xs tracking-widest uppercase mb-0.5">{show.company}</p>
-                    <p className="text-[#1D1D1B] font-medium truncate">{show.title}</p>
+                    <p className="text-[#1D1D1B] font-medium truncate text-[#1D1D1B]">{show.title}</p>
                     <p className="text-[#1D1D1B]/40 text-xs">{show.dateRange}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
