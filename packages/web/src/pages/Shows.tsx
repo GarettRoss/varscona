@@ -179,8 +179,8 @@ export default function Shows() {
                     {/* Info + button */}
                     <div className="flex-1 min-w-0 flex flex-col gap-3">
                       <div>
-                        <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
-                        <h3 className="font-display text-xl md:text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
+                        <p className="text-xs font-bold tracking-wide uppercase mb-1" style={{ color }}>{show.company}</p>
+                        <h3 className="font-display text-lg md:text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
                         <p className="text-[#1D1D1B]/50 text-sm">{show.dateRange}</p>
                       </div>
                       {show.description && (
