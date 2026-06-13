@@ -62,7 +62,7 @@ const SLOT_COLORS = ['#FF5F38', '#00C09A', '#7B3FE4', '#BF1650']
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 function shortDateRange(show: { dateRange: string; startDate?: string; endDate?: string }): string {
-  if (!show.startDate || !show.endDate) return show.dateRange
+  if (!show.startDate || !show.endDate) return show.dateRange.replace('Monday', 'Mon')
   const s = new Date(show.startDate)
   const e = new Date(show.endDate)
   if (e.getFullYear() === 9999 || e.getFullYear() > 2090) return show.dateRange // permanent run
