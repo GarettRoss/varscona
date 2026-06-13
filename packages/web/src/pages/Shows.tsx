@@ -165,7 +165,7 @@ export default function Shows() {
                 return (
                   <div
                     key={show.id}
-                    className="flex items-center gap-6 p-5 rounded-lg bg-[#1D1D1B]/4 hover:bg-[#1D1D1B]/7 border border-[#1D1D1B]/8 hover:border-[#1D1D1B]/15 transition-colors"
+                    className="flex items-start gap-4 p-5 rounded-lg bg-[#1D1D1B]/4 hover:bg-[#1D1D1B]/7 border border-[#1D1D1B]/8 hover:border-[#1D1D1B]/15 transition-colors"
                   >
                     {/* Image */}
                     <div className="w-24 md:w-32 aspect-[3/4] rounded overflow-hidden shrink-0" style={{ background: slotBg }}>
@@ -176,22 +176,20 @@ export default function Shows() {
                       )}
                     </div>
 
-                    {/* Info */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
-                      <h3 className="font-display text-xl md:text-2xl font-semibold text-[#1D1D1B] mb-1 truncate">{show.title}</h3>
-                      <p className="text-[#1D1D1B]/50 text-sm mb-3">{show.dateRange}</p>
+                    {/* Info + button */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-3">
+                      <div>
+                        <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
+                        <h3 className="font-display text-xl md:text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
+                        <p className="text-[#1D1D1B]/50 text-sm">{show.dateRange}</p>
+                      </div>
                       {show.description && (
-                        <p className="text-[#1D1D1B]/45 text-sm leading-relaxed line-clamp-2">{show.description}</p>
+                        <p className="text-[#1D1D1B]/45 text-sm leading-relaxed line-clamp-2 hidden sm:block">{show.description}</p>
                       )}
-                    </div>
-
-                    {/* Buy Tickets */}
-                    <div className="shrink-0">
                       <a
                         href={ticketUrl}
                         {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                        className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-5 py-3 rounded transition-colors whitespace-nowrap"
+                        className="self-start inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-5 py-3 rounded transition-colors whitespace-nowrap"
                       >
                         Buy Tickets
                       </a>
