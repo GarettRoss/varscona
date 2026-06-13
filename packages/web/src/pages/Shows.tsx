@@ -115,32 +115,26 @@ export default function Shows() {
 
         {/* Filter tabs */}
         <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-6">
-          <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
             <button
               onClick={() => setFilter('All')}
-              className={`self-start px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors ${
-                filter === 'All'
-                  ? 'bg-[#FF5F38] text-white'
-                  : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
+              className={`col-span-2 sm:col-span-1 px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors text-center ${
+                filter === 'All' ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
               }`}
             >
               All
             </button>
-            <div className="flex gap-2 flex-wrap">
-              {companies.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setFilter(c)}
-                  className={`px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors ${
-                    filter === c
-                      ? 'bg-[#FF5F38] text-white'
-                      : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
+            {companies.map((c) => (
+              <button
+                key={c}
+                onClick={() => setFilter(c)}
+                className={`px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors text-center ${
+                  filter === c ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
+                }`}
+              >
+                {c}
+              </button>
+            ))}
           </div>
         </section>
 
