@@ -59,6 +59,19 @@ const STATIC_SHOWS: Show[] = [
 
 const SLOT_COLORS = ['#FF5F38', '#00C09A', '#7B3FE4', '#BF1650']
 
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+function shortDateRange(show: { dateRange: string; startDate?: string; endDate?: string }): string {
+  if (!show.startDate || !show.endDate) return show.dateRange
+  const s = new Date(show.startDate)
+  const e = new Date(show.endDate)
+  if (e.getFullYear() === 9999 || e.getFullYear() > 2090) return show.dateRange // permanent run
+  const sm = MONTHS[s.getUTCMonth()], sd = s.getUTCDate()
+  const em = MONTHS[e.getUTCMonth()], ed = e.getUTCDate(), ey = e.getUTCFullYear()
+  if (sd === ed && sm === em) return `${sm} ${sd}, ${ey}` // one night only
+  return `${sm} ${sd} – ${em} ${ed}, ${ey}`
+}
+
 function deriveCompanies(shows: Show[]): string[] {
   const seen = new Set<string>()
   const list: string[] = []
@@ -187,7 +200,7 @@ export default function Shows() {
                       <div>
                         <p className="text-xs font-bold tracking-wide uppercase mb-1" style={{ color }}>{show.company}</p>
                         <h3 className="font-display text-lg md:text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
-                        <p className="text-[#1D1D1B]/50 text-sm">{show.dateRange}</p>
+                        <p className="text-[#1D1D1B]/50 text-sm">{shortDateRange(show)}</p>
                       </div>
                       {show.description && (
                         <p className="text-[#1D1D1B]/45 text-sm leading-relaxed line-clamp-2 hidden sm:block">{show.description}</p>
