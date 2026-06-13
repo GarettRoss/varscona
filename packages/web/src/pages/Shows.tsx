@@ -65,7 +65,7 @@ function shortDateRange(show: { dateRange: string; startDate?: string; endDate?:
   if (!show.startDate || !show.endDate) return show.dateRange.replace('Monday', 'Mon')
   const s = new Date(show.startDate)
   const e = new Date(show.endDate)
-  if (e.getFullYear() === 9999 || e.getFullYear() > 2090) return show.dateRange // permanent run
+  if (e.getFullYear() === 9999 || e.getFullYear() > 2090) return show.dateRange.replace('Monday', 'Mon') // permanent run
   const sm = MONTHS[s.getUTCMonth()], sd = s.getUTCDate()
   const em = MONTHS[e.getUTCMonth()], ed = e.getUTCDate(), ey = e.getUTCFullYear()
   if (sd === ed && sm === em) return `${sm} ${sd}, ${ey}` // one night only
