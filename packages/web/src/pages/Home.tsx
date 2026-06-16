@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, type Show } from '../lib/api'
+import { shortDateRange } from '../lib/shortDateRange'
 import ShowCard from '../components/ShowCard'
 import ShowModal from '../components/ShowModal'
 import SplashScreen from '../components/SplashScreen'
@@ -176,7 +177,7 @@ export default function Home() {
               </div>
               <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#8B1A1A" />
+                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#8B1A1A" dateLabel={shortDateRange(show)} />
                 ))}
               </div>
             </div>

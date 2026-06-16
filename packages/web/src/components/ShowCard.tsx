@@ -2,9 +2,9 @@ import type { Show } from '../lib/api'
 import { mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
 
-type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string }
+type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string; dateLabel?: string }
 
-export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor }: Props) {
+export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor, dateLabel }: Props) {
   const img = staticImage || mediaUrl(show.image, 'medium') || ''
   const color = slotColor ?? companyColor(show.company)
 
@@ -19,21 +19,14 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
               <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
             )}
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
           {/* Desktop overlay */}
-          <div className="hidden md:block absolute bottom-0 left-0 right-0 p-6">
-            <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors">
+          <div className="flex absolute bottom-0 left-0 right-0 px-8 pb-4 pt-48 items-center justify-between gap-4">
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors whitespace-nowrap">
               Learn more
             </span>
-            <p className="text-[#F2EDDF]/60 text-sm mt-3">{show.dateRange}</p>
+            <p className="text-[#F2EDDF]/60 text-sm whitespace-nowrap">{dateLabel ?? show.dateRange}</p>
           </div>
-        </div>
-        {/* Mobile below-card controls */}
-        <div className="md:hidden px-1 py-3 flex items-center justify-between gap-4">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-white bg-[#5C0F0F] hover:bg-[#6e1212] px-4 py-2 rounded transition-colors whitespace-nowrap">
-            Learn more
-          </span>
-          <p className="text-[#1D1D1B]/60 text-sm">{show.dateRange}</p>
         </div>
       </div>
     )
