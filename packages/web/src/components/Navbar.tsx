@@ -151,13 +151,40 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="lg:hidden p-2 text-[#1D1D1B]"
+          className="lg:hidden p-2"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
-          <span className="block w-6 h-0.5 bg-[#1D1D1B] mb-1.5 transition-all" />
-          <span className="block w-6 h-0.5 bg-[#1D1D1B] mb-1.5 transition-all" />
-          <span className="block w-4 h-0.5 bg-[#1D1D1B] transition-all" />
+          <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+            <line
+              x1="0" y1="1" x2="24" y2="1"
+              stroke="#1D1D1B" strokeWidth="2" strokeLinecap="round"
+              style={{
+                transformOrigin: '12px 9px',
+                transform: menuOpen ? 'translateY(8px) rotate(45deg)' : 'none',
+                transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+            <line
+              x1="0" y1="9" x2="24" y2="9"
+              stroke="#1D1D1B" strokeWidth="2" strokeLinecap="round"
+              style={{
+                opacity: menuOpen ? 0 : 1,
+                transform: menuOpen ? 'scaleX(0)' : 'scaleX(1)',
+                transformOrigin: '12px 9px',
+                transition: 'opacity 0.2s ease, transform 0.2s ease',
+              }}
+            />
+            <line
+              x1="0" y1="17" x2="24" y2="17"
+              stroke="#1D1D1B" strokeWidth="2" strokeLinecap="round"
+              style={{
+                transformOrigin: '12px 9px',
+                transform: menuOpen ? 'translateY(-8px) rotate(-45deg)' : 'none',
+                transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+          </svg>
         </button>
       </nav>
 
