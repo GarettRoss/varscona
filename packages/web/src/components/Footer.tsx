@@ -36,7 +36,7 @@ export default function Footer() {
           {/* Navigation */}
           <div className="text-center md:text-left">
             <p className="text-[#F2EDDF]/40 text-xs uppercase tracking-widest mb-4">Navigate</p>
-            <ul className="space-y-2">
+            <ul className="flex flex-wrap justify-center md:justify-start md:flex-col gap-x-4 gap-y-2">
               {[
                 { label: 'Theatre Companies', to: '/who-we-are' },
                 { label: 'Full List of Shows', to: '/shows' },
@@ -45,7 +45,7 @@ export default function Footer() {
                 { label: 'Support Us', to: '/support/donate' },
               ].map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="text-[#F2EDDF]/50 hover:text-[#F2EDDF] text-sm transition-colors">
+                  <Link to={l.to} className="text-[#F2EDDF]/50 hover:text-[#F2EDDF] text-sm transition-colors whitespace-nowrap">
                     {l.label}
                   </Link>
                 </li>
@@ -56,7 +56,7 @@ export default function Footer() {
           {/* Resident Companies */}
           <div className="text-center md:text-left">
             <p className="text-[#F2EDDF]/40 text-xs uppercase tracking-widest mb-4">Resident Companies</p>
-            <ul className="space-y-2">
+            <ul className="flex flex-wrap justify-center md:justify-start md:flex-col gap-x-4 gap-y-2">
               {[
                 { label: 'Shadow Theatre', href: 'https://www.shadowtheatre.org' },
                 { label: 'Teatro Live!', href: 'https://www.teatrolive.com' },
