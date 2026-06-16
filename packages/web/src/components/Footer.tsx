@@ -5,9 +5,9 @@ export default function Footer() {
     <footer className="bg-[#1D1D1B] px-4 md:px-8 pb-8 mt-auto">
       <div className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
         <div className="relative max-w-7xl mx-auto px-12 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1 text-center md:text-left">
+          <div className="text-center md:text-left">
             <p className="font-display text-lg text-[#F2EDDF] tracking-wide mb-1">VARSCONA THEATRE</p>
             <p className="text-[#F2EDDF]/50 text-sm">10329 – 83 Avenue, Edmonton, Alberta</p>
             <p className="text-[#F2EDDF]/50 text-sm mt-1">(780) 433-3399</p>
@@ -34,7 +34,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation */}
-          <div>
+          <div className="text-center md:text-left">
             <p className="text-[#F2EDDF]/40 text-xs uppercase tracking-widest mb-4">Navigate</p>
             <ul className="space-y-2">
               {[
@@ -54,7 +54,7 @@ export default function Footer() {
           </div>
 
           {/* Resident Companies */}
-          <div>
+          <div className="text-center md:text-left">
             <p className="text-[#F2EDDF]/40 text-xs uppercase tracking-widest mb-4">Resident Companies</p>
             <ul className="space-y-2">
               {[
@@ -64,7 +64,7 @@ export default function Footer() {
               ].map((c) => (
                 <li key={c.href}>
                   <a href={c.href} target="_blank" rel="noopener noreferrer"
-                    className="text-[#F2EDDF]/50 hover:text-[#F2EDDF] text-sm transition-colors flex items-center gap-1 whitespace-nowrap">
+                    className="text-[#F2EDDF]/50 hover:text-[#F2EDDF] text-sm transition-colors inline-flex items-center gap-1 whitespace-nowrap">
                     {c.label}
                     <svg className="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
