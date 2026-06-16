@@ -7,11 +7,11 @@ export default function Footer() {
         <div className="relative max-w-7xl mx-auto px-12 py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2 md:col-span-1 text-center md:text-left">
             <p className="font-display text-lg text-[#F2EDDF] tracking-wide mb-1">VARSCONA THEATRE</p>
             <p className="text-[#F2EDDF]/50 text-sm">10329 – 83 Avenue, Edmonton, Alberta</p>
             <p className="text-[#F2EDDF]/50 text-sm mt-1">(780) 433-3399</p>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
                 className="text-[#F2EDDF]/40 hover:text-[#FF5F38] transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
