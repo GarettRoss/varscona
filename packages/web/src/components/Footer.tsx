@@ -5,9 +5,9 @@ export default function Footer() {
     <footer className="bg-[#1D1D1B] px-4 md:px-8 pb-8 mt-auto">
       <div className="relative overflow-hidden rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.18)] bg-[#8B1A1A]">
         <div className="relative max-w-7xl mx-auto px-12 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <p className="font-display text-lg text-[#F2EDDF] tracking-wide mb-1">VARSCONA THEATRE</p>
             <p className="text-[#F2EDDF]/50 text-sm">10329 – 83 Avenue, Edmonton, Alberta</p>
             <p className="text-[#F2EDDF]/50 text-sm mt-1">(780) 433-3399</p>
