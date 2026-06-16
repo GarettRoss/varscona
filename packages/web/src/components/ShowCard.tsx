@@ -21,7 +21,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
           {/* Desktop overlay */}
-          <div className="flex absolute bottom-0 left-0 right-0 px-8 pb-4 pt-48 items-center justify-between gap-4">
+          <div className="flex absolute bottom-0 left-0 right-0 px-3 pb-4 pt-48 items-center justify-between gap-4">
             <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors whitespace-nowrap">
               Learn more
             </span>
