@@ -10,20 +10,30 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
 
   if (variant === 'featured') {
     return (
-      <div className="show-card-featured relative overflow-hidden rounded group cursor-pointer" onClick={onClick}>
-        <div className="aspect-[4/3]" style={{ background: color || '#0a0101' }}>
-          {img ? (
-            <img src={img} alt={show.title} className="show-card-img w-full h-full object-contain" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
-          )}
+      <div className="group cursor-pointer" onClick={onClick}>
+        <div className="show-card-featured relative overflow-hidden rounded">
+          <div className="aspect-[4/3]" style={{ background: color || '#0a0101' }}>
+            {img ? (
+              <img src={img} alt={show.title} className="show-card-img w-full h-full object-contain" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
+            )}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+          {/* Desktop overlay */}
+          <div className="hidden md:block absolute bottom-0 left-0 right-0 p-6">
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors">
+              Learn more
+            </span>
+            <p className="text-[#F2EDDF]/60 text-sm mt-3">{show.dateRange}</p>
+          </div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors">
+        {/* Mobile below-card controls */}
+        <div className="md:hidden px-1 py-3 flex items-center justify-between gap-4">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-white bg-[#5C0F0F] hover:bg-[#6e1212] px-4 py-2 rounded transition-colors whitespace-nowrap">
             Learn more
           </span>
-          <p className="text-[#F2EDDF]/60 text-sm mt-3">{show.dateRange}</p>
+          <p className="text-[#1D1D1B]/60 text-sm">{show.dateRange}</p>
         </div>
       </div>
     )
