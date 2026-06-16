@@ -20,10 +20,10 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <p className="text-[#F2EDDF]/60 text-sm mb-4">{show.dateRange}</p>
           <span className="inline-flex items-center gap-2 text-sm font-medium text-[#F2EDDF] border border-[#F2EDDF]/30 group-hover:border-[#F2EDDF] px-4 py-2 rounded transition-colors">
             Learn more
           </span>
+          <p className="text-[#F2EDDF]/60 text-sm mt-3">{show.dateRange}</p>
         </div>
       </div>
     )
