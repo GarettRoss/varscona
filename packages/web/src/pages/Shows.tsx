@@ -135,65 +135,69 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
     >
       {/* 3D stage */}
       <div style={{ perspective: '900px', perspectiveOrigin: '50% 40%' }}>
-        <div className="relative flex items-center justify-center" style={{ height: '320px' }}>
+        <div className="relative" style={{ height: '320px' }}>
+          {shows.map((show, i) => {
+            const offset = i - index
+            const abs = Math.abs(offset)
 
-          {/* Prev card */}
-          {prev && (
-            <div
-              onClick={() => setIndex(i => i - 1)}
-              style={{
-                position: 'absolute',
-                width: '52%',
-                height: '100%',
-                left: '-4%',
-                transform: 'rotateY(28deg) scale(0.82) translateX(-8%)',
-                transformOrigin: 'right center',
-                transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-                filter: 'brightness(0.45)',
-                zIndex: 1,
-                cursor: 'pointer',
-              }}
-            >
-              <CardImg show={prev} />
-            </div>
-          )}
+            let transform: string
+            let zIndex: number
+            let filterStyle: string
+            let opacity: number
+            let cursor: string
 
-          {/* Next card */}
-          {next && (
-            <div
-              onClick={() => setIndex(i => i + 1)}
-              style={{
-                position: 'absolute',
-                width: '52%',
-                height: '100%',
-                right: '-4%',
-                transform: 'rotateY(-28deg) scale(0.82) translateX(8%)',
-                transformOrigin: 'left center',
-                transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-                filter: 'brightness(0.45)',
-                zIndex: 1,
-                cursor: 'pointer',
-              }}
-            >
-              <CardImg show={next} />
-            </div>
-          )}
+            if (offset === 0) {
+              transform = 'translateX(-50%) rotateY(0deg) scale(1)'
+              zIndex = 2
+              filterStyle = 'drop-shadow(0 16px 40px rgba(0,0,0,0.7))'
+              opacity = 1
+              cursor = 'pointer'
+            } else if (offset === -1) {
+              transform = 'translateX(calc(-50% - 48%)) rotateY(28deg) scale(0.82)'
+              zIndex = 1
+              filterStyle = 'brightness(0.45)'
+              opacity = 1
+              cursor = 'pointer'
+            } else if (offset === 1) {
+              transform = 'translateX(calc(-50% + 48%)) rotateY(-28deg) scale(0.82)'
+              zIndex = 1
+              filterStyle = 'brightness(0.45)'
+              opacity = 1
+              cursor = 'pointer'
+            } else {
+              const dir = offset < 0 ? -1 : 1
+              transform = `translateX(calc(-50% + ${dir * 130}%)) rotateY(${dir * -40}deg) scale(0.65)`
+              zIndex = 0
+              filterStyle = 'brightness(0.1)'
+              opacity = 0
+              cursor = 'default'
+            }
 
-          {/* Center card */}
-          <div
-            onClick={() => setDetailShow(curr)}
-            style={{
-              position: 'relative',
-              width: '60%',
-              height: '100%',
-              transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-              zIndex: 2,
-              filter: 'drop-shadow(0 16px 40px rgba(0,0,0,0.7))',
-              cursor: 'pointer',
-            }}
-          >
-            <CardImg show={curr} />
-          </div>
+            return (
+              <div
+                key={show.id}
+                onClick={() => {
+                  if (offset === 0) setDetailShow(show)
+                  else if (abs === 1) setIndex(i)
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: 0,
+                  width: '55%',
+                  height: '100%',
+                  transform,
+                  zIndex,
+                  filter: filterStyle,
+                  opacity,
+                  cursor,
+                  transition: 'transform 0.45s cubic-bezier(0.4,0,0.2,1), filter 0.45s ease, opacity 0.3s ease',
+                }}
+              >
+                <CardImg show={show} />
+              </div>
+            )
+          })}
         </div>
       </div>
 
