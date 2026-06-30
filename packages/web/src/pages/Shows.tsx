@@ -241,12 +241,12 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
             className="fixed inset-0 z-50 flex flex-col justify-end"
             onClick={() => setDetailShow(null)}
           >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/70" />
+            {/* Backdrop with blur */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-3xl mx-4 mb-4 flex flex-col"
+              className="relative bg-[#1A1A18] rounded-3xl mx-8 mb-4 flex flex-col"
               onClick={e => e.stopPropagation()}
               style={{ maxHeight: '82vh' }}
             >
