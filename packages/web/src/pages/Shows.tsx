@@ -134,7 +134,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
     >
       {/* 3D stage */}
       <div style={{ perspective: '900px', perspectiveOrigin: '50% 40%' }}>
-        <div className="relative" style={{ height: '320px' }}>
+        <div className="relative" style={{ height: '380px' }}>
 
           {/* Left arrow */}
           <button
@@ -172,13 +172,13 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
               opacity = 1
               cursor = 'pointer'
             } else if (offset === -1) {
-              transform = 'translateX(calc(-50% - 48%)) rotateY(28deg) scale(0.82)'
+              transform = 'translateX(calc(-50% - 55%)) rotateY(28deg) scale(0.82)'
               zIndex = 1
               filterStyle = 'none'
               opacity = 1
               cursor = 'pointer'
             } else if (offset === 1) {
-              transform = 'translateX(calc(-50% + 48%)) rotateY(-28deg) scale(0.82)'
+              transform = 'translateX(calc(-50% + 55%)) rotateY(-28deg) scale(0.82)'
               zIndex = 1
               filterStyle = 'none'
               opacity = 1
@@ -203,7 +203,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
                   position: 'absolute',
                   left: '50%',
                   top: 0,
-                  width: '55%',
+                  width: '65%',
                   height: '100%',
                   transform,
                   zIndex,
