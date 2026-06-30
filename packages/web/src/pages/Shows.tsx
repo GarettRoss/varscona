@@ -251,19 +251,18 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-3xl mx-8 flex flex-col"
+              className="relative bg-[#1A1A18] rounded-3xl mx-6 flex flex-col"
               onClick={e => e.stopPropagation()}
-              style={{ maxHeight: '82vh' }}
+              style={{ maxHeight: '80vh' }}
             >
-              {/* Sticky header with close button */}
-              <div className="flex-shrink-0 flex items-center justify-end px-4 pt-4 pb-2">
-                <button
-                  onClick={() => setDetailShow(null)}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors text-lg leading-none"
-                >
-                  ×
-                </button>
-              </div>
+              {/* Close button — inside top-right corner of sheet */}
+              <button
+                onClick={() => setDetailShow(null)}
+                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors text-lg leading-none"
+              >
+                ×
+              </button>
+              <div className="pt-4" />
 
               {/* Scrollable content */}
               <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
