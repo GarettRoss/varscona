@@ -104,9 +104,12 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
     return () => { document.body.style.overflow = '' }
   }, [detailShow])
 
-  function onTouchStart(e: React.TouchEvent) { startX.current = e.touches[0].clientX }
+  function onTouchStart(e: React.TouchEvent) {
+    if (detailShow) return
+    startX.current = e.touches[0].clientX
+  }
   function onTouchEnd(e: React.TouchEvent) {
-    if (startX.current === null) return
+    if (detailShow || startX.current === null) return
     const dx = e.changedTouches[0].clientX - startX.current
     if (dx < -40 && safeIndex < shows.length - 1) setIndex(i => i + 1)
     if (dx > 40 && safeIndex > 0) setIndex(i => i - 1)
