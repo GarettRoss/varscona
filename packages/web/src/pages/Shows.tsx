@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { api, type Show, mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
 import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
@@ -73,6 +73,96 @@ function deriveCompanies(shows: Show[]): string[] {
   return list.sort()
 }
 
+function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<string, string> }) {
+  const [index, setIndex] = useState(0)
+  const startX = useRef<number | null>(null)
+
+  useEffect(() => { setIndex(0) }, [shows])
+
+  function onTouchStart(e: React.TouchEvent) { startX.current = e.touches[0].clientX }
+  function onTouchEnd(e: React.TouchEvent) {
+    if (startX.current === null) return
+    const dx = e.changedTouches[0].clientX - startX.current
+    if (dx < -40 && index < shows.length - 1) setIndex(i => i + 1)
+    if (dx > 40 && index > 0) setIndex(i => i - 1)
+    startX.current = null
+  }
+
+  if (shows.length === 0) return (
+    <div className="text-center py-16 text-[#1D1D1B]/40">
+      <p className="text-4xl mb-4">🎭</p>
+      <p>No shows found.</p>
+    </div>
+  )
+
+  const show = shows[index]
+  const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
+  const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
+  const color = companyColor(show.company)
+  const ticketUrl = show.externalLink || `/shows/${show.slug}`
+  const isExternal = !!show.externalLink
+
+  return (
+    <div className="select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      {/* Card */}
+      <div className="rounded-2xl overflow-hidden bg-[#F2EDDF] shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+        {/* Poster */}
+        <div className="aspect-[3/4] w-full" style={{ background: slotBg }}>
+          {img
+            ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
+            : <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
+          }
+        </div>
+
+        {/* Info */}
+        <div className="px-6 py-5">
+          <p className="text-xs font-bold tracking-wide uppercase mb-1" style={{ color }}>{show.company}</p>
+          <h3 className="font-display text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
+          <p className="text-[#1D1D1B]/50 text-sm mb-3">{shortDateRange(show)}</p>
+          {show.description && (
+            <p className="text-[#1D1D1B]/50 text-sm leading-relaxed mb-5">{show.description}</p>
+          )}
+          <a
+            href={ticketUrl}
+            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-5 py-3 rounded transition-colors"
+          >
+            Buy Tickets
+          </a>
+        </div>
+      </div>
+
+      {/* Dots + nav */}
+      <div className="flex items-center justify-center gap-3 mt-5">
+        <button
+          onClick={() => setIndex(i => Math.max(0, i - 1))}
+          disabled={index === 0}
+          className="text-[#F2EDDF]/40 disabled:opacity-20 text-xl px-2"
+        >
+          ‹
+        </button>
+        <div className="flex gap-1.5">
+          {shows.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`rounded-full transition-all ${i === index ? 'w-4 h-2 bg-[#FF5F38]' : 'w-2 h-2 bg-[#F2EDDF]/30'}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
+          disabled={index === shows.length - 1}
+          className="text-[#F2EDDF]/40 disabled:opacity-20 text-xl px-2"
+        >
+          ›
+        </button>
+      </div>
+      <p className="text-center text-[#F2EDDF]/30 text-xs mt-2">{index + 1} of {shows.length}</p>
+    </div>
+  )
+}
+
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
@@ -140,8 +230,17 @@ export default function Shows() {
           </div>
         </section>
 
-        {/* Show list */}
-        <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
+        {/* Mobile carousel */}
+        <section className="sm:hidden">
+          {loading ? (
+            <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
+          ) : (
+            <ShowCarousel shows={filtered} colorById={colorById} />
+          )}
+        </section>
+
+        {/* Desktop show list */}
+        <section className="hidden sm:block bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
           {loading ? (
             <div className="space-y-4">
               {[...Array(4)].map((_, i) => (
