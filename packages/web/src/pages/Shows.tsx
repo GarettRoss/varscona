@@ -104,61 +104,56 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
   return (
     <div className="select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      {/* Card */}
-      <div className="rounded-2xl overflow-hidden bg-[#F2EDDF] shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
-        {/* Poster */}
-        <div className="aspect-[3/4] w-full" style={{ background: slotBg }}>
+      {/* Full-bleed story card */}
+      <div className="relative rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ background: slotBg }}>
+
+        {/* Progress bars */}
+        <div className="absolute top-0 left-0 right-0 z-20 flex gap-1 px-3 pt-3">
+          {shows.map((_, i) => (
+            <div key={i} className="flex-1 h-0.5 rounded-full bg-white/20 overflow-hidden">
+              <div className={`h-full bg-white transition-all duration-300 ${i < index ? 'w-full' : i === index ? 'w-full' : 'w-0'}`}
+                style={{ opacity: i === index ? 0.9 : i < index ? 0.5 : 0.2 }} />
+            </div>
+          ))}
+        </div>
+
+        {/* Background image */}
+        <div className="aspect-[3/5]">
           {img
             ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
-            : <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">🎭</div>
+            : <div className="w-full h-full flex items-center justify-center text-white/10 text-8xl">🎭</div>
           }
         </div>
 
-        {/* Info */}
-        <div className="px-6 py-5">
-          <p className="text-xs font-bold tracking-wide uppercase mb-1" style={{ color }}>{show.company}</p>
-          <h3 className="font-display text-2xl font-semibold text-[#1D1D1B] mb-1">{show.title}</h3>
-          <p className="text-[#1D1D1B]/50 text-sm mb-3">{shortDateRange(show)}</p>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent" />
+
+        {/* Tap zones for navigation */}
+        <div className="absolute inset-0 z-10 flex">
+          <div className="flex-1" onClick={() => setIndex(i => Math.max(0, i - 1))} />
+          <div className="flex-1" onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))} />
+        </div>
+
+        {/* Content overlay */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-5 pb-6 pt-20">
+          <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
+          <h3 className="font-display text-3xl font-bold text-white mb-1 leading-tight">{show.title}</h3>
+          <p className="text-white/50 text-sm mb-4">{shortDateRange(show)}</p>
           {show.description && (
-            <p className="text-[#1D1D1B]/50 text-sm leading-relaxed mb-5">{show.description}</p>
+            <p className="text-white/60 text-sm leading-relaxed mb-5 line-clamp-3">{show.description}</p>
           )}
           <a
             href={ticketUrl}
             {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-5 py-3 rounded transition-colors"
+            className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-3 rounded transition-colors"
           >
             Buy Tickets
           </a>
         </div>
       </div>
 
-      {/* Dots + nav */}
-      <div className="flex items-center justify-center gap-3 mt-5">
-        <button
-          onClick={() => setIndex(i => Math.max(0, i - 1))}
-          disabled={index === 0}
-          className="text-[#F2EDDF]/40 disabled:opacity-20 text-xl px-2"
-        >
-          ‹
-        </button>
-        <div className="flex gap-1.5">
-          {shows.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              className={`rounded-full transition-all ${i === index ? 'w-4 h-2 bg-[#FF5F38]' : 'w-2 h-2 bg-[#F2EDDF]/30'}`}
-            />
-          ))}
-        </div>
-        <button
-          onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
-          disabled={index === shows.length - 1}
-          className="text-[#F2EDDF]/40 disabled:opacity-20 text-xl px-2"
-        >
-          ›
-        </button>
-      </div>
-      <p className="text-center text-[#F2EDDF]/30 text-xs mt-2">{index + 1} of {shows.length}</p>
+      {/* Counter */}
+      <p className="text-center text-[#F2EDDF]/30 text-xs mt-3">{index + 1} / {shows.length} — swipe to browse</p>
     </div>
   )
 }
