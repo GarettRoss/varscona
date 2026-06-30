@@ -136,6 +136,26 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
       {/* 3D stage */}
       <div style={{ perspective: '900px', perspectiveOrigin: '50% 40%' }}>
         <div className="relative" style={{ height: '320px' }}>
+
+          {/* Left arrow */}
+          <button
+            onClick={() => setIndex(i => Math.max(0, i - 1))}
+            disabled={index === 0}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
+            style={{ fontSize: '18px' }}
+          >
+            ‹
+          </button>
+
+          {/* Right arrow */}
+          <button
+            onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
+            disabled={index === shows.length - 1}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
+            style={{ fontSize: '18px' }}
+          >
+            ›
+          </button>
           {shows.map((show, i) => {
             const offset = i - index
             const abs = Math.abs(offset)
@@ -149,26 +169,26 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
             if (offset === 0) {
               transform = 'translateX(-50%) rotateY(0deg) scale(1)'
               zIndex = 2
-              filterStyle = 'drop-shadow(0 16px 40px rgba(0,0,0,0.7))'
+              filterStyle = 'drop-shadow(0 20px 48px rgba(0,0,0,0.85))'
               opacity = 1
               cursor = 'pointer'
             } else if (offset === -1) {
               transform = 'translateX(calc(-50% - 48%)) rotateY(28deg) scale(0.82)'
               zIndex = 1
-              filterStyle = 'brightness(0.6)'
+              filterStyle = 'none'
               opacity = 1
               cursor = 'pointer'
             } else if (offset === 1) {
               transform = 'translateX(calc(-50% + 48%)) rotateY(-28deg) scale(0.82)'
               zIndex = 1
-              filterStyle = 'brightness(0.6)'
+              filterStyle = 'none'
               opacity = 1
               cursor = 'pointer'
             } else {
               const dir = offset < 0 ? -1 : 1
               transform = `translateX(calc(-50% + ${dir * 130}%)) rotateY(${dir * -40}deg) scale(0.65)`
               zIndex = 0
-              filterStyle = 'brightness(0.1)'
+              filterStyle = 'none'
               opacity = 0
               cursor = 'default'
             }
@@ -211,24 +231,6 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
           className="inline-flex items-center justify-center border border-white/80 text-white font-bold text-xs tracking-widest uppercase px-8 py-2.5 rounded-full transition-colors hover:bg-white hover:text-black"
         >
           View Show
-        </button>
-      </div>
-
-      {/* Arrow buttons */}
-      <div className="flex items-center justify-center gap-3 mt-6">
-        <button
-          onClick={() => setIndex(i => Math.max(0, i - 1))}
-          disabled={index === 0}
-          className="w-10 h-10 rounded-full border border-white/20 text-white/60 flex items-center justify-center disabled:opacity-20 text-lg transition-colors hover:border-white/50 hover:text-white"
-        >
-          ←
-        </button>
-        <button
-          onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
-          disabled={index === shows.length - 1}
-          className="w-10 h-10 rounded-full border border-white/20 text-white/60 flex items-center justify-center disabled:opacity-20 text-lg transition-colors hover:border-white/50 hover:text-white"
-        >
-          →
         </button>
       </div>
 
