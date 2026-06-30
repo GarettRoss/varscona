@@ -73,12 +73,27 @@ function deriveCompanies(shows: Show[]): string[] {
   return list.sort()
 }
 
+function CarouselCard({ show, colorById }: { show: Show; colorById: Record<string, string> }) {
+  const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
+  const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
+  return (
+    <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
+      {img
+        ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
+        : <div className="w-full h-full flex items-center justify-center text-white/10 text-6xl">🎭</div>
+      }
+    </div>
+  )
+}
+
 function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<string, string> }) {
   const [index, setIndex] = useState(0)
   const [detailShow, setDetailShow] = useState<Show | null>(null)
   const startX = useRef<number | null>(null)
 
-  useEffect(() => { setIndex(0) }, [shows])
+  // Clamp index during render — never wait for useEffect to catch up
+  const safeIndex = Math.min(index, Math.max(0, shows.length - 1))
+  if (safeIndex !== index) setIndex(safeIndex)
 
   useEffect(() => {
     if (detailShow) {
@@ -93,8 +108,8 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   function onTouchEnd(e: React.TouchEvent) {
     if (startX.current === null) return
     const dx = e.changedTouches[0].clientX - startX.current
-    if (dx < -40 && index < shows.length - 1) setIndex(i => i + 1)
-    if (dx > 40 && index > 0) setIndex(i => i - 1)
+    if (dx < -40 && safeIndex < shows.length - 1) setIndex(i => i + 1)
+    if (dx > 40 && safeIndex > 0) setIndex(i => i - 1)
     startX.current = null
   }
 
@@ -105,23 +120,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
     </div>
   )
 
-  const prev = shows[index - 1]
-  const curr = shows[index]
-  const next = shows[index + 1]
-
-  function CardImg({ show }: { show: Show }) {
-    const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
-    const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
-    return (
-      <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
-        {img
-          ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
-          : <div className="w-full h-full flex items-center justify-center text-white/10 text-6xl">🎭</div>
-        }
-      </div>
-    )
-  }
-
+  const curr = shows[safeIndex]
   const ticketUrl = curr.externalLink || `/shows/${curr.slug}`
   const isExternal = !!curr.externalLink
   const color = companyColor(curr.company)
@@ -140,7 +139,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
           {/* Left arrow */}
           <button
             onClick={() => setIndex(i => Math.max(0, i - 1))}
-            disabled={index === 0}
+            disabled={safeIndex === 0}
             className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
             style={{ fontSize: '18px' }}
           >
@@ -150,14 +149,14 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
           {/* Right arrow */}
           <button
             onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
-            disabled={index === shows.length - 1}
+            disabled={safeIndex === shows.length - 1}
             className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
             style={{ fontSize: '18px' }}
           >
             ›
           </button>
           {shows.map((show, i) => {
-            const offset = i - index
+            const offset = i - safeIndex
             const abs = Math.abs(offset)
 
             let transform: string
@@ -214,7 +213,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
                   transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease',
                 }}
               >
-                <CardImg show={show} />
+                <CarouselCard show={show} colorById={colorById} />
               </div>
             )
           })}
