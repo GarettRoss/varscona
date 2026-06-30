@@ -128,7 +128,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   return (
     <div
       className="select-none relative"
-      style={{ background: '#111', borderRadius: '1.25rem', padding: '1rem 0 1.5rem', overflow: 'hidden' }}
+      style={{ background: '#111', borderRadius: '1.25rem', padding: '0.25rem 0 1.5rem', overflow: 'hidden' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
@@ -266,7 +266,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
               </div>
 
               {/* Scrollable content */}
-              <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+              <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
                 {/* Poster */}
                 <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
                   {dImg
@@ -368,7 +368,7 @@ export default function Shows() {
         </section>
 
         {/* Mobile carousel */}
-        <section className="sm:hidden">
+        <section className="md:hidden">
           {loading ? (
             <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
           ) : (
@@ -377,7 +377,7 @@ export default function Shows() {
         </section>
 
         {/* Desktop show list */}
-        <section className="hidden sm:block bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
+        <section className="hidden md:block bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
           {loading ? (
             <div className="space-y-4">
               {[...Array(4)].map((_, i) => (
