@@ -305,12 +305,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    const check = () => setIsMobile(
-      window.matchMedia('(pointer: coarse) and (max-width: 1024px)').matches
-    )
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
+    setIsMobile(/Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent))
   }, [])
   return isMobile
 }
