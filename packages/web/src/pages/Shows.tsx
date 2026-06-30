@@ -243,7 +243,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
         const dIsExternal = !!s.externalLink
         return (
           <div
-            className="fixed inset-0 z-50 flex flex-col justify-end"
+            className="fixed inset-0 z-50 flex items-center justify-center"
             onClick={() => setDetailShow(null)}
           >
             {/* Backdrop with blur */}
@@ -251,7 +251,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-3xl mx-8 mb-4 flex flex-col"
+              className="relative bg-[#1A1A18] rounded-3xl mx-8 flex flex-col"
               onClick={e => e.stopPropagation()}
               style={{ maxHeight: '82vh' }}
             >
