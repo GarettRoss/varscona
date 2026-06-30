@@ -75,6 +75,7 @@ function deriveCompanies(shows: Show[]): string[] {
 
 function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<string, string> }) {
   const [index, setIndex] = useState(0)
+  const [detailShow, setDetailShow] = useState<Show | null>(null)
   const startX = useRef<number | null>(null)
 
   useEffect(() => { setIndex(0) }, [shows])
@@ -171,6 +172,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
           {/* Center card */}
           <div
+            onClick={() => setDetailShow(curr)}
             style={{
               position: 'relative',
               width: '60%',
@@ -178,6 +180,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
               transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
               zIndex: 2,
               filter: 'drop-shadow(0 16px 40px rgba(0,0,0,0.7))',
+              cursor: 'pointer',
             }}
           >
             <CardImg show={curr} />
@@ -190,13 +193,12 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
         <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{curr.company}</p>
         <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{curr.title}</h3>
         <p className="text-white/40 text-sm mb-5">{shortDateRange(curr)}</p>
-        <a
-          href={ticketUrl}
-          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        <button
+          onClick={() => setDetailShow(curr)}
           className="inline-flex items-center justify-center border border-white/80 text-white font-bold text-xs tracking-widest uppercase px-8 py-2.5 rounded-full transition-colors hover:bg-white hover:text-black"
         >
           View Show
-        </a>
+        </button>
       </div>
 
       {/* Arrow buttons */}
@@ -216,6 +218,62 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
           →
         </button>
       </div>
+
+      {/* Detail drawer */}
+      {detailShow && (() => {
+        const s = detailShow
+        const dImg = STATIC_IMAGES[s.slug] || mediaUrl(s.image, 'medium') || ''
+        const dSlotBg = colorById[s.id] ?? SLOT_COLORS[0]
+        const dColor = companyColor(s.company)
+        const dTicketUrl = s.externalLink || `/shows/${s.slug}`
+        const dIsExternal = !!s.externalLink
+        return (
+          <div
+            className="fixed inset-0 z-50 flex flex-col justify-end"
+            onClick={() => setDetailShow(null)}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/70" />
+
+            {/* Sheet */}
+            <div
+              className="relative bg-[#1A1A18] rounded-t-3xl overflow-hidden"
+              onClick={e => e.stopPropagation()}
+              style={{ maxHeight: '90vh', overflowY: 'auto' }}
+            >
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 rounded-full bg-white/20" />
+              </div>
+
+              {/* Poster */}
+              <div className="mx-5 mt-2 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
+                {dImg
+                  ? <img src={dImg} alt={s.title} className="w-full h-full object-contain" />
+                  : <div className="w-full h-full flex items-center justify-center text-white/10 text-7xl">🎭</div>
+                }
+              </div>
+
+              {/* Info */}
+              <div className="px-5 pt-5 pb-8">
+                <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: dColor }}>{s.company}</p>
+                <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
+                <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
+                {s.description && (
+                  <p className="text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
+                )}
+                <a
+                  href={dTicketUrl}
+                  {...(dIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-4 rounded-xl transition-colors"
+                >
+                  Buy Tickets
+                </a>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
