@@ -80,6 +80,15 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
   useEffect(() => { setIndex(0) }, [shows])
 
+  useEffect(() => {
+    if (detailShow) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [detailShow])
+
   function onTouchStart(e: React.TouchEvent) { startX.current = e.touches[0].clientX }
   function onTouchEnd(e: React.TouchEvent) {
     if (startX.current === null) return
@@ -237,42 +246,46 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-3xl overflow-hidden mx-4 mb-4"
+              className="relative bg-[#1A1A18] rounded-3xl mx-4 mb-4 flex flex-col"
               onClick={e => e.stopPropagation()}
-              style={{ maxHeight: '82vh', overflowY: 'auto' }}
+              style={{ maxHeight: '82vh' }}
             >
-              {/* Close button */}
-              <button
-                onClick={() => setDetailShow(null)}
-                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors text-lg leading-none"
-              >
-                ×
-              </button>
-              <div className="pt-4 pb-1" />
-
-              {/* Poster */}
-              <div className="mx-5 mt-2 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
-                {dImg
-                  ? <img src={dImg} alt={s.title} className="w-full h-full object-contain" />
-                  : <div className="w-full h-full flex items-center justify-center text-white/10 text-7xl">🎭</div>
-                }
+              {/* Sticky header with close button */}
+              <div className="flex-shrink-0 flex items-center justify-end px-4 pt-4 pb-2">
+                <button
+                  onClick={() => setDetailShow(null)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors text-lg leading-none"
+                >
+                  ×
+                </button>
               </div>
 
-              {/* Info */}
-              <div className="px-5 pt-5 pb-8">
-                <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: dColor }}>{s.company}</p>
-                <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
-                <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
-                {s.description && (
-                  <p className="text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
-                )}
-                <a
-                  href={dTicketUrl}
-                  {...(dIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-4 rounded-xl transition-colors"
-                >
-                  Buy Tickets
-                </a>
+              {/* Scrollable content */}
+              <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+                {/* Poster */}
+                <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
+                  {dImg
+                    ? <img src={dImg} alt={s.title} className="w-full h-full object-contain" />
+                    : <div className="w-full h-full flex items-center justify-center text-white/10 text-7xl">🎭</div>
+                  }
+                </div>
+
+                {/* Info */}
+                <div className="px-5 pt-5 pb-8">
+                  <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: dColor }}>{s.company}</p>
+                  <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
+                  <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
+                  {s.description && (
+                    <p className="text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
+                  )}
+                  <a
+                    href={dTicketUrl}
+                    {...(dIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-4 rounded-xl transition-colors"
+                  >
+                    Buy Tickets
+                  </a>
+                </div>
               </div>
             </div>
           </div>
