@@ -302,19 +302,24 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   )
 }
 
-function useIsTouchDevice() {
-  const [isTouch, setIsTouch] = useState(false)
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches)
+    const check = () => setIsMobile(
+      window.matchMedia('(pointer: coarse) and (max-width: 1024px)').matches
+    )
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
   }, [])
-  return isTouch
+  return isMobile
 }
 
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('All')
-  const isTouchDevice = useIsTouchDevice()
+  const isTouchDevice = useIsMobile()
 
   useEffect(() => {
     api.shows.list()
