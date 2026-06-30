@@ -155,13 +155,13 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
             } else if (offset === -1) {
               transform = 'translateX(calc(-50% - 48%)) rotateY(28deg) scale(0.82)'
               zIndex = 1
-              filterStyle = 'brightness(0.45)'
+              filterStyle = 'brightness(0.6)'
               opacity = 1
               cursor = 'pointer'
             } else if (offset === 1) {
               transform = 'translateX(calc(-50% + 48%)) rotateY(-28deg) scale(0.82)'
               zIndex = 1
-              filterStyle = 'brightness(0.45)'
+              filterStyle = 'brightness(0.6)'
               opacity = 1
               cursor = 'pointer'
             } else {
@@ -191,7 +191,7 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
                   filter: filterStyle,
                   opacity,
                   cursor,
-                  transition: 'transform 0.45s cubic-bezier(0.4,0,0.2,1), filter 0.45s ease, opacity 0.3s ease',
+                  transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease',
                 }}
               >
                 <CardImg show={show} />
