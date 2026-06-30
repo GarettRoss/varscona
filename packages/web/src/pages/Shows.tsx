@@ -89,71 +89,133 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   }
 
   if (shows.length === 0) return (
-    <div className="text-center py-16 text-[#1D1D1B]/40">
+    <div className="text-center py-16 text-[#F2EDDF]/30">
       <p className="text-4xl mb-4">🎭</p>
       <p>No shows found.</p>
     </div>
   )
 
-  const show = shows[index]
-  const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
-  const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
-  const color = companyColor(show.company)
-  const ticketUrl = show.externalLink || `/shows/${show.slug}`
-  const isExternal = !!show.externalLink
+  const prev = shows[index - 1]
+  const curr = shows[index]
+  const next = shows[index + 1]
+
+  function CardImg({ show }: { show: Show }) {
+    const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
+    const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
+    return (
+      <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
+        {img
+          ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
+          : <div className="w-full h-full flex items-center justify-center text-white/10 text-6xl">🎭</div>
+        }
+      </div>
+    )
+  }
+
+  const ticketUrl = curr.externalLink || `/shows/${curr.slug}`
+  const isExternal = !!curr.externalLink
+  const color = companyColor(curr.company)
 
   return (
-    <div className="select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      {/* Full-bleed story card */}
-      <div className="relative rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ background: slotBg }}>
+    <div
+      className="select-none relative"
+      style={{ background: '#111', borderRadius: '1.25rem', padding: '2rem 0 1.5rem', overflow: 'hidden' }}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* 3D stage */}
+      <div style={{ perspective: '900px', perspectiveOrigin: '50% 40%' }}>
+        <div className="relative flex items-center justify-center" style={{ height: '320px' }}>
 
-        {/* Progress bars */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex gap-1 px-3 pt-3">
-          {shows.map((_, i) => (
-            <div key={i} className="flex-1 h-0.5 rounded-full bg-white/20 overflow-hidden">
-              <div className={`h-full bg-white transition-all duration-300 ${i < index ? 'w-full' : i === index ? 'w-full' : 'w-0'}`}
-                style={{ opacity: i === index ? 0.9 : i < index ? 0.5 : 0.2 }} />
+          {/* Prev card */}
+          {prev && (
+            <div
+              onClick={() => setIndex(i => i - 1)}
+              style={{
+                position: 'absolute',
+                width: '52%',
+                height: '100%',
+                left: '-4%',
+                transform: 'rotateY(28deg) scale(0.82) translateX(-8%)',
+                transformOrigin: 'right center',
+                transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
+                filter: 'brightness(0.45)',
+                zIndex: 1,
+                cursor: 'pointer',
+              }}
+            >
+              <CardImg show={prev} />
             </div>
-          ))}
-        </div>
-
-        {/* Background image */}
-        <div className="aspect-[3/5]">
-          {img
-            ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
-            : <div className="w-full h-full flex items-center justify-center text-white/10 text-8xl">🎭</div>
-          }
-        </div>
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent" />
-
-        {/* Tap zones for navigation */}
-        <div className="absolute inset-0 z-10 flex">
-          <div className="flex-1" onClick={() => setIndex(i => Math.max(0, i - 1))} />
-          <div className="flex-1" onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))} />
-        </div>
-
-        {/* Content overlay */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 px-5 pb-6 pt-20">
-          <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{show.company}</p>
-          <h3 className="font-display text-3xl font-bold text-white mb-1 leading-tight">{show.title}</h3>
-          <p className="text-white/50 text-sm mb-4">{shortDateRange(show)}</p>
-          {show.description && (
-            <p className="text-white/60 text-sm leading-relaxed mb-5 line-clamp-3">{show.description}</p>
           )}
-          <a
-            href={ticketUrl}
-            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-3 rounded transition-colors"
+
+          {/* Next card */}
+          {next && (
+            <div
+              onClick={() => setIndex(i => i + 1)}
+              style={{
+                position: 'absolute',
+                width: '52%',
+                height: '100%',
+                right: '-4%',
+                transform: 'rotateY(-28deg) scale(0.82) translateX(8%)',
+                transformOrigin: 'left center',
+                transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
+                filter: 'brightness(0.45)',
+                zIndex: 1,
+                cursor: 'pointer',
+              }}
+            >
+              <CardImg show={next} />
+            </div>
+          )}
+
+          {/* Center card */}
+          <div
+            style={{
+              position: 'relative',
+              width: '60%',
+              height: '100%',
+              transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
+              zIndex: 2,
+              filter: 'drop-shadow(0 16px 40px rgba(0,0,0,0.7))',
+            }}
           >
-            Buy Tickets
-          </a>
+            <CardImg show={curr} />
+          </div>
         </div>
       </div>
 
-      {/* Counter */}
-      <p className="text-center text-[#F2EDDF]/30 text-xs mt-3">{index + 1} / {shows.length} — swipe to browse</p>
+      {/* Centered title + info */}
+      <div className="text-center px-6 mt-6">
+        <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color }}>{curr.company}</p>
+        <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{curr.title}</h3>
+        <p className="text-white/40 text-sm mb-5">{shortDateRange(curr)}</p>
+        <a
+          href={ticketUrl}
+          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          className="inline-flex items-center justify-center border border-white/80 text-white font-bold text-xs tracking-widest uppercase px-8 py-2.5 rounded-full transition-colors hover:bg-white hover:text-black"
+        >
+          View Show
+        </a>
+      </div>
+
+      {/* Arrow buttons */}
+      <div className="flex items-center justify-center gap-3 mt-6">
+        <button
+          onClick={() => setIndex(i => Math.max(0, i - 1))}
+          disabled={index === 0}
+          className="w-10 h-10 rounded-full border border-white/20 text-white/60 flex items-center justify-center disabled:opacity-20 text-lg transition-colors hover:border-white/50 hover:text-white"
+        >
+          ←
+        </button>
+        <button
+          onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
+          disabled={index === shows.length - 1}
+          className="w-10 h-10 rounded-full border border-white/20 text-white/60 flex items-center justify-center disabled:opacity-20 text-lg transition-colors hover:border-white/50 hover:text-white"
+        >
+          →
+        </button>
+      </div>
     </div>
   )
 }
