@@ -302,10 +302,19 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   )
 }
 
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false)
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches)
+  }, [])
+  return isTouch
+}
+
 export default function Shows() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('All')
+  const isTouchDevice = useIsTouchDevice()
 
   useEffect(() => {
     api.shows.list()
@@ -369,17 +378,19 @@ export default function Shows() {
           </div>
         </section>
 
-        {/* Mobile carousel */}
-        <section className="md:hidden">
-          {loading ? (
-            <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
-          ) : (
-            <ShowCarousel shows={filtered} colorById={colorById} />
-          )}
-        </section>
+        {/* Mobile carousel — touch devices only */}
+        {isTouchDevice && (
+          <section>
+            {loading ? (
+              <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
+            ) : (
+              <ShowCarousel shows={filtered} colorById={colorById} />
+            )}
+          </section>
+        )}
 
-        {/* Desktop show list */}
-        <section className="hidden md:block bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8">
+        {/* Desktop show list — non-touch devices */}
+        <section className={`bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8${isTouchDevice ? ' hidden' : ''}`}>
           {loading ? (
             <div className="space-y-4">
               {[...Array(4)].map((_, i) => (
