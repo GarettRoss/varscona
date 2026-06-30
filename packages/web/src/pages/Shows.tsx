@@ -237,14 +237,18 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-t-3xl overflow-hidden"
+              className="relative bg-[#1A1A18] rounded-3xl overflow-hidden mx-4 mb-4"
               onClick={e => e.stopPropagation()}
-              style={{ maxHeight: '90vh', overflowY: 'auto' }}
+              style={{ maxHeight: '82vh', overflowY: 'auto' }}
             >
-              {/* Drag handle */}
-              <div className="flex justify-center pt-3 pb-1">
-                <div className="w-10 h-1 rounded-full bg-white/20" />
-              </div>
+              {/* Close button */}
+              <button
+                onClick={() => setDetailShow(null)}
+                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors text-lg leading-none"
+              >
+                ×
+              </button>
+              <div className="pt-4 pb-1" />
 
               {/* Poster */}
               <div className="mx-5 mt-2 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
