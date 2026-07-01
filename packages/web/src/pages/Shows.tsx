@@ -86,14 +86,30 @@ function CarouselCard({ show, colorById }: { show: Show; colorById: Record<strin
   )
 }
 
-function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<string, string> }) {
+function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorById: Record<string, string>; filterKey: string }) {
   const [index, setIndex] = useState(0)
   const [detailShow, setDetailShow] = useState<Show | null>(null)
+  const [displayShows, setDisplayShows] = useState(shows)
+  const [visible, setVisible] = useState(true)
   const startX = useRef<number | null>(null)
+  const isFirst = useRef(true)
 
-  // Clamp index during render — never wait for useEffect to catch up
-  const safeIndex = Math.min(index, Math.max(0, shows.length - 1))
-  if (safeIndex !== index) setIndex(safeIndex)
+  const n = displayShows.length
+  const loop = n > 3
+  const safeIndex = loop ? index : Math.min(index, Math.max(0, n - 1))
+
+  // On filter change: fade+rotate out → swap → fade+rotate in
+  useEffect(() => {
+    if (isFirst.current) { isFirst.current = false; return }
+    setVisible(false)
+    const t1 = setTimeout(() => {
+      setDisplayShows(shows)
+      setIndex(0)
+      const t2 = setTimeout(() => setVisible(true), 30)
+      return () => clearTimeout(t2)
+    }, 380)
+    return () => clearTimeout(t1)
+  }, [filterKey])
 
   useEffect(() => {
     if (detailShow) {
@@ -111,19 +127,19 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
   function onTouchEnd(e: React.TouchEvent) {
     if (detailShow || startX.current === null) return
     const dx = e.changedTouches[0].clientX - startX.current
-    if (dx < -40 && safeIndex < shows.length - 1) setIndex(i => i + 1)
-    if (dx > 40 && safeIndex > 0) setIndex(i => i - 1)
+    if (dx < -40 && (loop || safeIndex < n - 1)) setIndex(i => i + 1)
+    if (dx > 40 && (loop || safeIndex > 0)) setIndex(i => i - 1)
     startX.current = null
   }
 
-  if (shows.length === 0) return (
+  if (displayShows.length === 0) return (
     <div className="text-center py-16 text-[#F2EDDF]/30">
       <p className="text-4xl mb-4">🎭</p>
       <p>No shows found.</p>
     </div>
   )
 
-  const curr = shows[safeIndex]
+  const curr = displayShows[((safeIndex % n + n) % n)]
   const ticketUrl = curr.externalLink || `/shows/${curr.slug}`
   const isExternal = !!curr.externalLink
   const color = companyColor(curr.company)
@@ -135,85 +151,89 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* 3D stage */}
-      <div style={{ perspective: '900px', perspectiveOrigin: '50% 40%' }}>
-        <div className="relative" style={{ height: '380px' }}>
+      {/* 3D stage — fixed size, centred */}
+      <div style={{
+        perspective: '1200px',
+        perspectiveOrigin: '50% 40%',
+        display: 'flex',
+        justifyContent: 'center',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'rotateY(0deg) scale(1)' : 'rotateY(25deg) scale(0.92)',
+        transition: 'opacity 0.35s ease, transform 0.35s ease',
+      }}>
+        <div className="relative" style={{ width: '600px', height: '380px', flexShrink: 0 }}>
 
-          {/* Left arrow */}
+          {/* Left arrow — inside left edge of centre card (card is 200px wide, centred at 50%) */}
           <button
-            onClick={() => setIndex(i => Math.max(0, i - 1))}
-            disabled={safeIndex === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
-            style={{ fontSize: '18px' }}
+            onClick={() => setIndex(i => i - 1)}
+            disabled={!loop && safeIndex === 0}
+            className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
+            style={{ fontSize: '18px', left: 'calc(50% - 158px)' }}
           >
             ‹
           </button>
 
-          {/* Right arrow */}
+          {/* Right arrow — inside right edge of centre card */}
           <button
-            onClick={() => setIndex(i => Math.min(shows.length - 1, i + 1))}
-            disabled={safeIndex === shows.length - 1}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
-            style={{ fontSize: '18px' }}
+            onClick={() => setIndex(i => i + 1)}
+            disabled={!loop && safeIndex === n - 1}
+            className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
+            style={{ fontSize: '18px', left: 'calc(50% + 126px)' }}
           >
             ›
           </button>
-          {shows.map((show, i) => {
-            const offset = i - safeIndex
+
+          {/* Looping: render 9 absolute positions, each maps to a show via modulo.
+              Non-looping: render shows by their real index, no repeats. */}
+          {(loop
+            ? Array.from({ length: 9 }, (_, k) => safeIndex - 4 + k).map(absPos => ({
+                absPos,
+                offset: absPos - safeIndex,
+                show: displayShows[((absPos % n) + n) % n],
+              }))
+            : displayShows.map((show, i) => ({
+                absPos: i,
+                offset: i - safeIndex,
+                show,
+              }))
+          ).map(({ absPos, offset, show }) => {
             const abs = Math.abs(offset)
 
-            let transform: string
-            let zIndex: number
-            let filterStyle: string
-            let opacity: number
-            let cursor: string
+            const cardW = 200
+            const cardH = 300
+            const radius = 420
+            const angle = offset * 38
+            const rad = (angle * Math.PI) / 180
+            const tx = Math.sin(rad) * radius
+            const tz = Math.cos(rad) * radius - radius
+            const scale = Math.max(0.45, 1 - abs * 0.15)
+            const visible = abs <= 3
 
-            if (offset === 0) {
-              transform = 'translateX(-50%) rotateY(0deg) scale(1)'
-              zIndex = 2
-              filterStyle = 'drop-shadow(0 20px 48px rgba(0,0,0,0.85))'
-              opacity = 1
-              cursor = 'pointer'
-            } else if (offset === -1) {
-              transform = 'translateX(calc(-50% - 55%)) rotateY(28deg) scale(0.82)'
-              zIndex = 1
-              filterStyle = 'none'
-              opacity = 1
-              cursor = 'pointer'
-            } else if (offset === 1) {
-              transform = 'translateX(calc(-50% + 55%)) rotateY(-28deg) scale(0.82)'
-              zIndex = 1
-              filterStyle = 'none'
-              opacity = 1
-              cursor = 'pointer'
-            } else {
-              const dir = offset < 0 ? -1 : 1
-              transform = `translateX(calc(-50% + ${dir * 130}%)) rotateY(${dir * -40}deg) scale(0.65)`
-              zIndex = 0
-              filterStyle = 'none'
-              opacity = 0
-              cursor = 'default'
-            }
+            const transform = `translateX(calc(-50% + ${tx}px)) translateZ(${tz}px) rotateY(${-angle}deg) scale(${scale})`
+            const zIndex = 10 - abs
+            const opacity = visible ? Math.max(0.35, 1 - abs * 0.2) : 0
+            const shadow = abs === 0 ? 'drop-shadow(0 20px 48px rgba(0,0,0,0.9))' : 'none'
 
             return (
               <div
-                key={show.id}
+                key={absPos}
                 onClick={() => {
-                  if (offset === 0) setDetailShow(show)
-                  else if (abs === 1) setIndex(i)
+                  if (abs === 0) setDetailShow(show)
+                  else setIndex(j => j + offset)
                 }}
                 style={{
                   position: 'absolute',
                   left: '50%',
-                  top: 0,
-                  width: '65%',
-                  height: '100%',
+                  top: '50%',
+                  width: `${cardW}px`,
+                  height: `${cardH}px`,
+                  marginTop: `-${cardH / 2}px`,
                   transform,
                   zIndex,
-                  filter: filterStyle,
+                  filter: shadow,
                   opacity,
-                  cursor,
-                  transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease',
+                  cursor: 'pointer',
+                  transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, filter 0.5s ease',
                 }}
               >
                 <CarouselCard show={show} colorById={colorById} />
@@ -254,9 +274,9 @@ function ShowCarousel({ shows, colorById }: { shows: Show[]; colorById: Record<s
 
             {/* Sheet */}
             <div
-              className="relative bg-[#1A1A18] rounded-3xl mx-6 flex flex-col"
+              className="relative bg-[#1A1A18] rounded-3xl flex flex-col"
               onClick={e => e.stopPropagation()}
-              style={{ maxHeight: '80vh' }}
+              style={{ maxHeight: '80vh', width: '340px', flexShrink: 0 }}
             >
               {/* Close button — inside top-right corner of sheet */}
               <button
@@ -378,19 +398,17 @@ export default function Shows() {
           </div>
         </section>
 
-        {/* Mobile carousel — touch devices only */}
-        {isTouchDevice && (
-          <section>
-            {loading ? (
-              <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
-            ) : (
-              <ShowCarousel shows={filtered} colorById={colorById} />
-            )}
-          </section>
-        )}
+        {/* Carousel — all devices */}
+        <section>
+          {loading ? (
+            <div className="rounded-2xl bg-[#F2EDDF]/10 animate-pulse aspect-[3/4] w-full" />
+          ) : (
+            <ShowCarousel shows={filtered} colorById={colorById} filterKey={filter} />
+          )}
+        </section>
 
-        {/* Desktop show list — non-touch devices */}
-        <section className={`bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8${isTouchDevice ? ' hidden' : ''}`}>
+        {/* Show list — hidden for now */}
+        <section className={`bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-8 hidden`}>
           {loading ? (
             <div className="space-y-4">
               {[...Array(4)].map((_, i) => (
