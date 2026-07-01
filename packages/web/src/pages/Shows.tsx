@@ -151,7 +151,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   return (
     <div
       className="select-none relative"
-      style={{ background: '#111', borderRadius: '1.25rem', padding: '1rem 0 1.5rem', overflow: 'hidden',
+      style={{ background: '#111', padding: '1rem 0 1.5rem', overflow: 'hidden',
         marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)',
         paddingLeft: 'calc(50vw - 50%)', paddingRight: 'calc(50vw - 50%)' }}
       onTouchStart={onTouchStart}
