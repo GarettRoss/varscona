@@ -150,21 +150,22 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
 
   return (
     <div
-      className="select-none relative w-full"
-      style={{ background: '#111', borderRadius: '1.25rem', padding: '1rem 0 1.5rem' }}
+      className="select-none relative"
+      style={{ background: '#111', borderRadius: '1.25rem', padding: '1rem 0 1.5rem', overflow: 'hidden',
+        marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)',
+        paddingLeft: 'calc(50vw - 50%)', paddingRight: 'calc(50vw - 50%)' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* 3D stage — overflow visible so side cards peek out on narrow screens */}
+      {/* 3D stage */}
       <div style={{
         perspective: '1200px',
         perspectiveOrigin: '50% 40%',
-        overflow: 'visible',
         opacity: visible ? 1 : 0,
         transform: visible ? 'rotateY(0deg) scale(1)' : 'rotateY(25deg) scale(0.92)',
         transition: 'opacity 0.35s ease, transform 0.35s ease',
       }}>
-        <div className="relative w-full" style={{ height: `${cardH + 80}px`, overflow: 'visible' }}>
+        <div className="relative w-full" style={{ height: `${cardH + 80}px` }}>
 
           {/* Left arrow — inside left edge of centre card (card is 200px wide, centred at 50%) */}
           <button
