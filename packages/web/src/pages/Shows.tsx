@@ -144,31 +144,45 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   const isExternal = !!curr.externalLink
   const color = companyColor(curr.company)
 
+  // Scale arc based on available width so side cards are visible on mobile
+  const stageRef = useRef<HTMLDivElement>(null)
+  const [stageW, setStageW] = useState(600)
+  useEffect(() => {
+    const el = stageRef.current
+    if (!el) return
+    const obs = new ResizeObserver(([e]) => setStageW(e.contentRect.width))
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  const scale = Math.min(1, stageW / 600)
+  const cardW = Math.round(200 * scale)
+  const cardH = Math.round(300 * scale)
+  const radius = Math.round(420 * scale)
+
   return (
     <div
-      className="select-none relative"
+      ref={stageRef}
+      className="select-none relative w-full"
       style={{ background: '#111', borderRadius: '1.25rem', padding: '1rem 0 1.5rem', overflow: 'hidden' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* 3D stage — fixed size, centred */}
+      {/* 3D stage */}
       <div style={{
-        perspective: '1200px',
+        perspective: `${Math.round(1200 * scale)}px`,
         perspectiveOrigin: '50% 40%',
-        display: 'flex',
-        justifyContent: 'center',
         opacity: visible ? 1 : 0,
         transform: visible ? 'rotateY(0deg) scale(1)' : 'rotateY(25deg) scale(0.92)',
         transition: 'opacity 0.35s ease, transform 0.35s ease',
       }}>
-        <div className="relative" style={{ width: '600px', height: '380px', flexShrink: 0 }}>
+        <div className="relative w-full" style={{ height: `${cardH + 80}px` }}>
 
           {/* Left arrow — inside left edge of centre card (card is 200px wide, centred at 50%) */}
           <button
             onClick={() => setIndex(i => i - 1)}
             disabled={!loop && safeIndex === 0}
             className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
-            style={{ fontSize: '18px', left: 'calc(50% - 158px)' }}
+            style={{ fontSize: '18px', left: `calc(50% - ${cardW / 2 + 58}px)` }}
           >
             ‹
           </button>
@@ -178,7 +192,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
             onClick={() => setIndex(i => i + 1)}
             disabled={!loop && safeIndex === n - 1}
             className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
-            style={{ fontSize: '18px', left: 'calc(50% + 126px)' }}
+            style={{ fontSize: '18px', left: `calc(50% + ${cardW / 2 + 26}px)` }}
           >
             ›
           </button>
@@ -199,9 +213,6 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
           ).map(({ absPos, offset, show }) => {
             const abs = Math.abs(offset)
 
-            const cardW = 200
-            const cardH = 300
-            const radius = 420
             const angle = offset * 38
             const rad = (angle * Math.PI) / 180
             const tx = Math.sin(rad) * radius
