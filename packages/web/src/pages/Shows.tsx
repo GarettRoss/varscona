@@ -168,14 +168,17 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Tinted overlay — subtle colour wash over the whole carousel */}
+      {/* Gradient wash — solid colour transitions smoothly, mask creates the fade */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
         style={{
-          backgroundColor: gradColor,
-          opacity: 0.08,
-          transition: 'background-color 0.5s ease',
+          height: '60%',
           zIndex: 0,
+          backgroundColor: gradColor,
+          opacity: 0.22,
+          WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          transition: 'background-color 0.5s ease',
         }}
       />
 
