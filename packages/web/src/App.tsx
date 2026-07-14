@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -12,20 +11,9 @@ import Community from './pages/Community'
 import Jobs from './pages/Jobs'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
-import { SiteSettingsContext } from './contexts/SiteSettingsContext'
-import { api } from './lib/api'
 
 export default function App() {
-  const [lineDrawingEnabled, setLineDrawingEnabled] = useState(true)
-
-  useEffect(() => {
-    api.siteSettings.get().then(s => {
-      if (s) setLineDrawingEnabled(s.lineDrawingEnabled ?? true)
-    }).catch(() => {})
-  }, [])
-
   return (
-    <SiteSettingsContext.Provider value={{ lineDrawingEnabled }}>
     <BrowserRouter>
       <Routes>
         {/* Admin routes — no site layout */}
@@ -48,6 +36,5 @@ export default function App() {
         </Route>
       </Routes>
     </BrowserRouter>
-    </SiteSettingsContext.Provider>
   )
 }

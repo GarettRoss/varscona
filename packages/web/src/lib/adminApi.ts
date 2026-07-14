@@ -75,12 +75,3 @@ export async function createShow(data: Omit<Show, 'id' | 'image' | 'cardImage' |
 export async function deleteShow(id: string): Promise<void> {
   await writeClient.delete(id)
 }
-
-export async function saveSiteSettings(settings: { lineDrawingEnabled: boolean }): Promise<void> {
-  const existing = await writeClient.fetch<{ _id: string } | null>('*[_type == "siteSettings"][0] { _id }')
-  if (existing) {
-    await writeClient.patch(existing._id).set(settings).commit()
-  } else {
-    await writeClient.create({ _type: 'siteSettings', ...settings })
-  }
-}

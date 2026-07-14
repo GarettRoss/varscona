@@ -68,7 +68,6 @@ const STATIC_SHOWS: Show[] = [
 const SLOT_COLORS = ['#FF5F38', '#00C09A', '#7B3FE4', '#BF1650']
 
 import { shortDateRange } from '../lib/shortDateRange'
-import { useSiteSettings } from '../contexts/SiteSettingsContext'
 
 function deriveCompanies(shows: Show[]): string[] {
   const seen = new Set<string>()
@@ -83,11 +82,10 @@ function deriveCompanies(shows: Show[]): string[] {
 }
 
 function CarouselCard({ show, colorById }: { show: Show; colorById: Record<string, string> }) {
-  const { lineDrawingEnabled } = useSiteSettings()
   const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
   const posterImg = mediaUrl(show.image, 'medium')
 
-  if (posterImg && lineDrawingEnabled) {
+  if (posterImg) {
     return (
       <div className="w-full h-full rounded-2xl overflow-hidden relative" style={{ background: slotBg }}>
         <img
@@ -100,11 +98,11 @@ function CarouselCard({ show, colorById }: { show: Show; colorById: Record<strin
     )
   }
 
-  const img = posterImg || mediaUrl(show.cardImage, 'medium') || STATIC_IMAGES[show.slug] || ''
+  const img = mediaUrl(show.cardImage, 'medium') || STATIC_IMAGES[show.slug] || ''
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden relative" style={{ background: slotBg }}>
+    <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
       {img
-        ? <img src={img} alt={show.title} className="w-full h-full absolute inset-0" style={{ objectFit: posterImg ? 'cover' : 'contain', objectPosition: show.imagePosition ?? 'center' }} />
+        ? <img src={img} alt={show.title} className="w-full h-full object-contain" />
         : <div className="w-full h-full flex items-center justify-center text-white/10 text-6xl">🎭</div>
       }
     </div>
