@@ -11,7 +11,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
   if (variant === 'featured') {
     return (
       <div className="group cursor-pointer" onClick={onClick}>
-        <div className="show-card-featured relative overflow-hidden rounded">
+        <div className="show-card-featured relative overflow-hidden rounded-2xl">
           <div className="aspect-[4/3]" style={{ background: color || '#0a0101' }}>
             {img ? (
               <img src={img} alt={show.title} className="show-card-img w-full h-full object-contain" />
@@ -34,7 +34,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
 
   return (
     <div className="show-card-grid group block cursor-pointer" onClick={onClick}>
-      <div className="aspect-[3/4] overflow-hidden rounded mb-3" style={{ background: color }}>
+      <div className="aspect-[3/4] overflow-hidden rounded-2xl mb-3" style={{ background: color }}>
         {img ? (
           <img src={img} alt={show.title} className="show-card-img w-full h-full object-contain" />
         ) : (
