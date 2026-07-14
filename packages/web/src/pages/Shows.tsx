@@ -91,6 +91,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   const [detailShow, setDetailShow] = useState<Show | null>(null)
   const [displayShows, setDisplayShows] = useState(shows)
   const [visible, setVisible] = useState(true)
+  const [gradColor, setGradColor] = useState<string>(() => colorById[shows[0]?.id] ?? SLOT_COLORS[0])
   const startX = useRef<number | null>(null)
   const isFirst = useRef(true)
 
@@ -105,6 +106,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
     const t1 = setTimeout(() => {
       setDisplayShows(shows)
       setIndex(0)
+      setGradColor(colorById[shows[0]?.id] ?? SLOT_COLORS[0])
       const t2 = setTimeout(() => setVisible(true), 30)
       return () => clearTimeout(t2)
     }, 380)
@@ -120,6 +122,15 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
     return () => { document.body.style.overflow = '' }
   }, [detailShow])
 
+  function navigate(delta: number) {
+    setIndex(i => {
+      const next = i + delta
+      const nextShow = displayShows[((next % n) + n) % n]
+      setGradColor(colorById[nextShow.id] ?? SLOT_COLORS[0])
+      return next
+    })
+  }
+
   function onTouchStart(e: React.TouchEvent) {
     if (detailShow) return
     startX.current = e.touches[0].clientX
@@ -127,8 +138,8 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   function onTouchEnd(e: React.TouchEvent) {
     if (detailShow || startX.current === null) return
     const dx = e.changedTouches[0].clientX - startX.current
-    if (dx < -40 && (loop || safeIndex < n - 1)) setIndex(i => i + 1)
-    if (dx > 40 && (loop || safeIndex > 0)) setIndex(i => i - 1)
+    if (dx < -40 && (loop || safeIndex < n - 1)) navigate(1)
+    if (dx > 40 && (loop || safeIndex > 0)) navigate(-1)
     startX.current = null
   }
 
@@ -157,8 +168,22 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
+      {/* Gradient wash — solid colour transitions smoothly, mask creates the fade */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: '60%',
+          zIndex: 0,
+          backgroundColor: gradColor,
+          opacity: 0.22,
+          WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          transition: 'background-color 0.5s ease',
+        }}
+      />
+
       {/* 3D stage */}
-      <div style={{
+      <div style={{ position: 'relative', zIndex: 1,
         perspective: '1200px',
         perspectiveOrigin: '50% 40%',
         opacity: visible ? 1 : 0,
@@ -169,7 +194,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
 
           {/* Left arrow — inside left edge of centre card (card is 200px wide, centred at 50%) */}
           <button
-            onClick={() => setIndex(i => i - 1)}
+            onClick={() => navigate(-1)}
             disabled={!loop && safeIndex === 0}
             className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
             style={{ fontSize: '18px', left: 'calc(50% - 158px)' }}
@@ -179,7 +204,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
 
           {/* Right arrow — inside right edge of centre card */}
           <button
-            onClick={() => setIndex(i => i + 1)}
+            onClick={() => navigate(1)}
             disabled={!loop && safeIndex === n - 1}
             className="absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/40 border border-white/15 text-white/70 flex items-center justify-center disabled:opacity-0 transition-all hover:bg-black/60 hover:text-white"
             style={{ fontSize: '18px', left: 'calc(50% + 126px)' }}
@@ -220,7 +245,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
                 key={absPos}
                 onClick={() => {
                   if (abs === 0) setDetailShow(show)
-                  else setIndex(j => j + offset)
+                  else navigate(offset)
                 }}
                 style={{
                   position: 'absolute',
