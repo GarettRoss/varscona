@@ -130,6 +130,17 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
     return () => { document.body.style.overflow = '' }
   }, [detailShow])
 
+  // Preload poster images for current + adjacent cards
+  useEffect(() => {
+    [-1, 0, 1].forEach(offset => {
+      const idx = ((safeIndex + offset) % n + n) % n
+      const show = displayShows[idx]
+      if (!show) return
+      const url = mediaUrl(show.image, 'medium')
+      if (url) { const img = new Image(); img.src = url }
+    })
+  }, [safeIndex, displayShows])
+
   function navigate(delta: number) {
     setIndex(i => {
       const next = i + delta
@@ -323,13 +334,13 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
 
               {/* Scrollable content */}
               <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
-                {/* Poster */}
-                <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4]" style={{ background: dSlotBg }}>
-                  {dImg
-                    ? <img src={dImg} alt={s.title} className="w-full h-full object-contain" />
-                    : <div className="w-full h-full flex items-center justify-center text-white/10 text-7xl">🎭</div>
-                  }
-                </div>
+                {/* Poster — natural size if poster exists, fixed ratio fallback */}
+                {dImg
+                  ? <div className="mx-5 rounded-xl overflow-hidden">
+                      <img src={dImg} alt={s.title} className="w-full h-auto block" />
+                    </div>
+                  : <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4] flex items-center justify-center text-white/10 text-7xl" style={{ background: dSlotBg }}>🎭</div>
+                }
 
                 {/* Info */}
                 <div className="px-5 pt-5 pb-8">
