@@ -21,7 +21,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
                 alt={show.title}
                 className="show-card-img w-full h-full absolute inset-0"
                 style={useLineDrawing
-                  ? { objectFit: 'cover', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }
+                  ? { objectFit: 'cover', objectPosition: show.imagePosition ?? 'center', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }
                   : { objectFit: 'contain' }
                 }
               />
@@ -37,6 +37,10 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
             <p className="text-[#F2EDDF]/60 text-sm whitespace-nowrap">{dateLabel ?? show.dateRange}</p>
           </div>
         </div>
+        <div className="flex items-baseline justify-between mt-3 px-1">
+          <p className="text-xs font-bold tracking-widest uppercase" style={{ color }}>{show.company}</p>
+          <h3 className="font-display text-lg font-bold text-[#1D1D1B] leading-tight text-right">{show.title}</h3>
+        </div>
       </div>
     )
   }
@@ -50,7 +54,7 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
             alt={show.title}
             className="show-card-img w-full h-full absolute inset-0"
             style={useLineDrawing
-              ? { objectFit: 'cover', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }
+              ? { objectFit: 'cover', objectPosition: show.imagePosition ?? 'center', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }
               : { objectFit: 'contain' }
             }
           />

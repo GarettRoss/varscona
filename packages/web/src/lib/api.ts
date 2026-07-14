@@ -25,6 +25,7 @@ export type Show = {
   cast?: string[]
   startDate?: string
   endDate?: string
+  imagePosition?: 'top' | 'center' | 'bottom'
 }
 
 export type SanityImage = {
@@ -66,6 +67,7 @@ const SHOW_FIELDS = `
   cardImage,
   director,
   cast,
+  imagePosition,
 `
 
 export const api = {

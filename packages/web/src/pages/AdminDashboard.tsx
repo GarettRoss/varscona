@@ -118,6 +118,7 @@ type EditState = {
   externalLink: string
   imageFile: File | null
   imagePreview: string
+  imagePosition: 'top' | 'center' | 'bottom'
 }
 
 function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
@@ -135,6 +136,7 @@ function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
     externalLink: partial?.externalLink ?? '',
     imageFile: null,
     imagePreview: partial?.image ? mediaUrl(partial.image, 'small') : '',
+    imagePosition: partial?.imagePosition ?? 'center',
   }
 }
 
@@ -230,6 +232,7 @@ export default function AdminDashboard() {
         director: editing.director || null,
         cast: editing.cast ? editing.cast.split(',').map(s => s.trim()).filter(Boolean) : [],
         externalLink: editing.externalLink || null,
+        imagePosition: editing.imagePosition,
         imageAssetId,
       }
 
@@ -411,7 +414,23 @@ export default function AdminDashboard() {
                       Choose
                     </button>
                     {editing.imageFile && <p className="text-white/40 text-xs">{editing.imageFile.name}</p>}
-                    <p className="text-white/25 text-xs">JPG or PNG</p>
+                    <p className="text-white/25 text-xs">JPG or PNG · 1080×1350px ideal</p>
+                  </div>
+                </div>
+                {/* Image focus */}
+                <div>
+                  <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Image Focus</label>
+                  <div className="flex gap-2">
+                    {(['top', 'center', 'bottom'] as const).map(pos => (
+                      <button
+                        key={pos}
+                        type="button"
+                        onClick={() => handleField('imagePosition', pos)}
+                        className={`px-3 py-1.5 rounded text-xs tracking-wide capitalize transition-colors ${editing.imagePosition === pos ? 'bg-[#FF5F38] text-white' : 'bg-white/10 hover:bg-white/20 text-white'}`}
+                      >
+                        {pos}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>

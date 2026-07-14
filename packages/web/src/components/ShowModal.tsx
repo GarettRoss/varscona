@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function ShowModal({ show, staticImage, onClose }: Props) {
-  const img = staticImage || mediaUrl(show.image, 'medium') || ''
+  const img = mediaUrl(show.image, 'medium') || staticImage || ''
   const ticketUrl = show.externalLink || `/shows/${show.slug}`
   const isExternal = !!show.externalLink
   const color = companyColor(show.company)

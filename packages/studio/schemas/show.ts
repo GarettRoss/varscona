@@ -83,6 +83,22 @@ export const show = defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
+      name: 'imagePosition',
+      title: 'Image Focus',
+      description: 'Which part of the poster to focus on when cropped into cards',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Top', value: 'top' },
+          { title: 'Center', value: 'center' },
+          { title: 'Bottom', value: 'bottom' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'center',
+    }),
+    defineField({
       name: 'externalLink',
       title: 'Ticket Link',
       description: 'Link to buy tickets (leave blank if not yet available)',

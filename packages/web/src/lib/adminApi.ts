@@ -30,6 +30,7 @@ export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'ima
     director: fields.director || null,
     cast: fields.cast ?? [],
     externalLink: fields.externalLink || null,
+    imagePosition: fields.imagePosition ?? 'center',
     'slug.current': fields.slug,
   }
 
@@ -58,6 +59,7 @@ export async function createShow(data: Omit<Show, 'id' | 'image' | 'cardImage' |
     director: fields.director || null,
     cast: fields.cast ?? [],
     externalLink: fields.externalLink || null,
+    imagePosition: fields.imagePosition ?? 'center',
   }
 
   if (imageAssetId) {

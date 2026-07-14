@@ -91,8 +91,8 @@ function CarouselCard({ show, colorById }: { show: Show; colorById: Record<strin
         <img
           src={posterImg}
           alt={show.title}
-          className="w-full h-full object-cover absolute inset-0"
-          style={{ filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }}
+          className="w-full h-full absolute inset-0"
+          style={{ objectFit: 'cover', objectPosition: show.imagePosition ?? 'center', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }}
         />
       </div>
     )
@@ -190,7 +190,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   const color = companyColor(curr.company)
 
   const cardW = 200
-  const cardH = 300
+  const cardH = 250
   const radius = 420
 
   return (
