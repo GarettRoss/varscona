@@ -118,8 +118,6 @@ type EditState = {
   externalLink: string
   imageFile: File | null
   imagePreview: string
-  cardImageFile: File | null
-  cardImagePreview: string
 }
 
 function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
@@ -137,8 +135,6 @@ function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
     externalLink: partial?.externalLink ?? '',
     imageFile: null,
     imagePreview: partial?.image ? mediaUrl(partial.image, 'small') : '',
-    cardImageFile: null,
-    cardImagePreview: partial?.cardImage ? mediaUrl(partial.cardImage, 'small') : '',
   }
 }
 
@@ -168,7 +164,6 @@ export default function AdminDashboard() {
   const [toast, setToast] = useState('')
   const [confirmDelete, setConfirmDelete] = useState<Show | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
-  const cardFileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_auth') !== '1') { navigate('/admin'); return }
@@ -209,12 +204,6 @@ export default function AdminDashboard() {
     setEditing({ ...editing, imageFile: file, imagePreview: URL.createObjectURL(file) })
   }
 
-  function handleCardImageChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file || !editing) return
-    setEditing({ ...editing, cardImageFile: file, cardImagePreview: URL.createObjectURL(file) })
-  }
-
   function handleField<K extends keyof EditState>(key: K, value: EditState[K]) {
     if (!editing) return
     const update: EditState = { ...editing, [key]: value }
@@ -229,8 +218,6 @@ export default function AdminDashboard() {
     try {
       let imageAssetId: string | undefined
       if (editing.imageFile) imageAssetId = await uploadImage(editing.imageFile)
-      let cardImageAssetId: string | undefined
-      if (editing.cardImageFile) cardImageAssetId = await uploadImage(editing.cardImageFile)
 
       const payload = {
         title: editing.title,
@@ -244,7 +231,6 @@ export default function AdminDashboard() {
         cast: editing.cast ? editing.cast.split(',').map(s => s.trim()).filter(Boolean) : [],
         externalLink: editing.externalLink || null,
         imageAssetId,
-        cardImageAssetId,
       }
 
       if (editing.id) {
@@ -426,23 +412,6 @@ export default function AdminDashboard() {
                     </button>
                     {editing.imageFile && <p className="text-white/40 text-xs">{editing.imageFile.name}</p>}
                     <p className="text-white/25 text-xs">JPG or PNG</p>
-                  </div>
-                </div>
-                {/* Card image */}
-                <div>
-                  <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Card Image</label>
-                  <div className="flex flex-col items-start gap-2">
-                    <div className="w-20 aspect-[3/4] rounded overflow-hidden bg-white/5">
-                      {editing.cardImagePreview
-                        ? <img src={editing.cardImagePreview} alt="" className="w-full h-full object-cover" />
-                        : <div className="w-full h-full flex items-center justify-center text-white/20 text-2xl">🎴</div>}
-                    </div>
-                    <input ref={cardFileRef} type="file" accept="image/*" className="hidden" onChange={handleCardImageChange} />
-                    <button type="button" onClick={() => cardFileRef.current?.click()} className="px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-white text-xs tracking-wide transition-colors">
-                      Choose
-                    </button>
-                    {editing.cardImageFile && <p className="text-white/40 text-xs">{editing.cardImageFile.name}</p>}
-                    <p className="text-white/25 text-xs">PNG, 600×800px</p>
                   </div>
                 </div>
               </div>

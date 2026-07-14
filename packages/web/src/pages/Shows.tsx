@@ -82,8 +82,23 @@ function deriveCompanies(shows: Show[]): string[] {
 }
 
 function CarouselCard({ show, colorById }: { show: Show; colorById: Record<string, string> }) {
-  const img = mediaUrl(show.cardImage, 'medium') || STATIC_IMAGES[show.slug] || ''
   const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
+  const posterImg = mediaUrl(show.image, 'medium')
+
+  if (posterImg) {
+    return (
+      <div className="w-full h-full rounded-2xl overflow-hidden relative" style={{ background: slotBg }}>
+        <img
+          src={posterImg}
+          alt={show.title}
+          className="w-full h-full object-cover absolute inset-0"
+          style={{ filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }}
+        />
+      </div>
+    )
+  }
+
+  const img = mediaUrl(show.cardImage, 'medium') || STATIC_IMAGES[show.slug] || ''
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
       {img
