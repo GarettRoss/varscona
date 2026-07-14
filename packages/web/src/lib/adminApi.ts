@@ -17,8 +17,8 @@ export async function uploadImage(file: File): Promise<string> {
   return asset._id
 }
 
-export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'image' | 'featured'> & { imageAssetId?: string }>): Promise<void> {
-  const { imageAssetId, ...fields } = patch
+export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'image' | 'cardImage' | 'featured'> & { imageAssetId?: string; cardImageAssetId?: string }>): Promise<void> {
+  const { imageAssetId, cardImageAssetId, ...fields } = patch
 
   const patchObj: Record<string, unknown> = {
     title: fields.title,
@@ -32,17 +32,17 @@ export async function saveShow(id: string, patch: Partial<Omit<Show, 'id' | 'ima
   }
 
   if (imageAssetId) {
-    patchObj.image = {
-      _type: 'image',
-      asset: { _type: 'reference', _ref: imageAssetId },
-    } satisfies SanityImage
+    patchObj.image = { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } } satisfies SanityImage
+  }
+  if (cardImageAssetId) {
+    patchObj.cardImage = { _type: 'image', asset: { _type: 'reference', _ref: cardImageAssetId } } satisfies SanityImage
   }
 
   await writeClient.patch(id).set(patchObj).commit()
 }
 
-export async function createShow(data: Omit<Show, 'id' | 'image' | 'featured'> & { imageAssetId?: string }): Promise<void> {
-  const { imageAssetId, ...fields } = data
+export async function createShow(data: Omit<Show, 'id' | 'image' | 'cardImage' | 'featured'> & { imageAssetId?: string; cardImageAssetId?: string }): Promise<void> {
+  const { imageAssetId, cardImageAssetId, ...fields } = data
 
   const doc: { _type: string; [key: string]: unknown } = {
     _type: 'show',
@@ -57,10 +57,10 @@ export async function createShow(data: Omit<Show, 'id' | 'image' | 'featured'> &
   }
 
   if (imageAssetId) {
-    doc.image = {
-      _type: 'image',
-      asset: { _type: 'reference', _ref: imageAssetId },
-    }
+    doc.image = { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } }
+  }
+  if (cardImageAssetId) {
+    doc.cardImage = { _type: 'image', asset: { _type: 'reference', _ref: cardImageAssetId } }
   }
 
   await writeClient.create(doc)

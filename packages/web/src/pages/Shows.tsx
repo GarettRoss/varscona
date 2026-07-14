@@ -82,7 +82,7 @@ function deriveCompanies(shows: Show[]): string[] {
 }
 
 function CarouselCard({ show, colorById }: { show: Show; colorById: Record<string, string> }) {
-  const img = STATIC_IMAGES[show.slug] || mediaUrl(show.image, 'medium') || ''
+  const img = mediaUrl(show.cardImage, 'medium') || STATIC_IMAGES[show.slug] || ''
   const slotBg = colorById[show.id] ?? SLOT_COLORS[0]
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: slotBg }}>
@@ -293,7 +293,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
       {/* Detail drawer */}
       {detailShow && (() => {
         const s = detailShow
-        const dImg = STATIC_IMAGES[s.slug] || mediaUrl(s.image, 'medium') || ''
+        const dImg = mediaUrl(s.image, 'medium') || STATIC_IMAGES[s.slug] || ''
         const dSlotBg = colorById[s.id] ?? SLOT_COLORS[0]
         const dColor = companyColor(s.company)
         const dTicketUrl = s.externalLink || `/shows/${s.slug}`

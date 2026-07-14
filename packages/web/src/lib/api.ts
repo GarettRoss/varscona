@@ -20,6 +20,7 @@ export type Show = {
   featured: boolean
   externalLink: string | null
   image: SanityImage | null
+  cardImage: SanityImage | null
   startDate?: string
   endDate?: string
 }
@@ -60,6 +61,7 @@ const SHOW_FIELDS = `
   featured,
   "externalLink": externalLink,
   image,
+  cardImage,
 `
 
 export const api = {

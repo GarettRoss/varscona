@@ -36,8 +36,16 @@ export const show = defineType({
     defineField({
       name: 'image',
       title: 'Poster Image',
+      description: 'Full poster shown in the detail sheet when a card is clicked',
       type: 'image',
       options: { hotspot: true },
+    }),
+    defineField({
+      name: 'cardImage',
+      title: 'Card Image',
+      description: 'Illustration shown in the carousel card (PNG, ideally 600×800px)',
+      type: 'image',
+      options: { hotspot: false },
     }),
     defineField({
       name: 'startDate',
