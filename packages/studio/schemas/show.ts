@@ -71,6 +71,18 @@ export const show = defineType({
       rows: 4,
     }),
     defineField({
+      name: 'director',
+      title: 'Director',
+      type: 'string',
+    }),
+    defineField({
+      name: 'cast',
+      title: 'Cast',
+      description: 'One actor per entry',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
+    defineField({
       name: 'externalLink',
       title: 'Ticket Link',
       description: 'Link to buy tickets (leave blank if not yet available)',

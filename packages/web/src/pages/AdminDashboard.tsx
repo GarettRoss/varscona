@@ -113,6 +113,8 @@ type EditState = {
   startDate: string
   endDate: string
   description: string
+  director: string
+  cast: string
   externalLink: string
   imageFile: File | null
   imagePreview: string
@@ -130,6 +132,8 @@ function blankEdit(partial?: Partial<Show>, fallbackCompany = ''): EditState {
     startDate: partial?.startDate ?? '',
     endDate: partial?.endDate ?? '',
     description: partial?.description ?? '',
+    director: partial?.director ?? '',
+    cast: partial?.cast?.join(', ') ?? '',
     externalLink: partial?.externalLink ?? '',
     imageFile: null,
     imagePreview: partial?.image ? mediaUrl(partial.image, 'small') : '',
@@ -236,6 +240,8 @@ export default function AdminDashboard() {
         startDate: editing.startDate,
         endDate: editing.endDate,
         description: editing.description,
+        director: editing.director || null,
+        cast: editing.cast ? editing.cast.split(',').map(s => s.trim()).filter(Boolean) : [],
         externalLink: editing.externalLink || null,
         imageAssetId,
         cardImageAssetId,
@@ -440,7 +446,6 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-              </div>
 
               {/* Title */}
               <div>
@@ -519,6 +524,29 @@ export default function AdminDashboard() {
                   onChange={e => handleField('description', e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm resize-none"
                 />
+              </div>
+
+              {/* Director */}
+              <div>
+                <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Director</label>
+                <input
+                  value={editing.director}
+                  onChange={e => handleField('director', e.target.value)}
+                  placeholder="e.g. Ryan Parker"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
+                />
+              </div>
+
+              {/* Cast */}
+              <div>
+                <label className="block text-white/60 text-xs tracking-widest uppercase mb-2">Cast</label>
+                <input
+                  value={editing.cast}
+                  onChange={e => handleField('cast', e.target.value)}
+                  placeholder="e.g. Farren Timoteo, Garett Ross"
+                  className="w-full bg-white/5 border border-white/10 rounded px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-[#FF5F38] transition-colors text-sm"
+                />
+                <p className="text-white/25 text-xs mt-1">Comma separated</p>
               </div>
 
               {/* Ticket link */}

@@ -337,7 +337,23 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
                   <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
                   <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
                   {s.description && (
-                    <p className="text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
+                    <p className="text-white/60 text-sm leading-relaxed mb-4">{s.description}</p>
+                  )}
+                  {(s.director || (s.cast && s.cast.length > 0)) && (
+                    <div className="mb-6 space-y-2">
+                      {s.director && (
+                        <div className="flex gap-2 text-sm">
+                          <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Director</span>
+                          <span className="text-white/70">{s.director}</span>
+                        </div>
+                      )}
+                      {s.cast && s.cast.length > 0 && (
+                        <div className="flex gap-2 text-sm">
+                          <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Cast</span>
+                          <span className="text-white/70">{s.cast.join(', ')}</span>
+                        </div>
+                      )}
+                    </div>
                   )}
                   <a
                     href={dTicketUrl}

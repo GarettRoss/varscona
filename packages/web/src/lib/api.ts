@@ -21,6 +21,8 @@ export type Show = {
   externalLink: string | null
   image: SanityImage | null
   cardImage: SanityImage | null
+  director?: string
+  cast?: string[]
   startDate?: string
   endDate?: string
 }
@@ -62,6 +64,8 @@ const SHOW_FIELDS = `
   "externalLink": externalLink,
   image,
   cardImage,
+  director,
+  cast,
 `
 
 export const api = {
