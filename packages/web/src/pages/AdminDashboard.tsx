@@ -247,13 +247,14 @@ export default function AdminDashboard() {
 
   async function handleDelete(show: Show) {
     setSaving(true)
+    setConfirmDelete(null)
+    setShows(prev => prev.filter(s => s.id !== show.id))
     try {
       await deleteShow(show.id)
       showToast(`"${show.title}" deleted.`)
-      setConfirmDelete(null)
-      await load()
     } catch {
       showToast('Error deleting.')
+      await load()
     } finally {
       setSaving(false)
     }
