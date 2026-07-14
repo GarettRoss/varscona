@@ -70,6 +70,10 @@ const SHOW_FIELDS = `
   imagePosition,
 `
 
+export type SiteSettings = {
+  lineDrawingEnabled: boolean
+}
+
 export const api = {
   shows: {
     list: () => sanity.fetch<Show[]>(
@@ -78,6 +82,11 @@ export const api = {
     bySlug: (slug: string) => sanity.fetch<Show[]>(
       `*[_type == "show" && slug.current == $slug] { ${SHOW_FIELDS} }`,
       { slug }
+    ),
+  },
+  siteSettings: {
+    get: () => sanity.fetch<SiteSettings | null>(
+      `*[_type == "siteSettings"][0] { lineDrawingEnabled }`
     ),
   },
 }

@@ -1,13 +1,15 @@
 import type { Show } from '../lib/api'
 import { mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
+import { useSiteSettings } from '../contexts/SiteSettingsContext'
 
 type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string; dateLabel?: string }
 
 export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor, dateLabel }: Props) {
+  const { lineDrawingEnabled } = useSiteSettings()
   const color = slotColor ?? companyColor(show.company)
   const posterImg = mediaUrl(show.image, 'medium')
-  const useLineDrawing = !!posterImg
+  const useLineDrawing = !!posterImg && lineDrawingEnabled
   const img = useLineDrawing ? posterImg : (staticImage || posterImg || '')
 
   if (variant === 'featured') {

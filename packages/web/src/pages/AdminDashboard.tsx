@@ -4,7 +4,7 @@ import {
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, mediaUrl, type Show } from '../lib/api'
-import { createShow, deleteShow, saveShow, uploadImage } from '../lib/adminApi'
+import { createShow, deleteShow, saveShow, saveSiteSettings, uploadImage } from '../lib/adminApi'
 
 // ─── Company combobox ────────────────────────────────────────────────────────
 
@@ -165,12 +165,28 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
   const [confirmDelete, setConfirmDelete] = useState<Show | null>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [lineDrawingEnabled, setLineDrawingEnabled] = useState(true)
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('admin_dark') === '1')
   const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (sessionStorage.getItem('admin_auth') !== '1') { navigate('/admin'); return }
     load()
+    api.siteSettings.get().then(s => { if (s) setLineDrawingEnabled(s.lineDrawingEnabled ?? true) }).catch(() => {})
   }, [navigate])
+
+  async function toggleLineDrawing() {
+    const next = !lineDrawingEnabled
+    setLineDrawingEnabled(next)
+    await saveSiteSettings({ lineDrawingEnabled: next })
+  }
+
+  function toggleDarkMode() {
+    const next = !darkMode
+    setDarkMode(next)
+    localStorage.setItem('admin_dark', next ? '1' : '0')
+  }
 
   useEffect(() => {
     document.body.style.overflow = editing ? 'hidden' : ''
@@ -271,23 +287,68 @@ export default function AdminDashboard() {
 
   const filtered = filter === 'All' ? shows : shows.filter(s => s.company === filter)
 
+  const bg = darkMode ? 'bg-[#1D1D1B] text-[#F2EDDF]' : 'bg-[#F5F0E8] text-[#1D1D1B]'
+  const headerBg = darkMode ? 'bg-[#111110] border-white/10' : 'bg-[#F2EDDF] border-[#1D1D1B]/10'
+  const headerText = darkMode ? 'text-white/40 hover:text-white' : 'text-[#1D1D1B]/40 hover:text-[#1D1D1B]'
+
   return (
-    <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
+    <div className={`min-h-screen ${bg}`}>
       {/* Header */}
-      <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-6 py-4 flex items-center justify-between shadow-sm">
+      <header className={`${headerBg} border-b px-6 py-4 flex items-center justify-between shadow-sm`}>
         <div className="flex items-center gap-4">
           <span className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase font-medium">Varscona Theatre</span>
-          <span className="text-[#1D1D1B]/20">·</span>
-          <span className="text-[#1D1D1B]/50 text-sm">Admin</span>
+          <span className="opacity-20">·</span>
+          <span className="opacity-50 text-sm">Admin</span>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">
+          <button onClick={load} disabled={loading} className={`${headerText} text-xs tracking-wide transition-colors disabled:opacity-30`}>
             ↺ Refresh
           </button>
-          <a href="/" className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← View Site</a>
+          <a href="/" className={`${headerText} text-xs tracking-wide transition-colors`}>← View Site</a>
+
+          {/* Settings gear */}
+          <div className="relative">
+            <button
+              onClick={() => setSettingsOpen(o => !o)}
+              className={`${headerText} text-lg transition-colors`}
+              aria-label="Settings"
+            >
+              ⚙
+            </button>
+            {settingsOpen && (
+              <div className={`absolute right-0 top-8 w-56 rounded-xl shadow-2xl border z-50 p-4 flex flex-col gap-3 ${darkMode ? 'bg-[#2a2a28] border-white/10 text-[#F2EDDF]' : 'bg-white border-[#1D1D1B]/10 text-[#1D1D1B]'}`}>
+                <p className="text-xs tracking-widest uppercase opacity-40 mb-1">Settings</p>
+
+                {/* Line drawing toggle */}
+                <label className="flex items-center justify-between gap-3 cursor-pointer">
+                  <span className="text-sm">Line Drawing</span>
+                  <button
+                    type="button"
+                    onClick={toggleLineDrawing}
+                    className={`w-10 h-6 rounded-full transition-colors relative ${lineDrawingEnabled ? 'bg-[#FF5F38]' : 'bg-black/20'}`}
+                  >
+                    <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all ${lineDrawingEnabled ? 'left-5' : 'left-1'}`} />
+                  </button>
+                </label>
+
+                {/* Dark mode toggle */}
+                <label className="flex items-center justify-between gap-3 cursor-pointer">
+                  <span className="text-sm">Dark Mode</span>
+                  <button
+                    type="button"
+                    onClick={toggleDarkMode}
+                    className={`w-10 h-6 rounded-full transition-colors relative ${darkMode ? 'bg-[#FF5F38]' : 'bg-black/20'}`}
+                  >
+                    <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all ${darkMode ? 'left-5' : 'left-1'}`} />
+                  </button>
+                </label>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
-            className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors"
+            className={`${headerText} text-xs tracking-wide transition-colors`}
           >
             Sign Out
           </button>
