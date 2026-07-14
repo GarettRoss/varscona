@@ -17,6 +17,10 @@ import imgPenelopiad from '../assets/shows/penelopiad.svg'
 import imgCopenhagen from '../assets/shows/copenhagen.svg'
 import img39Steps from '../assets/shows/39-steps.svg'
 import imgNoisesOff from '../assets/shows/noises-off.svg'
+import imgPopcornFalls from '../assets/shows/popcorn-falls.svg'
+import imgTheCottage from '../assets/shows/the-cottage.svg'
+import imgTheGlitteringHeart from '../assets/shows/the-glittering-heart.svg'
+import imgJaneAustensEmma from '../assets/shows/jane-austens-emma.svg'
 
 const STATIC_IMAGES: Record<string, string> = {
   'marjorie-prime': imgMarjoriePrime,
@@ -35,6 +39,10 @@ const STATIC_IMAGES: Record<string, string> = {
   'copenhagen': imgCopenhagen,
   '39-steps': img39Steps,
   'noises-off': imgNoisesOff,
+  'popcorn-falls': imgPopcornFalls,
+  'the-cottage': imgTheCottage,
+  'the-glittering-heart': imgTheGlitteringHeart,
+  'jane-austens-emma': imgJaneAustensEmma,
 }
 
 
