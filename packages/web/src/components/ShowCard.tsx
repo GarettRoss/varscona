@@ -38,8 +38,8 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
           </div>
         </div>
         <div className="flex items-baseline justify-between mt-3 px-1">
-          <p className="text-xs font-bold tracking-widest uppercase" style={{ color }}>{show.company}</p>
-          <h3 className="font-display text-lg font-bold text-[#1D1D1B] leading-tight text-right">{show.title}</h3>
+          <p className="text-sm font-bold tracking-widest uppercase" style={{ color }}>{show.company}</p>
+          <h3 className="font-display text-2xl font-bold text-[#1D1D1B] leading-tight text-right">{show.title}</h3>
         </div>
       </div>
     )

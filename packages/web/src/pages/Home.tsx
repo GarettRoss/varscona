@@ -177,7 +177,7 @@ export default function Home() {
               </div>
               <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#8B1A1A" dateLabel={shortDateRange(show)} />
+                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#FF8C5A" dateLabel={shortDateRange(show)} />
                 ))}
               </div>
             </div>
