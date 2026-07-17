@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { api, type Show } from '../lib/api'
+import { api, mediaUrl, type Show } from '../lib/api'
 import { shortDateRange } from '../lib/shortDateRange'
+import { companyColor } from '../lib/companyColor'
 import ShowCard from '../components/ShowCard'
 import ShowModal from '../components/ShowModal'
 import SplashScreen from '../components/SplashScreen'
@@ -60,6 +61,81 @@ const STATIC_SHOWS: Show[] = [
   { id: '15', title: 'The 39 Steps',                      slug: '39-steps',              company: 'Teatro Live!',   dateRange: 'October 13 – 31, 2026',             description: 'Four actors. 150 roles. A genre-bending spy comedy of thrills, spills, and theatrical invention.',        featured: false, externalLink: null, image: null, startDate: '2026-10-13', endDate: '2026-10-31' },
   { id: '16', title: 'Noises Off',                        slug: 'noises-off',            company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',                description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null, startDate: '2027-03-09', endDate: '2027-03-27' },
 ]
+
+function OnstageCard({ show, staticImage }: { show: Show; staticImage?: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const color = companyColor(show.company) || '#FF8C5A'
+  const posterImg = mediaUrl(show.image, 'medium')
+  const img = posterImg || staticImage || ''
+
+  return (
+    <div
+      className="rounded-2xl overflow-hidden cursor-pointer group"
+      onClick={() => setExpanded(e => !e)}
+    >
+      {/* Image */}
+      <div className="aspect-[4/3] relative" style={{ background: color }}>
+        {img && (
+          <img
+            src={img}
+            alt={show.title}
+            className="w-full h-full absolute inset-0"
+            style={posterImg
+              ? { objectFit: 'cover', objectPosition: show.imagePosition ?? 'center', filter: 'grayscale(1) contrast(8) brightness(1.8)', mixBlendMode: 'multiply' }
+              : { objectFit: 'contain' }
+            }
+          />
+        )}
+        {/* Expand hint */}
+        <div className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-white text-sm transition-transform duration-300" style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          ↓
+        </div>
+      </div>
+
+      {/* Label row */}
+      <div className="flex items-baseline justify-between px-1 mt-3">
+        <p className="text-sm font-bold tracking-widest uppercase" style={{ color }}>{show.company}</p>
+        <h3 className="font-display text-2xl font-bold text-[#1D1D1B] leading-tight text-right">{show.title}</h3>
+      </div>
+
+      {/* Expandable info */}
+      <div
+        ref={bodyRef}
+        style={{
+          maxHeight: expanded ? (bodyRef.current?.scrollHeight ?? 400) + 'px' : '0px',
+          overflow: 'hidden',
+          transition: 'max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        <div className="pt-4 pb-2 px-1 space-y-3" onClick={e => e.stopPropagation()}>
+          <p className="text-[#1D1D1B]/50 text-sm">{shortDateRange(show)}</p>
+          {show.description && (
+            <p className="text-[#1D1D1B]/60 text-sm leading-relaxed">{show.description}</p>
+          )}
+          {(show.director || (show.cast && show.cast.length > 0)) && (
+            <div className="space-y-1">
+              {show.director && (
+                <p className="text-xs text-[#1D1D1B]/40"><span className="uppercase tracking-widest mr-2">Director</span>{show.director}</p>
+              )}
+              {show.cast && show.cast.length > 0 && (
+                <p className="text-xs text-[#1D1D1B]/40"><span className="uppercase tracking-widest mr-2">Cast</span>{show.cast.join(', ')}</p>
+              )}
+            </div>
+          )}
+          <a
+            href={show.externalLink || `/shows/${show.slug}`}
+            {...(show.externalLink ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            className="inline-flex items-center justify-center text-white font-bold text-sm tracking-widest uppercase px-8 py-3 rounded transition-opacity hover:opacity-80 mt-1"
+            style={{ backgroundColor: color }}
+          >
+            Buy Tickets
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function deriveShows(shows: Show[]) {
   const today = new Date()
@@ -177,7 +253,7 @@ export default function Home() {
               </div>
               <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#FF8C5A" dateLabel={shortDateRange(show)} />
+                  <OnstageCard key={show.id} show={show} staticImage={STATIC_IMAGES[show.slug]} />
                 ))}
               </div>
             </div>
