@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { api, type Show } from '../lib/api'
+import { api, mediaUrl, type Show } from '../lib/api'
 import { shortDateRange } from '../lib/shortDateRange'
+import { companyColor } from '../lib/companyColor'
 import ShowCard from '../components/ShowCard'
 import ShowModal from '../components/ShowModal'
 import SplashScreen from '../components/SplashScreen'
@@ -61,6 +63,144 @@ const STATIC_SHOWS: Show[] = [
   { id: '16', title: 'Noises Off',                        slug: 'noises-off',            company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',                description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null, startDate: '2027-03-09', endDate: '2027-03-27' },
 ]
 
+function OnstageCard({
+  show, staticImage, isActive, isInactive, isReturning, onClick, slotColor, index, flipImage, delayMorph,
+}: {
+  show: Show; staticImage?: string; isActive: boolean; isInactive: boolean; isReturning: boolean; onClick: () => void; slotColor?: string; index: number; flipImage?: boolean; delayMorph?: boolean
+}) {
+  const color = slotColor || companyColor(show.company) || '#FF8C5A'
+  const posterImg = mediaUrl(show.image, 'medium')
+  const img = posterImg || staticImage || ''
+  const cardRef = useRef<HTMLDivElement>(null)
+  const imgContainerRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const el = imgContainerRef.current
+    if (!el) return
+    if (!isReturning) {
+      el.style.height = ''
+      return
+    }
+    // Capture the current rendered height before anything changes
+    const currentHeight = el.offsetHeight
+    el.style.transition = 'none'
+    el.style.height = `${currentHeight}px`
+
+    const container = cardRef.current?.parentElement?.parentElement
+    const numCards = container?.children.length ?? 2
+    const gap = 24 * (numCards - 1)
+    const finalCardWidth = ((container?.offsetWidth ?? 0) - gap) / numCards
+    const targetHeight = finalCardWidth * 0.75
+
+    const raf = requestAnimationFrame(() => {
+      el.style.transition = `height 1.1s cubic-bezier(0.16,1,0.3,1)`
+      el.style.height = `${targetHeight}px`
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [isReturning])
+
+  return (
+    <div
+      ref={cardRef}
+      className={`onstage-card${isActive ? ' onstage-active' : ''} rounded-2xl overflow-hidden cursor-pointer`}
+      style={{ opacity: isInactive ? 0.55 : 1, transition: 'opacity 0.4s ease', background: '#F2EDDF' }}
+      onClick={onClick}
+    >
+      <div className="flex" style={{ flexDirection: flipImage ? 'row-reverse' : 'row', alignItems: 'flex-start' }}>
+        {/* Image — same element, morphs via CSS transitions */}
+        <div
+          ref={imgContainerRef}
+          style={{
+            flexShrink: 0,
+            width: isActive ? '38%' : '100%',
+            ...(!isReturning && !isActive ? { aspectRatio: '4/3' } : {}),
+            ...(isActive ? { maxHeight: '800px' } : {}),
+            overflow: 'hidden',
+            background: color,
+            borderRadius: '1rem',
+            transition: `width ${isActive ? '0.9s' : '1.1s'} cubic-bezier(0.16,1,0.3,1)`,
+          }}
+        >
+          {img && (
+            <img
+              src={img}
+              alt={show.title}
+              className="onstage-card-img w-full block"
+              style={posterImg
+                ? {
+                    filter: isActive ? 'none' : 'grayscale(1) contrast(8) brightness(1.8)',
+                    mixBlendMode: isActive ? 'normal' : 'multiply',
+                    transition: `filter ${isActive ? `0.9s ${delayMorph ? '0.55s' : '0s'}` : '1.1s'} cubic-bezier(0.16,1,0.3,1)`,
+                  }
+                : { objectFit: 'contain' }
+              }
+            />
+          )}
+        </div>
+
+        {/* Info panel — slides in beside the image */}
+        <div
+          style={{
+            flex: 1,
+            overflow: 'hidden',
+            maxWidth: isActive ? '100%' : '0',
+            maxHeight: isActive ? '800px' : '0',
+            opacity: isActive ? 1 : 0,
+            transition: isActive
+              ? `max-width 0.9s ${delayMorph ? '0.55s' : '0s'} cubic-bezier(0.16,1,0.3,1), max-height 0.9s ${delayMorph ? '0.55s' : '0s'} cubic-bezier(0.16,1,0.3,1), opacity 0.3s ${delayMorph ? '0.55s' : '0s'} cubic-bezier(0.16,1,0.3,1)`
+              : 'opacity 0.25s cubic-bezier(0.16,1,0.3,1), max-width 1.1s cubic-bezier(0.16,1,0.3,1) 0.2s, max-height 1.1s cubic-bezier(0.16,1,0.3,1) 0.2s',
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex flex-col p-5 space-y-3">
+            <div className="space-y-3">
+              <p className="text-sm font-bold tracking-widest uppercase" style={{ color }}>{show.company}</p>
+              <h3 className="font-display text-2xl font-bold text-[#1D1D1B] leading-tight">{show.title}</h3>
+              <p className="text-[#1D1D1B]/50 text-sm">{shortDateRange(show)}</p>
+              {show.description && <p className="text-[#1D1D1B]/60 text-sm leading-relaxed">{show.description}</p>}
+              {(show.director || (show.cast && show.cast.length > 0)) && (
+                <div className="space-y-1">
+                  {show.director && <p className="text-xs text-[#1D1D1B]/40"><span className="uppercase tracking-widest mr-2">Director</span>{show.director}</p>}
+                  {show.cast && show.cast.length > 0 && <p className="text-xs text-[#1D1D1B]/40"><span className="uppercase tracking-widest mr-2">Cast</span>{show.cast.join(', ')}</p>}
+                </div>
+              )}
+            </div>
+            <a
+              href={show.externalLink || `/shows/${show.slug}`}
+              {...(show.externalLink ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              className="inline-flex items-center justify-center text-white font-bold text-sm tracking-widest uppercase px-6 py-3 rounded transition-opacity hover:opacity-80 self-start mt-2"
+              style={{ backgroundColor: color }}
+              onClick={e => e.stopPropagation()}
+            >
+              Buy Tickets
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Label row — visible when inactive, collapses when active */}
+      <div
+        style={{
+          overflow: 'hidden',
+          maxHeight: (isActive || isReturning) ? '0' : '60px',
+          transition: 'none',
+        }}
+      >
+        <div className="flex items-baseline justify-between px-3 py-3">
+          <p
+            className="font-bold tracking-widest uppercase whitespace-nowrap overflow-hidden"
+            style={{ color, fontSize: isInactive ? '0.6rem' : '0.875rem', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
+          >{show.company}</p>
+          <h3
+            className="font-display font-bold text-[#1D1D1B] leading-tight text-right whitespace-nowrap overflow-hidden"
+            style={{ fontSize: isInactive ? '0.9rem' : '1.5rem', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
+          >{show.title}</h3>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function deriveShows(shows: Show[]) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -102,6 +242,12 @@ function deriveShows(shows: Show[]) {
 export default function Home() {
   const [shows, setShows] = useState<Show[]>(STATIC_SHOWS)
   const [selectedShow, setSelectedShow] = useState<Show | null>(null)
+  const [activeOnstageId, setActiveOnstageId] = useState<string | null>(null)
+  const [returningId, setReturningId] = useState<string | null>(null)
+  const [activeUpcomingId, setActiveUpcomingId] = useState<string | null>(null)
+  const [upcomingCardEntered, setUpcomingCardEntered] = useState(false)
+  const [hoveredStackId, setHoveredStackId] = useState<string | null>(null)
+  const upcomingRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
   const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashSeen'))
 
   useEffect(() => {
@@ -110,7 +256,46 @@ export default function Home() {
       .catch(() => { /* CMS not connected yet — use static fallback */ })
   }, [])
 
+  useEffect(() => {
+    if (activeUpcomingId) {
+      setUpcomingCardEntered(false)
+      const raf = requestAnimationFrame(() => requestAnimationFrame(() => setUpcomingCardEntered(true)))
+      return () => cancelAnimationFrame(raf)
+    } else {
+      setUpcomingCardEntered(false)
+    }
+  }, [activeUpcomingId])
+
   const { onstage, upcoming } = deriveShows(shows)
+
+  const upcomingColors: Record<string, string> = {}
+  upcoming.forEach((s, i) => { upcomingColors[s.id] = ['#FF5F38', '#00C09A', '#7B3FE4', '#BF1650'][i] ?? '#FF8C5A' })
+
+  function handleUpcomingClick(show: Show) {
+    const before = new Map<string, DOMRect>()
+    upcomingRefs.current.forEach((el, id) => { if (el) before.set(id, el.getBoundingClientRect()) })
+
+    flushSync(() => setActiveUpcomingId(prev => prev === show.id ? null : show.id))
+
+    requestAnimationFrame(() => {
+      upcomingRefs.current.forEach((el, id) => {
+        if (!el) return
+        const b = before.get(id)
+        if (!b) return
+        const a = el.getBoundingClientRect()
+        const dx = b.left - a.left
+        const dy = b.top - a.top
+        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return
+        el.style.transition = 'none'
+        el.style.transform = `translate(${dx}px, ${dy}px)`
+        requestAnimationFrame(() => {
+          el.style.transition = 'transform 1.1s cubic-bezier(0.16,1,0.3,1)'
+          el.style.transform = ''
+          setTimeout(() => { el.style.transition = '' }, 1150)
+        })
+      })
+    })
+  }
 
   function handleSplashDone() {
     sessionStorage.setItem('splashSeen', '1')
@@ -175,10 +360,45 @@ export default function Home() {
                   All shows →
                 </Link>
               </div>
-              <div className={`grid gap-6 ${onstage.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
-                {onstage.map((show) => (
-                  <ShowCard key={show.id} show={show} variant="featured" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor="#FF8C5A" dateLabel={shortDateRange(show)} />
-                ))}
+              <div className="flex flex-col md:flex-row gap-6">
+                {onstage.map((show, index) => {
+                  const isActive = activeOnstageId === show.id
+                  const isInactive = activeOnstageId !== null && !isActive
+                  const basis = onstage.length === 1 ? '100%' : isActive ? '75%' : isInactive ? '25%' : 'calc(50% - 12px)'
+                  return (
+                  <div
+                    key={show.id}
+                    style={{
+                      flexBasis: basis,
+                      flexGrow: 0,
+                      flexShrink: 1,
+                      minWidth: 0,
+                      transition: `flex-basis ${isActive ? '0.9s' : '1.1s'} cubic-bezier(0.16, 1, 0.3, 1)`,
+                    }}
+                  >
+                    <OnstageCard
+                      show={show}
+                      staticImage={STATIC_IMAGES[show.slug]}
+                      slotColor="#FF8C5A"
+                      index={index}
+                      flipImage={index === 0}
+                      isActive={isActive}
+                      isInactive={isInactive}
+                      isReturning={returningId === show.id}
+                      onClick={() => {
+                        if (activeOnstageId === show.id) {
+                          setReturningId(show.id)
+                          setActiveOnstageId(null)
+                          setTimeout(() => setReturningId(null), 1300)
+                        } else {
+                          setReturningId(null)
+                          setActiveOnstageId(show.id)
+                        }
+                      }}
+                    />
+                  </div>
+                  )
+                })}
               </div>
             </div>
           </section>
@@ -218,11 +438,101 @@ export default function Home() {
                 </Link>
               </div>
               <p className="text-[#1D1D1B]/50 mb-10">Next up this season</p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                {upcoming.map((show, i) => (
-                  <ShowCard key={show.id} show={show} variant="grid" staticImage={STATIC_IMAGES[show.slug]} onClick={() => setSelectedShow(show)} slotColor={['#FF5F38','#00C09A','#7B3FE4','#BF1650'][i]} />
-                ))}
-              </div>
+
+              {!activeUpcomingId ? (
+                /* ── Grid: 4 ShowCards ── */
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                  {upcoming.map((show) => (
+                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)}>
+                      <ShowCard
+                        show={show}
+                        staticImage={STATIC_IMAGES[show.slug]}
+                        slotColor={upcomingColors[show.id]}
+                        onClick={() => handleUpcomingClick(show)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* ── Expanded: OnstageCard left + stacked pile right ── */
+                <div style={{ display: 'flex', gap: '32px', alignItems: 'stretch' }}>
+                  {/* Active card */}
+                  <div
+                    style={{ flex: '1', minWidth: 0 }}
+                    ref={el => upcomingRefs.current.set(activeUpcomingId, el)}
+                  >
+                    <OnstageCard
+                      show={upcoming.find(s => s.id === activeUpcomingId)!}
+                      staticImage={STATIC_IMAGES[upcoming.find(s => s.id === activeUpcomingId)?.slug ?? '']}
+                      slotColor={upcomingColors[activeUpcomingId]}
+                      index={0}
+                      flipImage={false}
+                      delayMorph
+                      isActive
+                      isInactive={false}
+                      isReturning={false}
+                      onClick={() => handleUpcomingClick(upcoming.find(s => s.id === activeUpcomingId)!)}
+                    />
+                  </div>
+
+                  {/* Stacked pile — hover tracked on container via onMouseMove to avoid flicker */}
+                  {(() => {
+                    const stackCards = upcoming.filter(s => s.id !== activeUpcomingId)
+                    return (
+                      <div
+                        style={{ flex: '0 0 42%', position: 'relative', alignSelf: 'center', aspectRatio: '3/2', overflow: 'visible' }}
+                        onMouseMove={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect()
+                          const x = e.clientX - rect.left
+                          const pct = (x / rect.width) * 100
+                          const zoneW = 100 / stackCards.length
+                          const idx = Math.max(0, Math.min(stackCards.length - 1, Math.floor(pct / zoneW)))
+                          const newId = stackCards[idx].id
+                          if (newId !== hoveredStackId) setHoveredStackId(newId)
+                        }}
+                        onMouseLeave={() => setHoveredStackId(null)}
+                      >
+                        {stackCards.map((show, i, arr) => {
+                          const posterImg = mediaUrl(show.image, 'medium')
+                          const img = posterImg || STATIC_IMAGES[show.slug] || ''
+                          const color = upcomingColors[show.id]
+                          const isHovered = hoveredStackId === show.id
+                          const step = arr.length > 1 ? (100 - 50) / (arr.length - 1) : 0
+
+                          return (
+                            <div
+                              key={show.id}
+                              ref={el => upcomingRefs.current.set(show.id, el)}
+                              onClick={() => handleUpcomingClick(show)}
+                              style={{
+                                position: 'absolute', top: 0, height: '100%',
+                                left: `${i * step}%`, width: '50%',
+                                zIndex: isHovered ? 10 : (() => {
+                                  const hi = arr.findIndex(s => s.id === hoveredStackId)
+                                  return hi >= 0 ? (arr.length + 1 - Math.abs(i - hi)) : (arr.length - i)
+                                })(),
+                                borderRadius: '1rem', overflow: 'hidden',
+                                background: color, cursor: 'pointer',
+                                boxShadow: isHovered ? '0 8px 32px rgba(0,0,0,0.32)' : '0 4px 20px rgba(0,0,0,0.18)',
+                                transition: 'box-shadow 0.2s ease',
+                              }}
+                            >
+                              {img && (
+                                <img src={img} alt={show.title} style={{
+                                  position: 'absolute', inset: 0, width: '100%', height: '100%',
+                                  objectFit: 'cover', objectPosition: 'center',
+                                  filter: posterImg ? 'grayscale(1) contrast(8) brightness(1.8)' : 'none',
+                                  mixBlendMode: posterImg ? 'multiply' : 'normal',
+                                }} />
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
+                </div>
+              )}
             </div>
           </section>
         )}

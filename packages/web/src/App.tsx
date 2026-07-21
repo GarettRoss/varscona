@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
+import HomeV2 from './pages/HomeV2'
 import Shows from './pages/Shows'
 import ShowDetail from './pages/ShowDetail'
 import WhoWeAre from './pages/WhoWeAre'
@@ -23,6 +24,7 @@ export default function App() {
         {/* Public site */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/home-v2" element={<HomeV2 />} />
           <Route path="/shows" element={<Shows />} />
           <Route path="/shows/:slug" element={<ShowDetail />} />
           <Route path="/who-we-are" element={<WhoWeAre />} />

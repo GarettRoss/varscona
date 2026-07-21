@@ -36,6 +36,14 @@ body {
   transition: transform 0.35s ease-in-out;
 }
 
+/* Onstage card hover */
+.onstage-card-img {
+  transition: transform 0.4s ease-in-out, filter 0.9s ease, mix-blend-mode 0.9s ease;
+}
+.onstage-card:not(.onstage-active):hover .onstage-card-img {
+  transform: rotate(-1deg) scale(1.04);
+}
+
 .show-card-featured:hover .show-card-img {
   transform: rotate(-1.5deg) scale(1.03);
 }

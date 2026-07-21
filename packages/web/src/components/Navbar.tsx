@@ -3,6 +3,13 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import logo from '../assets/varscona-logo.png'
 
 const NAV_LINKS = [
+  {
+    label: 'Home',
+    children: [
+      { label: 'Home', to: '/' },
+      { label: 'Home 2', to: '/home-v2' },
+    ],
+  },
   { label: 'Shows', to: '/shows' },
   {
     label: 'About Us',
