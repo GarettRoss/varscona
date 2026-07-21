@@ -106,13 +106,13 @@ function OnstageCard({
       style={{ opacity: isInactive ? 0.55 : 1, transition: 'opacity 0.4s ease', background: '#F2EDDF' }}
       onClick={onClick}
     >
-      <div className="flex" style={{ flexDirection: flipImage ? 'row-reverse' : 'row', alignItems: 'flex-start' }}>
+      <div className={`flex flex-col sm:flex-row${flipImage ? '-reverse' : ''}`} style={{ alignItems: 'flex-start' }}>
         {/* Image — same element, morphs via CSS transitions */}
         <div
           ref={imgContainerRef}
+          className={isActive ? 'w-full sm:w-[38%]' : 'w-full'}
           style={{
             flexShrink: 0,
-            width: isActive ? '38%' : '100%',
             ...(!isReturning && !isActive ? { aspectRatio: '4/3' } : {}),
             ...(isActive ? { maxHeight: '800px' } : {}),
             overflow: 'hidden',
@@ -455,10 +455,11 @@ export default function Home() {
                 </div>
               ) : (
                 /* ── Expanded: OnstageCard left + stacked pile right ── */
-                <div style={{ display: 'flex', gap: '32px', alignItems: 'stretch' }}>
+                <div className="flex flex-col sm:flex-row" style={{ gap: '32px', alignItems: 'stretch' }}>
                   {/* Active card */}
                   <div
-                    style={{ flex: '1', minWidth: 0 }}
+                    className="w-full sm:flex-1"
+                    style={{ minWidth: 0 }}
                     ref={el => upcomingRefs.current.set(activeUpcomingId, el)}
                   >
                     <OnstageCard
@@ -475,11 +476,12 @@ export default function Home() {
                     />
                   </div>
 
-                  {/* Stacked pile — hover tracked on container via onMouseMove to avoid flicker */}
+                  {/* Stacked pile — hidden on mobile, hover tracked via onMouseMove on desktop */}
                   {(() => {
                     const stackCards = upcoming.filter(s => s.id !== activeUpcomingId)
                     return (
                       <div
+                        className="hidden sm:block"
                         style={{ flex: '0 0 42%', position: 'relative', alignSelf: 'center', aspectRatio: '3/2', overflow: 'visible' }}
                         onMouseMove={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect()
