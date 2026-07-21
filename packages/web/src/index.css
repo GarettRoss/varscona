@@ -217,6 +217,13 @@ a[class*="inline-flex"]:active {
   transform: scale(0.92);
 }
 
+/* Onstage info panel — on mobile (flex-col) max-width must not constrain */
+@media (max-width: 639px) {
+  .onstage-info-panel {
+    max-width: 100% !important;
+  }
+}
+
 /* Admin button lift */
 .admin-btn {
   transition: transform 0.15s ease, box-shadow 0.15s ease;

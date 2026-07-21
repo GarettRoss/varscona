@@ -141,6 +141,7 @@ function OnstageCard({
 
         {/* Info panel — slides in beside the image */}
         <div
+          className="onstage-info-panel"
           style={{
             flex: 1,
             order: flipImage ? 1 : 2,
