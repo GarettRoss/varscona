@@ -217,10 +217,14 @@ a[class*="inline-flex"]:active {
   transform: scale(0.92);
 }
 
-/* Onstage info panel — on mobile (flex-col) max-width must not constrain */
+/* Onstage cards — on mobile always show image on top, text below */
 @media (max-width: 639px) {
   .onstage-info-panel {
     max-width: 100% !important;
+    order: 2 !important;
+  }
+  .onstage-img-container {
+    order: 1 !important;
   }
 }
 

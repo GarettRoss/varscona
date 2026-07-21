@@ -110,7 +110,7 @@ function OnstageCard({
         {/* Image — same element, morphs via CSS transitions */}
         <div
           ref={imgContainerRef}
-          className={isActive ? 'w-full sm:w-[38%]' : 'w-full'}
+          className={`onstage-img-container ${isActive ? 'w-full sm:w-[38%]' : 'w-full'}`}
           style={{
             flexShrink: 0,
             order: flipImage ? 2 : 1,
