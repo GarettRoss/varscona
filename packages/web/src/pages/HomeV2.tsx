@@ -106,13 +106,14 @@ function OnstageCard({
       style={{ opacity: isInactive ? 0.55 : 1, transition: 'opacity 0.4s ease', background: '#F2EDDF' }}
       onClick={onClick}
     >
-      <div className={`flex flex-col sm:flex-row${flipImage ? '-reverse' : ''}`} style={{ alignItems: 'flex-start' }}>
+      <div className="flex flex-col sm:flex-row" style={{ alignItems: 'flex-start' }}>
         {/* Image — same element, morphs via CSS transitions */}
         <div
           ref={imgContainerRef}
           className={isActive ? 'w-full sm:w-[38%]' : 'w-full'}
           style={{
             flexShrink: 0,
+            order: flipImage ? 2 : 1,
             ...(!isReturning && !isActive ? { aspectRatio: '4/3' } : {}),
             ...(isActive ? { maxHeight: '800px' } : {}),
             overflow: 'hidden',
@@ -142,6 +143,7 @@ function OnstageCard({
         <div
           style={{
             flex: 1,
+            order: flipImage ? 1 : 2,
             overflow: 'hidden',
             maxWidth: isActive ? '100%' : '0',
             maxHeight: isActive ? '800px' : '0',
