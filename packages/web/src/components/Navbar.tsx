@@ -211,7 +211,7 @@ export default function Navbar() {
                     {item.label}
                   </button>
                   {openDropdown === item.label && (
-                    <ul className="pl-4 space-y-1 mt-1">
+                    <ul className="pl-4 space-y-1 mt-1 relative z-50">
                       {item.children.map((child) => (
                         <li key={child.to}>
                           <NavLink
