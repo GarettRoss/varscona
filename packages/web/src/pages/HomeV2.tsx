@@ -189,14 +189,14 @@ function OnstageCard({
           transition: 'none',
         }}
       >
-        <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 px-3 py-3">
+        <div className="flex items-baseline justify-between px-3 py-3" style={{ containerType: 'inline-size' }}>
           <p
-            className="font-bold tracking-widest uppercase min-w-0 shrink-0"
-            style={{ color, fontSize: isInactive ? '0.6rem' : '0.875rem', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
+            className="font-bold tracking-widest uppercase whitespace-nowrap overflow-hidden"
+            style={{ color, fontSize: isInactive ? 'clamp(0.45rem, 2.5cqw, 0.6rem)' : 'clamp(0.55rem, 3.5cqw, 0.875rem)', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
           >{show.company}</p>
           <h3
-            className="font-display font-bold text-[#1D1D1B] leading-tight text-right min-w-0"
-            style={{ fontSize: isInactive ? '0.9rem' : '1.5rem', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
+            className="font-display font-bold text-[#1D1D1B] leading-tight text-right whitespace-nowrap overflow-hidden"
+            style={{ fontSize: isInactive ? 'clamp(0.6rem, 4cqw, 0.9rem)' : 'clamp(0.75rem, 6cqw, 1.5rem)', transition: 'font-size 0.9s cubic-bezier(0.16,1,0.3,1)' }}
           >{show.title}</h3>
         </div>
       </div>
