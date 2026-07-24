@@ -428,6 +428,7 @@ export default function Home() {
                       flexGrow: 0,
                       flexShrink: 1,
                       minWidth: '240px',
+                      position: 'relative',
                       transition: `flex-basis ${isActive ? '0.9s' : '1.1s'} cubic-bezier(0.16, 1, 0.3, 1)`,
                     }}
                   >
@@ -538,7 +539,7 @@ export default function Home() {
                       <div
                         className="hidden sm:block"
                         style={fanIsVertical
-                          ? { flex: '0 0 28%', position: 'relative', alignSelf: 'stretch', overflow: 'hidden', borderRadius: '1rem' }
+                          ? { flex: '0 0 28%', position: 'relative', alignSelf: 'stretch', overflow: 'visible', borderRadius: '1rem' }
                           : { flex: '0 0 42%', position: 'relative', alignSelf: 'center', aspectRatio: '3/2', overflow: 'visible' }
                         }
                         onMouseMove={(e) => {
