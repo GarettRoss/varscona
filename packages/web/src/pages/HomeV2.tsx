@@ -252,6 +252,29 @@ export default function Home() {
   const [hoveredStackId, setHoveredStackId] = useState<string | null>(null)
   const upcomingRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
   const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashSeen'))
+  const [fanIsVertical, setFanIsVertical] = useState(() => window.innerWidth < 900)
+  const anchorElRef = useRef<Element | null>(null)
+  const anchorOffsetRef = useRef<number>(0)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 899px)')
+    const mqHandler = (e: MediaQueryListEvent) => setFanIsVertical(e.matches)
+    mq.addEventListener('change', mqHandler)
+
+    let savedY = window.scrollY
+    const onResize = () => {
+      savedY = window.scrollY
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        window.scrollTo({ top: savedY, behavior: 'instant' })
+      }))
+    }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      mq.removeEventListener('change', mqHandler)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
 
   useEffect(() => {
     api.shows.list()
@@ -363,7 +386,7 @@ export default function Home() {
                   All shows →
                 </Link>
               </div>
-              <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex flex-row gap-6">
                 {onstage.map((show, index) => {
                   const isActive = activeOnstageId === show.id
                   const isInactive = activeOnstageId !== null && !isActive
@@ -485,13 +508,17 @@ export default function Home() {
                     return (
                       <div
                         className="hidden sm:block"
-                        style={{ flex: '0 0 42%', position: 'relative', alignSelf: 'center', aspectRatio: '3/2', overflow: 'visible' }}
+                        style={fanIsVertical
+                          ? { flex: '0 0 28%', position: 'relative', alignSelf: 'stretch', overflow: 'hidden', borderRadius: '1rem' }
+                          : { flex: '0 0 42%', position: 'relative', alignSelf: 'center', aspectRatio: '3/2', overflow: 'visible' }
+                        }
                         onMouseMove={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect()
-                          const x = e.clientX - rect.left
-                          const pct = (x / rect.width) * 100
-                          const zoneW = 100 / stackCards.length
-                          const idx = Math.max(0, Math.min(stackCards.length - 1, Math.floor(pct / zoneW)))
+                          const pct = fanIsVertical
+                            ? ((e.clientY - rect.top) / rect.height) * 100
+                            : ((e.clientX - rect.left) / rect.width) * 100
+                          const zoneSize = 100 / stackCards.length
+                          const idx = Math.max(0, Math.min(stackCards.length - 1, Math.floor(pct / zoneSize)))
                           const newId = stackCards[idx].id
                           if (newId !== hoveredStackId) setHoveredStackId(newId)
                         }}
@@ -503,21 +530,32 @@ export default function Home() {
                           const color = upcomingColors[show.id]
                           const isHovered = hoveredStackId === show.id
                           const step = arr.length > 1 ? (100 - 50) / (arr.length - 1) : 0
+                          const zIdx = isHovered ? 10 : (() => {
+                            const hi = arr.findIndex(s => s.id === hoveredStackId)
+                            return hi >= 0 ? (arr.length + 1 - Math.abs(i - hi)) : (arr.length - i)
+                          })()
 
                           return (
                             <div
                               key={show.id}
                               ref={el => upcomingRefs.current.set(show.id, el)}
                               onClick={() => handleUpcomingClick(show)}
-                              style={{
-                                position: 'absolute', top: 0, height: '100%',
-                                left: `${i * step}%`, width: '50%',
-                                zIndex: isHovered ? 10 : (() => {
-                                  const hi = arr.findIndex(s => s.id === hoveredStackId)
-                                  return hi >= 0 ? (arr.length + 1 - Math.abs(i - hi)) : (arr.length - i)
-                                })(),
+                              style={fanIsVertical ? {
+                                position: 'absolute', left: 0, width: '100%',
+                                top: `${i * step}%`, height: '50%',
+                                zIndex: zIdx,
                                 borderRadius: '1rem', overflow: 'hidden',
                                 background: color, cursor: 'pointer',
+                                border: `2px solid ${color}`,
+                                boxShadow: isHovered ? '0 8px 32px rgba(0,0,0,0.32)' : '0 4px 20px rgba(0,0,0,0.18)',
+                                transition: 'box-shadow 0.2s ease',
+                              } : {
+                                position: 'absolute', top: 0, height: '100%',
+                                left: `${i * step}%`, width: '50%',
+                                zIndex: zIdx,
+                                borderRadius: '1rem', overflow: 'hidden',
+                                background: color, cursor: 'pointer',
+                                border: `2px solid ${color}`,
                                 boxShadow: isHovered ? '0 8px 32px rgba(0,0,0,0.32)' : '0 4px 20px rgba(0,0,0,0.18)',
                                 transition: 'box-shadow 0.2s ease',
                               }}
