@@ -63,6 +63,33 @@ const STATIC_SHOWS: Show[] = [
   { id: '16', title: 'Noises Off',                        slug: 'noises-off',            company: 'Teatro Live!',   dateRange: 'March 9 – 27, 2027',                description: "Michael Frayn's comedy of theatrical catastrophe — the funniest farce ever written.",                    featured: false, externalLink: null, image: null, startDate: '2027-03-09', endDate: '2027-03-27' },
 ]
 
+function useDragScroll() {
+  const ref = useRef<HTMLDivElement>(null)
+  const dragging = useRef(false)
+  const startX = useRef(0)
+  const startScroll = useRef(0)
+  const moved = useRef(false)
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (!ref.current) return
+    dragging.current = true
+    moved.current = false
+    startX.current = e.pageX
+    startScroll.current = ref.current.scrollLeft
+  }
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!dragging.current || !ref.current) return
+    const dx = e.pageX - startX.current
+    if (Math.abs(dx) > 4) moved.current = true
+    ref.current.scrollLeft = startScroll.current - dx
+  }
+  const onMouseUp = () => { dragging.current = false }
+  const onClickCapture = (e: React.MouseEvent) => { if (moved.current) e.stopPropagation() }
+
+  return { ref, onMouseDown, onMouseMove, onMouseUp, onMouseLeave: onMouseUp, onClickCapture }
+}
+
 function OnstageCard({
   show, staticImage, isActive, isInactive, isReturning, onClick, slotColor, index, flipImage, delayMorph,
 }: {
@@ -251,6 +278,8 @@ export default function Home() {
   const [upcomingCardEntered, setUpcomingCardEntered] = useState(false)
   const [hoveredStackId, setHoveredStackId] = useState<string | null>(null)
   const upcomingRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
+  const onstageDrag = useDragScroll()
+  const upcomingDrag = useDragScroll()
   const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashSeen'))
   const [fanIsVertical, setFanIsVertical] = useState(() => window.innerWidth < 900)
   const anchorElRef = useRef<Element | null>(null)
@@ -386,7 +415,7 @@ export default function Home() {
                   All shows →
                 </Link>
               </div>
-              <div className="flex flex-row gap-6">
+              <div ref={onstageDrag.ref} className="flex flex-row gap-6 drag-scroll" style={{ overflowX: 'auto' }} onMouseDown={onstageDrag.onMouseDown} onMouseMove={onstageDrag.onMouseMove} onMouseUp={onstageDrag.onMouseUp} onMouseLeave={onstageDrag.onMouseLeave} onClickCapture={onstageDrag.onClickCapture}>
                 {onstage.map((show, index) => {
                   const isActive = activeOnstageId === show.id
                   const isInactive = activeOnstageId !== null && !isActive
@@ -398,7 +427,7 @@ export default function Home() {
                       flexBasis: basis,
                       flexGrow: 0,
                       flexShrink: 1,
-                      minWidth: 0,
+                      minWidth: '240px',
                       transition: `flex-basis ${isActive ? '0.9s' : '1.1s'} cubic-bezier(0.16, 1, 0.3, 1)`,
                     }}
                   >
@@ -467,9 +496,9 @@ export default function Home() {
 
               {!activeUpcomingId ? (
                 /* ── Grid: 4 ShowCards ── */
-                <div className="flex flex-row gap-4">
+                <div ref={upcomingDrag.ref} className="flex flex-row gap-4 drag-scroll" style={{ overflowX: 'auto' }} onMouseDown={upcomingDrag.onMouseDown} onMouseMove={upcomingDrag.onMouseMove} onMouseUp={upcomingDrag.onMouseUp} onMouseLeave={upcomingDrag.onMouseLeave} onClickCapture={upcomingDrag.onClickCapture}>
                   {upcoming.map((show) => (
-                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)} style={{ flex: '1 1 0', minWidth: 0 }}>
+                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)} style={{ flex: '1 1 0', minWidth: '190px' }}>
                       <ShowCard
                         show={show}
                         staticImage={STATIC_IMAGES[show.slug]}
