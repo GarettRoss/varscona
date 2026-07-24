@@ -106,7 +106,7 @@ function OnstageCard({
       style={{ opacity: isInactive ? 0.55 : 1, transition: 'opacity 0.4s ease', background: '#F2EDDF' }}
       onClick={onClick}
     >
-      <div className="flex flex-col sm:flex-row" style={{ alignItems: 'flex-start' }}>
+      <div className="flex flex-col sm:flex-row" style={{ alignItems: 'center' }}>
         {/* Image — same element, morphs via CSS transitions */}
         <div
           ref={imgContainerRef}
@@ -444,9 +444,9 @@ export default function Home() {
 
               {!activeUpcomingId ? (
                 /* ── Grid: 4 ShowCards ── */
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex flex-row gap-4">
                   {upcoming.map((show) => (
-                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)}>
+                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)} style={{ flex: '1 1 0', minWidth: 0 }}>
                       <ShowCard
                         show={show}
                         staticImage={STATIC_IMAGES[show.slug]}

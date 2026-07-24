@@ -2,9 +2,9 @@ import type { Show } from '../lib/api'
 import { mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
 
-type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string; dateLabel?: string }
+type Props = { show: Show; variant?: 'grid' | 'featured'; staticImage?: string; onClick?: () => void; slotColor?: string; dateLabel?: string; hideText?: boolean }
 
-export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor, dateLabel }: Props) {
+export default function ShowCard({ show, variant = 'grid', staticImage, onClick, slotColor, dateLabel, hideText }: Props) {
   const color = slotColor ?? companyColor(show.company)
   const posterImg = mediaUrl(show.image, 'medium')
   const useLineDrawing = !!posterImg
@@ -62,9 +62,11 @@ export default function ShowCard({ show, variant = 'grid', staticImage, onClick,
           <div className="w-full h-full flex items-center justify-center text-[#1D1D1B]/20 text-5xl">🎭</div>
         )}
       </div>
-      <p className="text-xs font-bold tracking-widest uppercase mb-1 text-[#1D1D1B]">{show.company}</p>
-      <h3 className="font-display text-xl font-bold leading-tight mb-1" style={{ color }}>{show.title}</h3>
-      <p className="text-[#1D1D1B]/55 text-base">{show.dateRange}</p>
+      {!hideText && <>
+        <p className="text-xs font-bold tracking-widest uppercase mb-1 text-[#1D1D1B]">{show.company}</p>
+        <h3 className="font-display text-xl font-bold leading-tight mb-1" style={{ color }}>{show.title}</h3>
+        <p className="text-[#1D1D1B]/55 text-base">{show.dateRange}</p>
+      </>}
     </div>
   )
 }
