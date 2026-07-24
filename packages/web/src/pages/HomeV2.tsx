@@ -444,9 +444,9 @@ export default function Home() {
 
               {!activeUpcomingId ? (
                 /* ── Grid: 4 ShowCards ── */
-                <div className="flex flex-row gap-3 sm:gap-6" style={{ minWidth: 0 }}>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                   {upcoming.map((show) => (
-                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)} style={{ flex: '1 1 0', minWidth: 0 }}>
+                    <div key={show.id} ref={el => upcomingRefs.current.set(show.id, el)}>
                       <ShowCard
                         show={show}
                         staticImage={STATIC_IMAGES[show.slug]}
