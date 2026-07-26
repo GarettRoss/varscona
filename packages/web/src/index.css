@@ -14,7 +14,6 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-anchor: none;
 }
 
 body {
@@ -217,15 +216,6 @@ button:not([disabled]):active,
 a[class*="inline-flex"]:active {
   transform: scale(0.92);
 }
-
-/* Drag-scroll rows — hide scrollbar */
-.drag-scroll {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  cursor: grab;
-}
-.drag-scroll:active { cursor: grabbing; }
-.drag-scroll::-webkit-scrollbar { display: none; }
 
 /* Onstage cards — on mobile always show image on top, text below */
 @media (max-width: 639px) {
