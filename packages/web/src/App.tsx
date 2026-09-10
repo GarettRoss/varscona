@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import HomeV2 from './pages/HomeV2'
 import Shows from './pages/Shows'
+import ShowsV2 from './pages/ShowsV2'
 import ShowDetail from './pages/ShowDetail'
 import WhoWeAre from './pages/WhoWeAre'
 import Contact from './pages/Contact'
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home-v2" element={<HomeV2 />} />
           <Route path="/shows" element={<Shows />} />
+          <Route path="/shows-v2" element={<ShowsV2 />} />
           <Route path="/shows/:slug" element={<ShowDetail />} />
           <Route path="/who-we-are" element={<WhoWeAre />} />
           <Route path="/community" element={<Community />} />

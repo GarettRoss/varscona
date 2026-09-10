@@ -10,7 +10,13 @@ const NAV_LINKS = [
       { label: 'Home 2', to: '/home-v2' },
     ],
   },
-  { label: 'Shows', to: '/shows' },
+  {
+    label: 'Shows',
+    children: [
+      { label: 'Shows', to: '/shows' },
+      { label: 'Shows 2', to: '/shows-v2' },
+    ],
+  },
   {
     label: 'About Us',
     children: [
