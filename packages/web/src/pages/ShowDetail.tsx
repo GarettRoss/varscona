@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { api, type Show, mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
+import TicketForm from '../components/TicketForm'
 
 export default function ShowDetail() {
   const { slug } = useParams<{ slug: string }>()
   const [show, setShow] = useState<Show | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -65,28 +67,27 @@ export default function ShowDetail() {
                 )}
               </div>
               <div className="pt-2">
-                <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color }}>{show.company}</p>
-                <h2 className="font-display text-4xl md:text-5xl font-bold text-[#1D1D1B] mb-4 leading-tight">{show.title}</h2>
-                <p className="text-[#1D1D1B]/50 text-lg mb-6">{show.dateRange}</p>
-                {show.description && (
-                  <p className="text-[#1D1D1B]/70 leading-relaxed mb-8">{show.description}</p>
-                )}
-                {show.externalLink ? (
-                  <a
-                    href={show.externalLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
-                  >
-                    Book Tickets
-                  </a>
+                {showForm ? (
+                  <TicketForm
+                    show={show}
+                    theme="light"
+                    onBack={() => setShowForm(false)}
+                  />
                 ) : (
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
-                  >
-                    Contact for Tickets
-                  </Link>
+                  <>
+                    <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color }}>{show.company}</p>
+                    <h2 className="font-display text-4xl md:text-5xl font-bold text-[#1D1D1B] mb-4 leading-tight">{show.title}</h2>
+                    <p className="text-[#1D1D1B]/50 text-lg mb-6">{show.dateRange}</p>
+                    {show.description && (
+                      <p className="text-[#1D1D1B]/70 leading-relaxed mb-8">{show.description}</p>
+                    )}
+                    <button
+                      onClick={() => setShowForm(true)}
+                      className="inline-flex items-center gap-2 bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-semibold text-sm tracking-wide uppercase px-8 py-4 rounded transition-colors"
+                    >
+                      Book Tickets
+                    </button>
+                  </>
                 )}
               </div>
             </div>

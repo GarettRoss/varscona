@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { api, type Show, mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
+import TicketForm from '../components/TicketForm'
 import imgMarjoriePrime from '../assets/shows/marjorie-prime.svg'
 import imgDieNasty from '../assets/shows/die-nasty.svg'
 import imgHouseOfHush from '../assets/shows/house-of-hush.svg'
@@ -112,6 +113,7 @@ function CarouselCard({ show, colorById }: { show: Show; colorById: Record<strin
 function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorById: Record<string, string>; filterKey: string }) {
   const [index, setIndex] = useState(0)
   const [detailShow, setDetailShow] = useState<Show | null>(null)
+  const [showForm, setShowForm] = useState(false)
   const [displayShows, setDisplayShows] = useState(shows)
   const [visible, setVisible] = useState(true)
   const [gradColor, setGradColor] = useState<string>(() => colorById[shows[0]?.id] ?? SLOT_COLORS[0])
@@ -141,6 +143,7 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
+      setShowForm(false)
     }
     return () => { document.body.style.overflow = '' }
   }, [detailShow])
@@ -322,8 +325,6 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
         const dImg = mediaUrl(s.image, 'medium') || STATIC_IMAGES[s.slug] || ''
         const dSlotBg = colorById[s.id] ?? SLOT_COLORS[0]
         const dColor = companyColor(s.company)
-        const dTicketUrl = s.externalLink || `/shows/${s.slug}`
-        const dIsExternal = !!s.externalLink
         return (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center"
@@ -349,46 +350,58 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
 
               {/* Scrollable content */}
               <div className="overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}>
-                {/* Poster — natural size if poster exists, fixed ratio fallback */}
-                {dImg
-                  ? <div className="mx-5 rounded-xl overflow-hidden">
-                      <img src={dImg} alt={s.title} className="w-full h-auto block" />
-                    </div>
-                  : <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4] flex items-center justify-center text-white/10 text-7xl" style={{ background: dSlotBg }}>🎭</div>
-                }
+                {showForm ? (
+                  <div className="p-5">
+                    <TicketForm
+                      show={s}
+                      theme="dark"
+                      onBack={() => setShowForm(false)}
+                      onClose={() => setDetailShow(null)}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    {/* Poster — natural size if poster exists, fixed ratio fallback */}
+                    {dImg
+                      ? <div className="mx-5 rounded-xl overflow-hidden">
+                          <img src={dImg} alt={s.title} className="w-full h-auto block" />
+                        </div>
+                      : <div className="mx-5 rounded-xl overflow-hidden aspect-[3/4] flex items-center justify-center text-white/10 text-7xl" style={{ background: dSlotBg }}>🎭</div>
+                    }
 
-                {/* Info */}
-                <div className="px-5 pt-5 pb-8">
-                  <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: dColor }}>{s.company}</p>
-                  <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
-                  <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
-                  {s.description && (
-                    <p className="text-white/60 text-sm leading-relaxed mb-4">{s.description}</p>
-                  )}
-                  {(s.director || (s.cast && s.cast.length > 0)) && (
-                    <div className="mb-6 space-y-2">
-                      {s.director && (
-                        <div className="flex gap-2 text-sm">
-                          <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Director</span>
-                          <span className="text-white/70">{s.director}</span>
+                    {/* Info */}
+                    <div className="px-5 pt-5 pb-8">
+                      <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: dColor }}>{s.company}</p>
+                      <h3 className="font-display text-3xl font-bold text-white leading-tight mb-1">{s.title}</h3>
+                      <p className="text-white/40 text-sm mb-4">{shortDateRange(s)}</p>
+                      {s.description && (
+                        <p className="text-white/60 text-sm leading-relaxed mb-4">{s.description}</p>
+                      )}
+                      {(s.director || (s.cast && s.cast.length > 0)) && (
+                        <div className="mb-6 space-y-2">
+                          {s.director && (
+                            <div className="flex gap-2 text-sm">
+                              <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Director</span>
+                              <span className="text-white/70">{s.director}</span>
+                            </div>
+                          )}
+                          {s.cast && s.cast.length > 0 && (
+                            <div className="flex gap-2 text-sm">
+                              <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Cast</span>
+                              <span className="text-white/70">{s.cast.join(', ')}</span>
+                            </div>
+                          )}
                         </div>
                       )}
-                      {s.cast && s.cast.length > 0 && (
-                        <div className="flex gap-2 text-sm">
-                          <span className="text-white/30 uppercase tracking-widest text-xs w-20 shrink-0 pt-0.5">Cast</span>
-                          <span className="text-white/70">{s.cast.join(', ')}</span>
-                        </div>
-                      )}
+                      <button
+                        onClick={() => setShowForm(true)}
+                        className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-4 rounded-xl transition-colors"
+                      >
+                        Buy Tickets
+                      </button>
                     </div>
-                  )}
-                  <a
-                    href={dTicketUrl}
-                    {...(dIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="w-full inline-flex items-center justify-center bg-[#FF5F38] hover:bg-[#ff7a57] text-white font-bold text-xs tracking-widest uppercase px-6 py-4 rounded-xl transition-colors"
-                  >
-                    Buy Tickets
-                  </a>
-                </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

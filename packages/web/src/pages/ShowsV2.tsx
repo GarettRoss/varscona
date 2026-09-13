@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { api, type Show, mediaUrl } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
+import ShowModal from '../components/ShowModal'
 const STATIC_IMAGES: Record<string, string> = {}
 
 // Last Monday of October for a given year
@@ -59,9 +59,8 @@ function FilterPill({ label, isActive, onClick }: { label: string; value?: strin
   )
 }
 
-function ShowRow({ show }: { show: Show }) {
+function ShowRow({ show, onClick }: { show: Show; onClick: () => void }) {
   const [hovered, setHovered] = useState(false)
-  const navigate = useNavigate()
   const color = companyColor(show.company)
   const img = showImage(show)
   const isDieNasty = show.slug === 'die-nasty'
@@ -79,7 +78,7 @@ function ShowRow({ show }: { show: Show }) {
       className="group relative cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => navigate(`/shows/${show.slug}`)}
+      onClick={onClick}
     >
       {/* hover background */}
       <div
@@ -169,6 +168,7 @@ function effectiveSortDate(show: Show): Date {
 export default function ShowsV2() {
   const [shows, setShows] = useState<Show[]>([])
   const [filter, setFilter] = useState('All')
+  const [selectedShow, setSelectedShow] = useState<Show | null>(null)
 
   useEffect(() => {
     const FIELDS = '"id": _id, title, "slug": slug.current, company, dateRange, startDate, endDate, description, featured, "externalLink": externalLink, image, cardImage, director, cast, imagePosition'
@@ -264,7 +264,7 @@ export default function ShowsV2() {
           className="[&::-webkit-scrollbar]:hidden flex-1"
         >
           {filtered.map((show) => (
-            <ShowRow key={show.id} show={show} />
+            <ShowRow key={show.id} show={show} onClick={() => setSelectedShow(show)} />
           ))}
 
           {filtered.length === 0 && (
@@ -275,6 +275,10 @@ export default function ShowsV2() {
         {/* bottom rule */}
         <div className="h-px mx-4 md:mx-0 shrink-0" style={{ background: '#F2EDDF1a' }} />
       </div>
+
+      {selectedShow && (
+        <ShowModal show={selectedShow} onClose={() => setSelectedShow(null)} />
+      )}
     </div>
   )
 }
