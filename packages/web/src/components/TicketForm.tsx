@@ -36,11 +36,17 @@ type Props = {
 
 export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Props) {
   const [date, setDate] = useState('')
-  const [ticketType, setTicketType] = useState('')
-  const [qty, setQty] = useState('1')
+  const [tickets, setTickets] = useState<string[]>([''])
   const [payment, setPayment] = useState('')
   const color = companyColor(show.company)
-  const canContinue = date && ticketType && payment
+  const canContinue = date && tickets.every(t => t !== '') && tickets.length > 0 && payment
+
+  function updateTicket(i: number, value: string) {
+    setTickets(prev => prev.map((t, idx) => idx === i ? value : t))
+  }
+  function removeTicket(i: number) {
+    setTickets(prev => prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev)
+  }
   const isDark = theme === 'dark'
 
   const selectClass = isDark
@@ -99,27 +105,42 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
         </div>
       </div>
 
-      {/* Ticket type + qty */}
+      {/* Tickets */}
       <div>
-        <label className={labelClass}>Ticket Type</label>
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <select className={selectClass} value={ticketType} onChange={e => setTicketType(e.target.value)}>
-              <option value="" disabled>Select type…</option>
-              {TICKET_TYPES.map(t => (
-                <option key={t.value} value={t.value}>{t.label}</option>
-              ))}
-            </select>
-            <span className={chevronClass}>▾</span>
-          </div>
-          <div className="relative w-20 shrink-0">
-            <select className={selectClass} value={qty} onChange={e => setQty(e.target.value)}>
-              {[1,2,3,4,5,6,7,8].map(n => (
-                <option key={n} value={String(n)}>× {n}</option>
-              ))}
-            </select>
-            <span className={chevronClass}>▾</span>
-          </div>
+        <label className={labelClass}>Tickets</label>
+        <div className="flex flex-col gap-2">
+          {tickets.map((t, i) => (
+            <div key={i} className="flex gap-2 items-center">
+              <div className="relative flex-1">
+                <select className={selectClass} value={t} onChange={e => updateTicket(i, e.target.value)}>
+                  <option value="" disabled>Select type…</option>
+                  {TICKET_TYPES.map(tt => (
+                    <option key={tt.value} value={tt.value}>{tt.label}</option>
+                  ))}
+                </select>
+                <span className={chevronClass}>▾</span>
+              </div>
+              {tickets.length > 1 && (
+                <button
+                  onClick={() => removeTicket(i)}
+                  className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-colors text-base ${
+                    isDark ? 'text-[#F2EDDF]/40 hover:text-[#F2EDDF]/80 hover:bg-white/10' : 'text-[#1D1D1B]/40 hover:text-[#1D1D1B]/80 hover:bg-[#1D1D1B]/8'
+                  }`}
+                  aria-label="Remove ticket"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            onClick={() => setTickets(prev => [...prev, ''])}
+            className={`mt-1 text-xs font-medium tracking-widest uppercase flex items-center gap-1.5 transition-colors ${
+              isDark ? 'text-[#F2EDDF]/50 hover:text-[#F2EDDF]' : 'text-[#1D1D1B]/50 hover:text-[#1D1D1B]'
+            }`}
+          >
+            <span className="text-base leading-none">+</span> Add Ticket
+          </button>
         </div>
       </div>
 
