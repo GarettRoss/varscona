@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { type Show } from '../lib/api'
 import { companyColor } from '../lib/companyColor'
 
@@ -25,12 +25,76 @@ const PAYMENT_TYPES = [
   { label: 'Season Pass',         value: 'pass' },
 ]
 
+type Option = { label: string; value: string }
+
+function Dropdown({ options, value, onChange, placeholder, isDark }: {
+  options: Option[]
+  value: string
+  onChange: (v: string) => void
+  placeholder: string
+  isDark: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const selected = options.find(o => o.value === value)
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    if (open) document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [open])
+
+  const triggerStyle = isDark
+    ? { background: 'rgba(242,237,223,0.10)', border: '1px solid rgba(242,237,223,0.35)', color: value ? '#F2EDDF' : 'rgba(242,237,223,0.45)' }
+    : { background: 'rgba(29,29,27,0.06)', border: '1px solid rgba(29,29,27,0.20)', color: value ? '#1D1D1B' : 'rgba(29,29,27,0.40)' }
+
+  const menuStyle = isDark
+    ? { background: '#2a2a27', border: '1px solid rgba(242,237,223,0.18)' }
+    : { background: '#fff', border: '1px solid rgba(29,29,27,0.15)' }
+
+  const itemBase = `px-4 py-2.5 text-sm cursor-pointer transition-colors`
+  const itemDark = `${itemBase} text-[#F2EDDF] hover:bg-[#F2EDDF]/10`
+  const itemLight = `${itemBase} text-[#1D1D1B] hover:bg-[#1D1D1B]/6`
+  const itemActive = isDark ? 'bg-[#F2EDDF]/15' : 'bg-[#1D1D1B]/8'
+
+  return (
+    <div ref={ref} className="relative w-full">
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between rounded-lg px-4 py-3 text-sm transition-colors text-left"
+        style={triggerStyle}
+      >
+        <span>{selected ? selected.label : placeholder}</span>
+        <span className="ml-2 shrink-0 text-xs opacity-60">▾</span>
+      </button>
+
+      {open && (
+        <div
+          className="absolute z-50 w-full mt-1 rounded-lg overflow-hidden shadow-xl"
+          style={menuStyle}
+        >
+          {options.map(opt => (
+            <div
+              key={opt.value}
+              className={`${isDark ? itemDark : itemLight} ${opt.value === value ? itemActive : ''}`}
+              onMouseDown={() => { onChange(opt.value); setOpen(false) }}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 type Props = {
   show: Show
-  /** 'dark' = modal/dark bg, 'light' = show detail page cream bg */
   theme?: 'dark' | 'light'
   onBack: () => void
-  /** Only needed in dark/modal mode */
   onClose?: () => void
 }
 
@@ -49,13 +113,8 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
   }
   const isDark = theme === 'dark'
 
-  const selectClass = isDark
-    ? `w-full bg-[#F2EDDF]/8 border border-[#F2EDDF]/15 rounded-lg px-4 py-3 text-[#F2EDDF] text-sm appearance-none cursor-pointer transition-colors hover:border-[#F2EDDF]/30 focus:outline-none focus:border-[#F2EDDF]/40`
-    : `w-full bg-[#1D1D1B]/6 border border-[#1D1D1B]/15 rounded-lg px-4 py-3 text-[#1D1D1B] text-sm appearance-none cursor-pointer transition-colors hover:border-[#1D1D1B]/30 focus:outline-none focus:border-[#1D1D1B]/40`
-
-  const labelClass = `block text-xs font-medium tracking-widest uppercase mb-2 ${isDark ? 'text-[#F2EDDF]/50' : 'text-[#1D1D1B]/50'}`
+  const labelClass = `block text-xs font-medium tracking-widest uppercase mb-2 ${isDark ? 'text-[#F2EDDF]/75' : 'text-[#1D1D1B]/50'}`
   const dividerStyle = { background: isDark ? '#F2EDDF18' : '#1D1D1B18' }
-  const chevronClass = `pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs ${isDark ? 'text-[#F2EDDF]/40' : 'text-[#1D1D1B]/40'}`
 
   return (
     <div className="flex flex-col gap-5">
@@ -94,15 +153,13 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
       {/* Date */}
       <div>
         <label className={labelClass}>Performance Date</label>
-        <div className="relative">
-          <select className={selectClass} value={date} onChange={e => setDate(e.target.value)}>
-            <option value="" disabled>Select a date…</option>
-            {PLACEHOLDER_DATES.map(d => (
-              <option key={d.value} value={d.value}>{d.label}</option>
-            ))}
-          </select>
-          <span className={chevronClass}>▾</span>
-        </div>
+        <Dropdown
+          options={PLACEHOLDER_DATES}
+          value={date}
+          onChange={setDate}
+          placeholder="Select a date…"
+          isDark={isDark}
+        />
       </div>
 
       {/* Tickets */}
@@ -111,15 +168,13 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
         <div className="flex flex-col gap-2">
           {tickets.map((t, i) => (
             <div key={i} className="flex gap-2 items-center">
-              <div className="relative flex-1">
-                <select className={selectClass} value={t} onChange={e => updateTicket(i, e.target.value)}>
-                  <option value="" disabled>Select type…</option>
-                  {TICKET_TYPES.map(tt => (
-                    <option key={tt.value} value={tt.value}>{tt.label}</option>
-                  ))}
-                </select>
-                <span className={chevronClass}>▾</span>
-              </div>
+              <Dropdown
+                options={TICKET_TYPES}
+                value={t}
+                onChange={v => updateTicket(i, v)}
+                placeholder="Select type…"
+                isDark={isDark}
+              />
               {tickets.length > 1 && (
                 <button
                   onClick={() => removeTicket(i)}
@@ -147,15 +202,13 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
       {/* Payment */}
       <div>
         <label className={labelClass}>Payment Method</label>
-        <div className="relative">
-          <select className={selectClass} value={payment} onChange={e => setPayment(e.target.value)}>
-            <option value="" disabled>Select payment…</option>
-            {PAYMENT_TYPES.map(p => (
-              <option key={p.value} value={p.value}>{p.label}</option>
-            ))}
-          </select>
-          <span className={chevronClass}>▾</span>
-        </div>
+        <Dropdown
+          options={PAYMENT_TYPES}
+          value={payment}
+          onChange={setPayment}
+          placeholder="Select payment…"
+          isDark={isDark}
+        />
       </div>
 
       <div className="h-px" style={dividerStyle} />
