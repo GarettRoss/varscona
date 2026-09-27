@@ -98,15 +98,18 @@ type Props = {
   onClose?: () => void
 }
 
+type Ticket = { type: string; name: string; showName: boolean }
+
 export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Props) {
   const [date, setDate] = useState('')
-  const [tickets, setTickets] = useState<string[]>([''])
+  const [tickets, setTickets] = useState<Ticket[]>([{ type: '', name: '', showName: false }])
   const [payment, setPayment] = useState('')
   const color = companyColor(show.company)
-  const canContinue = date && tickets.every(t => t !== '') && tickets.length > 0 && payment
+  const leadName = tickets[0]?.name.trim()
+  const canContinue = date && tickets.every(t => t.type !== '') && tickets.length > 0 && payment && !!leadName
 
-  function updateTicket(i: number, value: string) {
-    setTickets(prev => prev.map((t, idx) => idx === i ? value : t))
+  function updateTicket(i: number, field: keyof Ticket, value: string | boolean) {
+    setTickets(prev => prev.map((t, idx) => idx === i ? { ...t, [field]: value } : t))
   }
   function removeTicket(i: number) {
     setTickets(prev => prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev)
@@ -165,20 +168,46 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
       {/* Tickets */}
       <div>
         <label className={labelClass}>Tickets</label>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {tickets.map((t, i) => (
-            <div key={i} className="flex gap-2 items-center">
-              <Dropdown
-                options={TICKET_TYPES}
-                value={t}
-                onChange={v => updateTicket(i, v)}
-                placeholder="Select type…"
-                isDark={isDark}
-              />
+            <div key={i} className="flex gap-2 items-start">
+              <div className="flex flex-col gap-1 flex-1">
+                <Dropdown
+                  options={TICKET_TYPES}
+                  value={t.type}
+                  onChange={v => updateTicket(i, 'type', v)}
+                  placeholder="Select type…"
+                  isDark={isDark}
+                />
+                {(i === 0 || t.showName) ? (
+                  <div className="flex justify-end">
+                    <input
+                      type="text"
+                      value={t.name}
+                      onChange={e => updateTicket(i, 'name', e.target.value)}
+                      placeholder={i === 0 ? 'Name (required)…' : 'Guest name…'}
+                      className={`w-48 rounded-md px-3 py-1.5 text-xs transition-colors focus:outline-none ${
+                        isDark
+                          ? 'bg-[#F2EDDF]/10 border border-[#F2EDDF]/35 text-[#F2EDDF] placeholder-[#F2EDDF]/30 focus:border-[#F2EDDF]/60'
+                          : 'bg-[#1D1D1B]/6 border border-[#1D1D1B]/20 text-[#1D1D1B] placeholder-[#1D1D1B]/30 focus:border-[#1D1D1B]/40'
+                      }`}
+                    />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => updateTicket(i, 'showName', true)}
+                    className={`text-xs self-end transition-colors ${
+                      isDark ? 'text-[#F2EDDF]/35 hover:text-[#F2EDDF]/70' : 'text-[#1D1D1B]/35 hover:text-[#1D1D1B]/70'
+                    }`}
+                  >
+                    {leadName ? `+ Add name (defaults to ${leadName})` : '+ Add name'}
+                  </button>
+                )}
+              </div>
               {tickets.length > 1 && (
                 <button
                   onClick={() => removeTicket(i)}
-                  className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-colors text-base ${
+                  className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-colors text-base mt-1 ${
                     isDark ? 'text-[#F2EDDF]/40 hover:text-[#F2EDDF]/80 hover:bg-white/10' : 'text-[#1D1D1B]/40 hover:text-[#1D1D1B]/80 hover:bg-[#1D1D1B]/8'
                   }`}
                   aria-label="Remove ticket"
@@ -189,7 +218,7 @@ export default function TicketForm({ show, theme = 'dark', onBack, onClose }: Pr
             </div>
           ))}
           <button
-            onClick={() => setTickets(prev => [...prev, ''])}
+            onClick={() => setTickets(prev => [...prev, { type: '', name: '', showName: false }])}
             className={`mt-1 text-xs font-medium tracking-widest uppercase flex items-center gap-1.5 transition-colors ${
               isDark ? 'text-[#F2EDDF]/50 hover:text-[#F2EDDF]' : 'text-[#1D1D1B]/50 hover:text-[#1D1D1B]'
             }`}

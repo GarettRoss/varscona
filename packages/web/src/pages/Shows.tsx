@@ -192,8 +192,8 @@ function ShowCarousel({ shows, colorById, filterKey }: { shows: Show[]; colorByI
   const isExternal = !!curr.externalLink
   const color = companyColor(curr.company)
 
-  const cardW = 200
-  const cardH = 250
+  const cardW = 230
+  const cardH = 290
   const radius = 420
 
   return (
@@ -442,8 +442,40 @@ export default function Shows() {
   today.setHours(0, 0, 0, 0)
   const active = shows.filter(s => !s.endDate || new Date(s.endDate) >= today)
 
-  const companies = deriveCompanies(active)
-  const filtered = filter === 'All' ? active : active.filter((s) => s.company === filter)
+  const months = useMemo(() => {
+    const now = new Date()
+    const result: { key: string; label: string }[] = []
+    for (let i = 0; i < 6; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1)
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      const label = d.toLocaleString('default', { month: 'long' })
+      const hasShow = active.some(s => {
+        if (s.slug === 'die-nasty') return true
+        const start = s.startDate ? new Date(s.startDate + 'T00:00:00') : null
+        const end = s.endDate ? new Date(s.endDate + 'T23:59:59') : null
+        const mStart = new Date(d.getFullYear(), d.getMonth(), 1)
+        const mEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59)
+        if (!start) return false
+        return start <= mEnd && (!end || end >= mStart)
+      })
+      if (hasShow) result.push({ key, label })
+    }
+    return result
+  }, [active])
+
+  const filtered = useMemo(() => {
+    if (filter === 'All') return active
+    const [year, month] = filter.split('-').map(Number)
+    const mStart = new Date(year, month - 1, 1)
+    const mEnd = new Date(year, month, 0, 23, 59, 59)
+    return active.filter(s => {
+      if (s.slug === 'die-nasty') return true
+      const start = s.startDate ? new Date(s.startDate + 'T00:00:00') : null
+      const end = s.endDate ? new Date(s.endDate + 'T23:59:59') : null
+      if (!start) return false
+      return start <= mEnd && (!end || end >= mStart)
+    })
+  }, [active, filter])
 
   return (
     <div className="pt-16">
@@ -464,26 +496,28 @@ export default function Shows() {
 
         {/* Filter tabs */}
         <section className="bg-[#F2EDDF] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] px-8 py-6">
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-            <button
-              onClick={() => setFilter('All')}
-              className={`col-span-2 sm:col-span-1 px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors text-center ${
-                filter === 'All' ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
-              }`}
-            >
-              All
-            </button>
-            {companies.map((c) => (
+          <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: '133%' }}>
+            <div className="flex gap-2 items-start">
               <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`px-4 py-1.5 rounded text-sm font-medium tracking-wide transition-colors text-center ${
-                  filter === c ? 'bg-[#FF5F38] text-white' : 'bg-[#1D1D1B]/8 text-[#1D1D1B]/60 hover:bg-[#1D1D1B]/12 hover:text-[#1D1D1B]'
-                }`}
+                onClick={() => setFilter('All')}
+                className="rounded tracking-widest uppercase font-medium transition-all duration-200 whitespace-nowrap"
+                style={{ fontSize: '11px', padding: '4px 10px', background: filter === 'All' ? '#FF5F38' : 'rgba(29,29,27,0.08)', color: filter === 'All' ? '#fff' : 'rgba(29,29,27,0.55)' }}
               >
-                {c}
+                All
               </button>
-            ))}
+              <div className="flex flex-wrap gap-2">
+                {months.map(m => (
+                  <button
+                    key={m.key}
+                    onClick={() => setFilter(m.key)}
+                    className="rounded tracking-widest uppercase font-medium transition-all duration-200 whitespace-nowrap"
+                    style={{ fontSize: '11px', padding: '4px 10px', background: filter === m.key ? '#FF5F38' : 'rgba(29,29,27,0.08)', color: filter === m.key ? '#fff' : 'rgba(29,29,27,0.55)' }}
+                  >
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 

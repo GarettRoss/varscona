@@ -13,6 +13,7 @@ import Community from './pages/Community'
 import Jobs from './pages/Jobs'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import AdminCalendar from './pages/AdminCalendar'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         {/* Admin routes — no site layout */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/calendar" element={<AdminCalendar />} />
 
         {/* Public site */}
         <Route element={<Layout />}>

@@ -284,6 +284,9 @@ export default function AdminDashboard() {
           <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">
             ↺ Refresh
           </button>
+          <button onClick={() => navigate('/admin/calendar')} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">
+            📅 Bookings
+          </button>
           <a href="/" className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← View Site</a>
           <button
             onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}

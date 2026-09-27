@@ -228,7 +228,7 @@ export default function ShowsV2() {
     <div className="h-screen overflow-hidden bg-[#1D1D1B] flex flex-col">
 
       {/* Header */}
-      <div className="pt-32 pb-10 px-4 md:px-16 max-w-6xl mx-auto w-full shrink-0">
+      <div className="pt-28 pb-6 px-4 md:px-16 max-w-6xl mx-auto w-full shrink-0">
         <p className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase mb-4">Varscona Theatre</p>
         <h1 className="font-display text-5xl md:text-7xl font-bold text-[#F2EDDF] leading-none mb-6">
           The Season
@@ -239,7 +239,7 @@ export default function ShowsV2() {
       </div>
 
       {/* Company filter */}
-      <div className="px-4 md:px-16 max-w-6xl mx-auto w-full mb-8 shrink-0">
+      <div className="px-4 md:px-16 max-w-6xl mx-auto w-full mb-4 shrink-0">
         <div className="bg-[#F2EDDF] rounded-2xl px-6 py-4">
           <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: '133%' }}>
             <div className="flex gap-2 items-start">
@@ -255,13 +255,13 @@ export default function ShowsV2() {
       </div>
 
       {/* Show list — scrolls inside, rest of page locked */}
-      <div className="max-w-6xl mx-auto w-full px-0 md:px-8 flex flex-col min-h-0 flex-1 pb-16">
+      <div className="max-w-6xl mx-auto w-full px-0 md:px-8 flex flex-col min-h-0 flex-1 pb-8">
         {/* top rule */}
         <div className="h-px mx-4 md:mx-0 shrink-0" style={{ background: '#F2EDDF1a' }} />
 
         <div
-          style={{ overflowY: 'scroll', scrollbarWidth: 'none' }}
-          className="[&::-webkit-scrollbar]:hidden flex-1"
+          style={{ overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(242,237,223,0.2) transparent' }}
+          className="flex-1"
         >
           {filtered.map((show) => (
             <ShowRow key={show.id} show={show} onClick={() => setSelectedShow(show)} />

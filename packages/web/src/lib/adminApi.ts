@@ -75,3 +75,41 @@ export async function createShow(data: Omit<Show, 'id' | 'image' | 'cardImage' |
 export async function deleteShow(id: string): Promise<void> {
   await writeClient.delete(id)
 }
+
+// ─── Booking types ────────────────────────────────────────────────────────────
+
+export type Booking = {
+  id: string
+  title: string
+  room: string
+  date: string        // YYYY-MM-DD
+  startTime: string   // HH:MM
+  endTime: string     // HH:MM
+  bookedBy: string
+  company?: string
+  notes?: string
+  color?: string
+}
+
+const BOOKING_FIELDS = '"id": _id, title, room, date, startTime, endTime, bookedBy, company, notes, color'
+
+export async function fetchBookings(): Promise<Booking[]> {
+  const query = encodeURIComponent(`*[_type == "booking"] | order(date asc, startTime asc) { ${BOOKING_FIELDS} }`)
+  const res = await fetch(`https://tt49pmnb.api.sanity.io/v2024-01-01/data/query/production?query=${query}`, {
+    headers: { Authorization: `Bearer ${import.meta.env.VITE_SANITY_WRITE_TOKEN}` },
+  })
+  const data = await res.json()
+  return data.result ?? []
+}
+
+export async function createBooking(b: Omit<Booking, 'id'>): Promise<void> {
+  await writeClient.create({ _type: 'booking', ...b })
+}
+
+export async function updateBooking(id: string, patch: Partial<Omit<Booking, 'id'>>): Promise<void> {
+  await writeClient.patch(id).set(patch).commit()
+}
+
+export async function deleteBooking(id: string): Promise<void> {
+  await writeClient.delete(id)
+}
