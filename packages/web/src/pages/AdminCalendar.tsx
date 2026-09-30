@@ -383,6 +383,10 @@ export default function AdminCalendar() {
           font-family: inherit;
         }
         .fc-varscona .fc-toolbar-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; }
+        @media (max-width: 767px) {
+          .fc-varscona .fc-toolbar { flex-wrap: wrap; gap: 6px; }
+          .fc-varscona .fc-toolbar-chunk:nth-child(2) { order: 3; width: 100%; text-align: center; }
+        }
         .fc-varscona .fc-col-header-cell-cushion,
         .fc-varscona .fc-daygrid-day-number { color: rgba(242,237,223,0.55); text-decoration: none; font-size: 0.75rem; }
         .fc-varscona .fc-daygrid-day.fc-day-today .fc-daygrid-day-number { color: #FF5F38; font-weight: 700; }
