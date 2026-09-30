@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AdminHeader from '../components/AdminHeader'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -147,52 +148,26 @@ export default function AdminCalendar() {
 
   return (
     <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
-      {/* Top nav */}
-      <header className="bg-[#111110] border-b border-[#F2EDDF]/8 px-4 md:px-6 py-3 flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
-        {/* Row 1: back + title + sign out */}
-        <div className="flex items-center gap-3 min-w-0">
-          <button
-            onClick={() => navigate('/admin/dashboard')}
-            className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors shrink-0"
-          >
-            ← Dashboard
-          </button>
-          <div className="h-4 w-px bg-[#F2EDDF]/15 shrink-0" />
-          <h1 className="font-bold text-[#F2EDDF] tracking-wide text-sm md:text-base truncate">Rehearsal Room Bookings</h1>
-          <button
-            onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
-            className="ml-auto text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0 md:hidden"
-          >
-            Sign Out
-          </button>
-        </div>
+      <AdminHeader />
 
-        {/* Row 2 on mobile / inline on desktop: filter + new booking + sign out */}
-        <div className="flex items-center gap-2 md:ml-auto">
-          <select
-            value={filterRoom}
-            onChange={e => setFilterRoom(e.target.value)}
-            className="flex-1 md:flex-none text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none"
-          >
-            <option value="all">All rooms</option>
-            {ROOMS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
-          </select>
-
-          <button
-            onClick={() => openCreate()}
-            className="shrink-0 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity"
-          >
-            + New Booking
-          </button>
-
-          <button
-            onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
-            className="hidden md:block text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0"
-          >
-            Sign Out
-          </button>
-        </div>
-      </header>
+      {/* Calendar sub-toolbar */}
+      <div className="bg-[#111110] border-b border-[#F2EDDF]/8 px-4 md:px-6 py-2.5 flex items-center gap-2">
+        <h1 className="font-semibold text-sm text-[#F2EDDF]/70 hidden md:block mr-2">Booking Calendar</h1>
+        <select
+          value={filterRoom}
+          onChange={e => setFilterRoom(e.target.value)}
+          className="flex-1 md:flex-none text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none"
+        >
+          <option value="all">All rooms</option>
+          {ROOMS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+        </select>
+        <button
+          onClick={() => openCreate()}
+          className="shrink-0 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity"
+        >
+          + New Booking
+        </button>
+      </div>
 
       {/* Calendar */}
       <main className="p-6">

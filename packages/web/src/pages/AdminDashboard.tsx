@@ -5,6 +5,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { api, mediaUrl, type Show } from '../lib/api'
 import { createShow, deleteShow, saveShow, uploadImage } from '../lib/adminApi'
+import AdminHeader from '../components/AdminHeader'
 
 // ─── Company combobox ────────────────────────────────────────────────────────
 
@@ -159,7 +160,6 @@ export default function AdminDashboard() {
   const navigate = useNavigate()
   const [shows, setShows] = useState<Show[]>([])
   const [loading, setLoading] = useState(true)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [loadError, setLoadError] = useState('')
   const [filter, setFilter] = useState('All')
   const [editing, setEditing] = useState<EditState | null>(null)
@@ -274,51 +274,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
-      {/* Header */}
-      <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-4 md:px-6 py-3 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase font-medium">Varscona Theatre</span>
-          <span className="text-[#1D1D1B]/20">·</span>
-          <span className="text-[#1D1D1B]/50 text-sm">Admin</span>
-        </div>
-
-        {/* Desktop actions */}
-        <div className="hidden md:flex items-center gap-4">
-          <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">↺ Refresh</button>
-          <button onClick={() => navigate('/admin/dashboard')} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← Dashboard</button>
-          <a href="/" className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← View Site</a>
-          <button onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">Sign Out</button>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMenuOpen(o => !o)}
-          className="md:hidden flex flex-col gap-[5px] p-2 -mr-1"
-          aria-label="Menu"
-        >
-          <span className="block w-5 h-0.5 bg-[#1D1D1B]/60" />
-          <span className="block w-5 h-0.5 bg-[#1D1D1B]/60" />
-          <span className="block w-5 h-0.5 bg-[#1D1D1B]/60" />
-        </button>
-      </header>
-
-      {/* Mobile slide-down menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-4 py-3 flex flex-col gap-0">
-          <button onClick={() => { load(); setMenuOpen(false) }} disabled={loading} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8 disabled:opacity-30">
-            <span className="text-base">↺</span> Refresh
-          </button>
-          <button onClick={() => { navigate('/admin/dashboard'); setMenuOpen(false) }} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8">
-            ← Dashboard
-          </button>
-          <a href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8">
-            <span>←</span> View Site
-          </a>
-          <button onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }} className="flex items-center gap-3 py-3 text-sm text-red-500/70 hover:text-red-500 transition-colors">
-            <span>↩</span> Sign Out
-          </button>
-        </div>
-      )}
+      <AdminHeader onRefresh={load} refreshing={loading} />
 
       <div className="max-w-5xl mx-auto px-6 py-10">
         {/* Title row */}
