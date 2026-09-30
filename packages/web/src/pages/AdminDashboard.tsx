@@ -274,13 +274,15 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
       {/* Header */}
-      <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
+      <header className="bg-[#F2EDDF] border-b border-[#1D1D1B]/10 px-4 md:px-6 py-3 shadow-sm flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        {/* Row 1: branding */}
+        <div className="flex items-center gap-3">
           <span className="text-[#FF5F38] text-xs tracking-[0.4em] uppercase font-medium">Varscona Theatre</span>
           <span className="text-[#1D1D1B]/20">·</span>
           <span className="text-[#1D1D1B]/50 text-sm">Admin</span>
         </div>
-        <div className="flex items-center gap-4">
+        {/* Row 2 on mobile / right side on desktop: actions */}
+        <div className="flex items-center gap-4 flex-wrap">
           <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">
             ↺ Refresh
           </button>
