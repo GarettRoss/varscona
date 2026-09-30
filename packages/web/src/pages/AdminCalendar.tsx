@@ -61,7 +61,6 @@ export default function AdminCalendar() {
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [filterRoom, setFilterRoom] = useState('all')
-  const [menuOpen, setMenuOpen] = useState(false)
   const calendarRef = useRef<InstanceType<typeof FullCalendar>>(null)
 
   useEffect(() => {
@@ -149,50 +148,51 @@ export default function AdminCalendar() {
   return (
     <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
       {/* Top nav */}
-      <header className="bg-[#111110] border-b border-[#F2EDDF]/8 px-4 md:px-6 py-3 flex items-center gap-3">
-        <button onClick={() => navigate('/admin/dashboard')} className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors shrink-0 hidden md:block">← Shows</button>
-        <div className="hidden md:block h-4 w-px bg-[#F2EDDF]/15 shrink-0" />
-        <h1 className="font-bold text-[#F2EDDF] tracking-wide text-sm md:text-base truncate">Rehearsal Room Bookings</h1>
+      <header className="bg-[#111110] border-b border-[#F2EDDF]/8 px-4 md:px-6 py-3 flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+        {/* Row 1: back + title + sign out */}
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            onClick={() => navigate('/admin/dashboard')}
+            className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors shrink-0"
+          >
+            ← Shows
+          </button>
+          <div className="h-4 w-px bg-[#F2EDDF]/15 shrink-0" />
+          <h1 className="font-bold text-[#F2EDDF] tracking-wide text-sm md:text-base truncate">Rehearsal Room Bookings</h1>
+          <button
+            onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
+            className="ml-auto text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0 md:hidden"
+          >
+            Sign Out
+          </button>
+        </div>
 
-        {/* Desktop actions */}
-        <div className="hidden md:flex items-center gap-3 ml-auto">
-          <select value={filterRoom} onChange={e => setFilterRoom(e.target.value)} className="text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none">
+        {/* Row 2 on mobile / inline on desktop: filter + new booking + sign out */}
+        <div className="flex items-center gap-2 md:ml-auto">
+          <select
+            value={filterRoom}
+            onChange={e => setFilterRoom(e.target.value)}
+            className="flex-1 md:flex-none text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none"
+          >
             <option value="all">All rooms</option>
             {ROOMS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
           </select>
-          <button onClick={() => openCreate()} className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity">+ New Booking</button>
-          <button onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }} className="text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors">Sign Out</button>
-        </div>
 
-        {/* Mobile: new booking + hamburger */}
-        <div className="md:hidden flex items-center gap-2 ml-auto">
-          <button onClick={() => openCreate()} className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity shrink-0">+ New</button>
-          <button onClick={() => setMenuOpen(o => !o)} className="flex flex-col gap-[5px] p-2 -mr-1" aria-label="Menu">
-            <span className="block w-5 h-0.5 bg-[#F2EDDF]/60" />
-            <span className="block w-5 h-0.5 bg-[#F2EDDF]/60" />
-            <span className="block w-5 h-0.5 bg-[#F2EDDF]/60" />
+          <button
+            onClick={() => openCreate()}
+            className="shrink-0 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity"
+          >
+            + New Booking
+          </button>
+
+          <button
+            onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
+            className="hidden md:block text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0"
+          >
+            Sign Out
           </button>
         </div>
       </header>
-
-      {/* Mobile slide-down menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-[#111110] border-b border-[#F2EDDF]/8 px-4 py-2 flex flex-col">
-          <div className="py-3 border-b border-[#F2EDDF]/8">
-            <label className="block text-xs text-[#F2EDDF]/40 mb-1.5 tracking-widest uppercase">Room</label>
-            <select value={filterRoom} onChange={e => setFilterRoom(e.target.value)} className="w-full text-sm rounded-lg px-3 py-2 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none">
-              <option value="all">All rooms</option>
-              {ROOMS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
-            </select>
-          </div>
-          <button onClick={() => { navigate('/admin/dashboard'); setMenuOpen(false) }} className="flex items-center gap-3 py-3 text-sm text-[#F2EDDF]/60 hover:text-[#F2EDDF] transition-colors border-b border-[#F2EDDF]/8">
-            ← Show Management
-          </button>
-          <button onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }} className="flex items-center gap-3 py-3 text-sm text-red-400/70 hover:text-red-400 transition-colors">
-            ↩ Sign Out
-          </button>
-        </div>
-      )}
 
       {/* Calendar */}
       <main className="p-6">
