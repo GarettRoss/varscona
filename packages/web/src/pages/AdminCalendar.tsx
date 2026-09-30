@@ -148,22 +148,31 @@ export default function AdminCalendar() {
   return (
     <div className="min-h-screen bg-[#1D1D1B] text-[#F2EDDF]">
       {/* Top nav */}
-      <header className="bg-[#111110] border-b border-[#F2EDDF]/8 px-6 py-4 flex items-center gap-4">
-        <button
-          onClick={() => navigate('/admin/dashboard')}
-          className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors"
-        >
-          ← Shows
-        </button>
-        <div className="h-4 w-px bg-[#F2EDDF]/15" />
-        <h1 className="font-bold text-[#F2EDDF] tracking-wide">Rehearsal Room Bookings</h1>
+      <header className="bg-[#111110] border-b border-[#F2EDDF]/8 px-4 md:px-6 py-3 flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+        {/* Row 1: back + title + sign out */}
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            onClick={() => navigate('/admin/dashboard')}
+            className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors shrink-0"
+          >
+            ← Shows
+          </button>
+          <div className="h-4 w-px bg-[#F2EDDF]/15 shrink-0" />
+          <h1 className="font-bold text-[#F2EDDF] tracking-wide text-sm md:text-base truncate">Rehearsal Room Bookings</h1>
+          <button
+            onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
+            className="ml-auto text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0 md:hidden"
+          >
+            Sign Out
+          </button>
+        </div>
 
-        <div className="ml-auto flex items-center gap-3">
-          {/* Room filter */}
+        {/* Row 2 on mobile / inline on desktop: filter + new booking + sign out */}
+        <div className="flex items-center gap-2 md:ml-auto">
           <select
             value={filterRoom}
             onChange={e => setFilterRoom(e.target.value)}
-            className="text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none"
+            className="flex-1 md:flex-none text-xs rounded-lg px-3 py-1.5 bg-[#2a2a27] border border-[#F2EDDF]/15 text-[#F2EDDF] focus:outline-none"
           >
             <option value="all">All rooms</option>
             {ROOMS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
@@ -171,14 +180,14 @@ export default function AdminCalendar() {
 
           <button
             onClick={() => openCreate()}
-            className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity"
+            className="shrink-0 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-lg bg-[#FF5F38] text-white hover:opacity-90 transition-opacity"
           >
             + New Booking
           </button>
 
           <button
             onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }}
-            className="text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors"
+            className="hidden md:block text-xs text-[#F2EDDF]/40 hover:text-[#F2EDDF]/70 transition-colors shrink-0"
           >
             Sign Out
           </button>
