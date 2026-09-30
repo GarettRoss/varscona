@@ -155,7 +155,7 @@ export default function AdminCalendar() {
             onClick={() => navigate('/admin/dashboard')}
             className="text-sm text-[#F2EDDF]/50 hover:text-[#F2EDDF] transition-colors shrink-0"
           >
-            ← Shows
+            ← Dashboard
           </button>
           <div className="h-4 w-px bg-[#F2EDDF]/15 shrink-0" />
           <h1 className="font-bold text-[#F2EDDF] tracking-wide text-sm md:text-base truncate">Rehearsal Room Bookings</h1>

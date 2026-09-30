@@ -285,7 +285,7 @@ export default function AdminDashboard() {
         {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-4">
           <button onClick={load} disabled={loading} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors disabled:opacity-30">↺ Refresh</button>
-          <button onClick={() => navigate('/admin/calendar')} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">📅 Bookings</button>
+          <button onClick={() => navigate('/admin/dashboard')} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← Dashboard</button>
           <a href="/" className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">← View Site</a>
           <button onClick={() => { sessionStorage.removeItem('admin_auth'); navigate('/admin') }} className="text-[#1D1D1B]/40 hover:text-[#1D1D1B] text-xs tracking-wide transition-colors">Sign Out</button>
         </div>
@@ -308,8 +308,8 @@ export default function AdminDashboard() {
           <button onClick={() => { load(); setMenuOpen(false) }} disabled={loading} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8 disabled:opacity-30">
             <span className="text-base">↺</span> Refresh
           </button>
-          <button onClick={() => { navigate('/admin/calendar'); setMenuOpen(false) }} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8">
-            <span>📅</span> Bookings
+          <button onClick={() => { navigate('/admin/dashboard'); setMenuOpen(false) }} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8">
+            ← Dashboard
           </button>
           <a href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 text-sm text-[#1D1D1B]/60 hover:text-[#1D1D1B] transition-colors border-b border-[#1D1D1B]/8">
             <span>←</span> View Site
